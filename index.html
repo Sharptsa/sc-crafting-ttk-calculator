@@ -214,10 +214,10 @@
 			----------------- */
 			let alpha = Number.parseFloat(document.getElementById("weaponAlpha").value)
 			let rpm = Number.parseFloat(document.getElementById("weaponRpm").value)
-			let craftAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModValue").value)
-			let craftRpmMod = Number.parseFloat(document.getElementById("weaponRpmModValue").value)
-			let attachAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModAttachValue").value)
-			let attachRpmMod = Number.parseFloat(document.getElementById("weaponRpmModAttachValue").value)
+			const craftAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModValue").value)
+			const craftRpmMod = Number.parseFloat(document.getElementById("weaponRpmModValue").value)
+			const attachAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModAttachValue").value)
+			const attachRpmMod = Number.parseFloat(document.getElementById("weaponRpmModAttachValue").value)
 
 			let armorType = document.getElementById("armorType").value
 
@@ -249,11 +249,11 @@
 			}
 
 			alpha = alpha * craftAlphaMod * attachAlphaMod
-			let dmg = alpha * armorMod
-			let dmgMaxArmor = alpha * armorModMaxQ
+			const dmg = alpha * armorMod
+			const dmgMaxArmor = alpha * armorModMaxQ
 
 			rpm = rpm * craftRpmMod * attachRpmMod
-			let timeBetweenShot = 60 / rpm
+			const timeBetweenShot = 60 / rpm
 
 			const compute = (hp, dmg, timeBetweenShot) => {
 				let ttk = -timeBetweenShot
@@ -266,14 +266,14 @@
 				return {ttk, nbShot}
 			}
 
-		  	body = compute(hp, dmg, timeBetweenShot)
-			bodyMaxArmor = compute(hp, dmgMaxArmor, timeBetweenShot)
+		  	const body = compute(hp, dmg, timeBetweenShot)
+			const bodyMaxArmor = compute(hp, dmgMaxArmor, timeBetweenShot)
 
-		  	head = compute(hp, dmg * headshotMod, timeBetweenShot)
-		  	headMaxArmor = compute(hp, dmgMaxArmor * headshotMod, timeBetweenShot)
+		  	const head = compute(hp, dmg * headshotMod, timeBetweenShot)
+		  	const headMaxArmor = compute(hp, dmgMaxArmor * headshotMod, timeBetweenShot)
 
-		  	limbs = compute(hp, dmg * limbMod, timeBetweenShot)
-		  	limbsMaxArmor = compute(hp, dmgMaxArmor * limbMod, timeBetweenShot)
+		  	const limbs = compute(hp, dmg * limbMod, timeBetweenShot)
+		  	const limbsMaxArmor = compute(hp, dmgMaxArmor * limbMod, timeBetweenShot)
 
 
 		  	/* ----------------
