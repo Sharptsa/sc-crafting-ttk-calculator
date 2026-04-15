@@ -77,8 +77,8 @@
 				<div class='card bg-danger-subtle'>
 					<div class="card-body">
 						<h3>Head 😐</h3>
-						<strong>TTK: </strong><span id="ttkHead"></span>s (<span id="shotHead"></span> shots)<br>
-						<strong>Against 1k quality armor: </strong><span id="ttkHeadMaxQ"></span>s (<span id="shotHeadMaxQ"></span> shots)<br>
+						<strong>TTK: </strong><span id="ttkHead"></span> <span id="shotHead"></span><br>
+						<strong>Against 1k quality armor: </strong><span id="ttkHeadMaxQ"></span> <span id="shotHeadMaxQ"></span><br>
 					</div>
 				</div>
 			</div>
@@ -86,8 +86,8 @@
 				<div class='card bg-warning-subtle'>
 					<div class="card-body">
 						<h3>Body 👕</h3>
-						<strong>TTK: </strong><span id="ttkBody"></span>s (<span id="shotBody"></span> shots)<br>
-						<strong>Against 1k quality armor: </strong><span id="ttkBodyMaxQ"></span>s (<span id="shotBodyMaxQ"></span> shots)<br>
+						<strong>TTK: </strong><span id="ttkBody"></span> <span id="shotBody"></span><br>
+						<strong>Against 1k quality armor: </strong><span id="ttkBodyMaxQ"></span> <span id="shotBodyMaxQ"></span><br>
 					</div>	
 				</div>
 			</div>
@@ -95,8 +95,8 @@
 				<div class='card bg-success-subtle'>
 					<div class="card-body">
 						<h3>Limbs 🦵</h3>
-						<strong>TTK: </strong><span id="ttkLimb"></span>s (<span id="shotLimb"></span> shots)<br>
-						<strong>Against 1k quality armor: </strong><span id="ttkLimbMaxQ"></span>s (<span id="shotLimbMaxQ"></span> shots)<br>
+						<strong>TTK: </strong><span id="ttkLimb"></span> <span id="shotLimb"></span><br>
+						<strong>Against 1k quality armor: </strong><span id="ttkLimbMaxQ"></span> <span id="shotLimbMaxQ"></span><br>
 					</div>	
 				</div>
 			</div>
@@ -273,24 +273,34 @@
 		  	limbsMaxArmor = compute(hp, alpha * limbMod * armorModMaxQ, timeBetweenShot)
 
 
+		  	const nbShotStr = (nbShot) => {
+		  		if (nbShot < 2) {
+		  			return '(' + nbShot + " shot" + ')'
+		  		}
+		  		return '(' + nbShot + " shots" + ')'
+		  	}
+
+		  	const ttkStr = (ttk) => {
+		  		return Number.parseFloat(ttk).toFixed(3) + "s"
+		  	}
 
 		  	/* ----------------
 		  	------RESULT-------
 		  	----------------- */
-			document.getElementById("ttkBody").innerHTML = Number.parseFloat(body.ttk).toFixed(3)
-			document.getElementById("shotBody").innerHTML = body.nbShot
-			document.getElementById("ttkBodyMaxQ").innerHTML = Number.parseFloat(bodyMaxArmor.ttk).toFixed(3)
-			document.getElementById("shotBodyMaxQ").innerHTML = bodyMaxArmor.nbShot
+			document.getElementById("ttkBody").innerHTML = ttkStr(body.ttk)
+			document.getElementById("shotBody").innerHTML = nbShotStr(body.nbShot)
+			document.getElementById("ttkBodyMaxQ").innerHTML = ttkStr(bodyMaxArmor.ttk)
+			document.getElementById("shotBodyMaxQ").innerHTML = nbShotStr(bodyMaxArmor.nbShot)
 
-			document.getElementById("ttkHead").innerHTML = Number.parseFloat(head.ttk).toFixed(3)
-			document.getElementById("shotHead").innerHTML = head.nbShot
-			document.getElementById("ttkHeadMaxQ").innerHTML = Number.parseFloat(headMaxArmor.ttk).toFixed(3)
-			document.getElementById("shotHeadMaxQ").innerHTML = headMaxArmor.nbShot
+			document.getElementById("ttkHead").innerHTML = ttkStr(head.ttk)
+			document.getElementById("shotHead").innerHTML = nbShotStr(head.nbShot)
+			document.getElementById("ttkHeadMaxQ").innerHTML = ttkStr(headMaxArmor.ttk)
+			document.getElementById("shotHeadMaxQ").innerHTML = nbShotStr(headMaxArmor.nbShot)
 
-			document.getElementById("ttkLimb").innerHTML = Number.parseFloat(limbs.ttk).toFixed(3)
-			document.getElementById("shotLimb").innerHTML = limbs.nbShot
-			document.getElementById("ttkLimbMaxQ").innerHTML = Number.parseFloat(limbsMaxArmor.ttk).toFixed(3)
-			document.getElementById("shotLimbMaxQ").innerHTML = limbsMaxArmor.nbShot
+			document.getElementById("ttkLimb").innerHTML = ttkStr(limbs.ttk)
+			document.getElementById("shotLimb").innerHTML = nbShotStr(limbs.nbShot)
+			document.getElementById("ttkLimbMaxQ").innerHTML = ttkStr(limbsMaxArmor.ttk)
+			document.getElementById("shotLimbMaxQ").innerHTML = nbShotStr(limbsMaxArmor.nbShot)
 		}
 	</script>
 </body>
