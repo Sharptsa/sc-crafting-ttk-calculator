@@ -280,10 +280,11 @@
 		  	------RESULTS------
 		  	----------------- */
 			const nbShotStr = (nbShot) => {
-		  		if (nbShot < 2) {
-		  			return '(' + nbShot + " shot" + ')'
+				let str = 'shot'
+		  		if (nbShot > 1) {
+		  			return str + 's'
 		  		}
-		  		return '(' + nbShot + " shots" + ')'
+		  		return '(' + str + ')'
 		  	}
 
 		  	const ttkStr = (ttk) => {
