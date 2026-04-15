@@ -219,13 +219,13 @@
 			------ CONFIG------
 			----------------- */
 
-			let alpha = document.getElementById("weaponAlpha").value
-			let rpm = document.getElementById("weaponRpm").value
-			let craftAlphaMod = document.getElementById("weaponAlphaModValue").value
-			let craftRpmMod = document.getElementById("weaponRpmModValue").value
-			let attachAlphaMod = document.getElementById("weaponAlphaModAttachValue").value
-			let attachRpmMod = document.getElementById("weaponRpmModAttachValue").value
-
+			let alpha = Number.parseFloat(document.getElementById("weaponAlpha").value)
+			let rpm = Number.parseFloat(document.getElementById("weaponRpm").value)
+			let craftAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModValue").value)
+			let craftRpmMod = Number.parseFloat(document.getElementById("weaponRpmModValue").value)
+			let attachAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModAttachValue").value)
+			let attachRpmMod = Number.parseFloat(document.getElementById("weaponRpmModAttachValue").value)
+			
 			let armorType = document.getElementById("armorType").value
 
 			switch (armorType) {
@@ -250,101 +250,106 @@
 
 		  	//-----------------
 
-			alpha = alpha * craftAlphaMod * attachAlphaMod
-			rpm = rpm * craftRpmMod * attachRpmMod
-
-			let timeBetweenShot = 60 / rpm
-
-		  	/* ----------------
-		  	-----BODY TTK------
-		  	----------------- */
-
-			let ttkBody = -timeBetweenShot
-			let ttkBodyMaxQ = -timeBetweenShot
-
-			let nbShotBody = 0
-			let nbShotBodyMaxQ = 0
-
-			let bodyAlpha = alpha * armorMod
-			while (bodyHp > 0) {
-				bodyHp -= bodyAlpha
-				ttkBody += timeBetweenShot
-				++nbShotBody
-			}
-
-			bodyAlpha = alpha * armorModMaxQ
-			while (bodyMaxQHp > 0) {
-				bodyMaxQHp -= bodyAlpha
-				ttkBodyMaxQ += timeBetweenShot
-				++nbShotBodyMaxQ
-			}
-
-		  	/* ----------------
-		  	-----HEAD TTK------
-		  	----------------- */
-
-			let ttkHead = -timeBetweenShot
-			let ttkHeadMaxQ = -timeBetweenShot
-
-			let nbShotHead = 0
-			let nbShotHeadMaxQ = 0
-
-			let headAlpha = alpha * headshotMod * armorMod
-			while (headHp > 0) {
-				headHp -= headAlpha
-				ttkHead += timeBetweenShot
-				++nbShotHead
-			}
-
-			headAlpha = alpha * headshotMod * armorModMaxQ
-			while (headMaxQHp > 0) {
-				headMaxQHp -= headAlpha
-				ttkHeadMaxQ += timeBetweenShot
-				++nbShotHeadMaxQ
-			}
-
-		  	/* ----------------
-		  	-----LIMB TTK------
-		  	----------------- */
-
-			let ttkLimb = -timeBetweenShot
-			let ttkLimbMaxQ = -timeBetweenShot
-
-			let nbShotLimb = 0
-			let nbShotLimbMaxQ = 0
-
-			let limbAlpha = alpha * limbMod * armorMod
-			while (limbHp > 0) {
-				limbHp -= limbAlpha
-				ttkLimb += timeBetweenShot
-				++nbShotLimb
-			}
-
-			limbAlpha = alpha * limbMod * armorModMaxQ
-			while (limbMaxQHp > 0) {
-				limbMaxQHp -= limbAlpha
-				ttkLimbMaxQ += timeBetweenShot
-				++nbShotLimbMaxQ
+			if (alpha == NaN || rpm == NaN) {
+				return
 			}
 
 
-		  	/* ----------------
-		  	------RESULT-------
-		  	----------------- */
-			document.getElementById("ttkBody").innerHTML = Number.parseFloat(ttkBody).toFixed(3)
-			document.getElementById("shotBody").innerHTML = nbShotBody
-			document.getElementById("ttkBodyMaxQ").innerHTML = Number.parseFloat(ttkBodyMaxQ).toFixed(3)
-			document.getElementById("shotBodyMaxQ").innerHTML = nbShotBodyMaxQ
+			// alpha = alpha * craftAlphaMod * attachAlphaMod
+			// rpm = rpm * craftRpmMod * attachRpmMod
 
-			document.getElementById("ttkHead").innerHTML = Number.parseFloat(ttkHead).toFixed(3)
-			document.getElementById("shotHead").innerHTML = nbShotHead
-			document.getElementById("ttkHeadMaxQ").innerHTML = Number.parseFloat(ttkHeadMaxQ).toFixed(3)
-			document.getElementById("shotHeadMaxQ").innerHTML = nbShotHeadMaxQ
+			// let timeBetweenShot = 60 / rpm
 
-			document.getElementById("ttkLimb").innerHTML = Number.parseFloat(ttkLimb).toFixed(3)
-			document.getElementById("shotLimb").innerHTML = nbShotLimb
-			document.getElementById("ttkLimbMaxQ").innerHTML = Number.parseFloat(ttkLimbMaxQ).toFixed(3)
-			document.getElementById("shotLimbMaxQ").innerHTML = nbShotLimbMaxQ
+		  	// /* ----------------
+		  	// -----BODY TTK------
+		  	// ----------------- */
+
+			// let ttkBody = -timeBetweenShot
+			// let ttkBodyMaxQ = -timeBetweenShot
+
+			// let nbShotBody = 0
+			// let nbShotBodyMaxQ = 0
+
+			// let bodyAlpha = alpha * armorMod
+			// while (bodyHp > 0) {
+			// 	bodyHp -= bodyAlpha
+			// 	ttkBody += timeBetweenShot
+			// 	++nbShotBody
+			// }
+
+			// bodyAlpha = alpha * armorModMaxQ
+			// while (bodyMaxQHp > 0) {
+			// 	bodyMaxQHp -= bodyAlpha
+			// 	ttkBodyMaxQ += timeBetweenShot
+			// 	++nbShotBodyMaxQ
+			// }
+
+		  	// /* ----------------
+		  	// -----HEAD TTK------
+		  	// ----------------- */
+
+			// let ttkHead = -timeBetweenShot
+			// let ttkHeadMaxQ = -timeBetweenShot
+
+			// let nbShotHead = 0
+			// let nbShotHeadMaxQ = 0
+
+			// let headAlpha = alpha * headshotMod * armorMod
+			// while (headHp > 0) {
+			// 	headHp -= headAlpha
+			// 	ttkHead += timeBetweenShot
+			// 	++nbShotHead
+			// }
+
+			// headAlpha = alpha * headshotMod * armorModMaxQ
+			// while (headMaxQHp > 0) {
+			// 	headMaxQHp -= headAlpha
+			// 	ttkHeadMaxQ += timeBetweenShot
+			// 	++nbShotHeadMaxQ
+			// }
+
+		  	// /* ----------------
+		  	// -----LIMB TTK------
+		  	// ----------------- */
+
+			// let ttkLimb = -timeBetweenShot
+			// let ttkLimbMaxQ = -timeBetweenShot
+
+			// let nbShotLimb = 0
+			// let nbShotLimbMaxQ = 0
+
+			// let limbAlpha = alpha * limbMod * armorMod
+			// while (limbHp > 0) {
+			// 	limbHp -= limbAlpha
+			// 	ttkLimb += timeBetweenShot
+			// 	++nbShotLimb
+			// }
+
+			// limbAlpha = alpha * limbMod * armorModMaxQ
+			// while (limbMaxQHp > 0) {
+			// 	limbMaxQHp -= limbAlpha
+			// 	ttkLimbMaxQ += timeBetweenShot
+			// 	++nbShotLimbMaxQ
+			// }
+
+
+		  	// /* ----------------
+		  	// ------RESULT-------
+		  	// ----------------- */
+			// document.getElementById("ttkBody").innerHTML = Number.parseFloat(ttkBody).toFixed(3)
+			// document.getElementById("shotBody").innerHTML = nbShotBody
+			// document.getElementById("ttkBodyMaxQ").innerHTML = Number.parseFloat(ttkBodyMaxQ).toFixed(3)
+			// document.getElementById("shotBodyMaxQ").innerHTML = nbShotBodyMaxQ
+
+			// document.getElementById("ttkHead").innerHTML = Number.parseFloat(ttkHead).toFixed(3)
+			// document.getElementById("shotHead").innerHTML = nbShotHead
+			// document.getElementById("ttkHeadMaxQ").innerHTML = Number.parseFloat(ttkHeadMaxQ).toFixed(3)
+			// document.getElementById("shotHeadMaxQ").innerHTML = nbShotHeadMaxQ
+
+			// document.getElementById("ttkLimb").innerHTML = Number.parseFloat(ttkLimb).toFixed(3)
+			// document.getElementById("shotLimb").innerHTML = nbShotLimb
+			// document.getElementById("ttkLimbMaxQ").innerHTML = Number.parseFloat(ttkLimbMaxQ).toFixed(3)
+			// document.getElementById("shotLimbMaxQ").innerHTML = nbShotLimbMaxQ
 		}
 	</script>
 </body>
