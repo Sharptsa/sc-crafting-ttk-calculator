@@ -11,13 +11,20 @@
 		<div class="row pt-3 pb-3">
 			<div class='col-10'>
 				<h1>SC Weapon TTK calculator for crafting</h1>
-				📋 <a href=https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434><strong>SC FPS Data 4.7 stats table</strong></a>
 			</div>
 			<div class='col form-check form-switch'>
 				<input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" onclick="toggleDarkMode()">
 				<label class="form-check-label" for="switchCheckDefault">Dark Mode</label>
 			</div>
-			
+		</div>
+		<div class="row pb-3">
+			<div class='col'>
+				<h2>Tools ⚙️</h2>
+				<ul>
+					<li>📋 <a href=https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434>SC FPS Data 4.7 stats table</a></li>
+					<li>🔨 <a href=https://sc-craft.tools/?category=Weapons+%2F+LMG&category=Weapons+%2F+Pistol&category=Weapons+%2F+Rifle&category=Weapons+%2F+Shotgun&category=Weapons+%2F+SMG&category=Weapons+%2F+Sniper>sc-craft.tools</a> to get modifiers per material quality</li>
+				</ul>
+			</div>
 		</div>
 		<div class="row pb-3">
 			<h2>Weapon Stats 🔫</h2>
@@ -76,7 +83,7 @@
 			<div class="col">
 				<div class='card bg-success-subtle'>
 					<div class="card-body">
-						<h3>Limb 🦵</h3>
+						<h3>Limbs 🦵</h3>
 						<strong>TTK: </strong><span id="ttkLimb"></span>s (<span id="shotLimb"></span> shots)<br>
 						<strong>Against best armor: </strong><span id="ttkLimbMaxQ"></span>s (<span id="shotLimbMaxQ"></span> shots)<br>
 					</div>	
@@ -86,8 +93,8 @@
 		<div class="row"></div>
 	</div>
 
-	
-	
+
+
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<script>
