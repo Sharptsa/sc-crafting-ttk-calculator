@@ -148,14 +148,58 @@
 			weaponRpmModAttachRange.value = Number.parseFloat(event.target.value).toFixed(3);
 		});
 
-		function toggleDarkMode(e) {
-			var darkModeSwitch = document.getElementById("darkModeSwitch");
-			if (darkModeSwitch.checked) {
-				document.documentElement.setAttribute('data-bs-theme', 'dark')
+		// DARK MODE
+		const darkModeSwitch = document.getElementById("darkModeSwitch");
+
+		const getStoredTheme = () => localStorage.getItem('theme')
+		const setStoredTheme = theme => localStorage.setItem('theme', theme)
+
+		const getPreferredTheme = () => {
+			const storedTheme = getStoredTheme()
+			if (storedTheme) {
+				return storedTheme
+			}
+
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		}
+
+		const setTheme = theme => {
+			if (theme === 'auto') {
+				document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
 			} else {
-				document.documentElement.setAttribute('data-bs-theme', 'light')
+				document.documentElement.setAttribute('data-bs-theme', theme)
 			}
 		}
+
+		const showActiveTheme = (theme) => {
+			if (theme === 'dark' && !darkModeSwitch.checked) {
+				darkModeSwitch.click()
+			}
+		}
+
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+			const storedTheme = getStoredTheme()
+			if (storedTheme !== 'light' && storedTheme !== 'dark') {
+				setTheme(getPreferredTheme())
+			}
+		})
+
+		window.addEventListener('DOMContentLoaded', () => {
+			preferredTheme = getPreferredTheme()
+			setStoredTheme(preferredTheme)
+			setTheme(preferredTheme)
+			showActiveTheme(preferredTheme)
+		})
+
+		const toggleDarkMode = (e) => {
+			if (darkModeSwitch.checked) {
+				setTheme('dark')
+				setStoredTheme('dark')
+			} else {
+				setTheme('light')
+				setStoredTheme('light')
+			}
+		}		
 	</script>
 	<script>
 		const hp = 100;
