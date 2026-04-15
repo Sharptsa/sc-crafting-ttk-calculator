@@ -1,234 +1,281 @@
-<html>
+<html data-bs-theme="light">
 <head>
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SC TTK Calculator</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SC TTK Calculator</title>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
-	
 	<div class="container">
-		<div class="row">
-			<h1>SC Weapon TTK calculator with crafting</h1>
+		<div class="row pt-3 pb-3">
+			<div class='col-10'>
+				<h1>SC Weapon TTK calculator with crafting</h1>
+			</div>
+			<div class='col form-check form-switch'>
+				<input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" onclick="toggleDarkMode()">
+				<label class="form-check-label" for="switchCheckDefault">Dark Mode</label>
+			</div>
+			
 		</div>
-		<div class="row">
-			<h2>Weapon config 🔫</h2>
+		<div class="row pb-3">
+			<h2>Weapon Stats 🔫</h2>
 			<form action="javascript:;" onsubmit=" calculateTTK( this )">
 				<div class='mb-3'>
-					<label class="form-label" for="weaponAlpha">Weapon alpha per shot</label>
+					<label class="form-label" for="weaponAlpha">Alpha damage per shot</label>
 					<input class="form-control" id="weaponAlpha" type="text">
 				</div>
 				<div class='mb-3'>
-					<label class="form-label" for="weaponRpm">Weapon RPM</label>
+					<label class="form-label" for="weaponRpm">Weapon fire rate (RPM)</label>
 					<input class="form-control" id="weaponRpm" type="text">
 				</div>
 				<div class='mb-3'>
-					<label class="form-label" for="weaponAlphaMod">Alpha (impact force) crafting modifier</label>
-					<input class="form-control" id="weaponAlphaMod" type="text" value="1">
+					<label class="form-label" for="weaponAlphaMod">Alpha damage crafting modifier (impact force)</label>
+					<input type="range" class="form-range" id="weaponAlphaModRange" min=1 max=1.30 value=1 step=0.01>
+					<input class="form-control" id="weaponAlphaModValue" type="text" value=1.00>
 				</div>
 				<div class='mb-3'>
 					<label class="form-label" for="weaponRpmMod">Fire rate crafting modifier</label>
-					<input class="form-control" id="weaponRpmMod" type="text" value="1">
+					<input type="range" class="form-range" id="weaponRpmModRange" min=1 max=1.15 value=1 step=0.01>
+					<input class="form-control" id="weaponRpmModValue" type="text" value=1.00>
 				</div>
 				<div class='mb-3'>
 					<label class="form-label" for="weaponRpmMod">Armor type</label>
 					<select class="form-select" aria-label="Heavy" id="armorType">
-					  <option selected value="heavy">Heavy</option>
-					  <option value="medium">Medium</option>
-					  <option value="light">Light</option>
-					  <option value="no_armor">No armor</option>
+						<option selected value="heavy">Heavy</option>
+						<option value="medium">Medium</option>
+						<option value="light">Light</option>
+						<option value="no_armor">No armor</option>
 					</select>
 				</div>
 				<input class="btn btn-primary" type="submit" value="Calculate TTK">
 			</form>
 		</div>
 
-	  <div class="row">
-	    <h2>Results 📊</h2>
-	    <div class="col">
-		  <h3>Body</h3>
-		  <strong>TTK: </strong><span id="ttkBody"></span>s (<span id="shotBody"></span> shots)<br>
-		  <strong>Against best armor: </strong><span id="ttkBodyMaxQ"></span>s (<span id="shotBodyMaxQ"></span> shots)<br>
+		<div class="row pb-3 gx-3">
+			<h2>Results 📊</h2>
+			<div class="col">
+				<div class='card bg-danger-subtle'>
+					<div class="card-body">
+						<h3>Head 😐</h3>
+						<strong>TTK: </strong><span id="ttkHead"></span>s (<span id="shotHead"></span> shots)<br>
+						<strong>Against best armor: </strong><span id="ttkHeadMaxQ"></span>s (<span id="shotHeadMaxQ"></span> shots)<br>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class='card bg-warning-subtle'>
+					<div class="card-body">
+						<h3>Body 👕</h3>
+						<strong>TTK: </strong><span id="ttkBody"></span>s (<span id="shotBody"></span> shots)<br>
+						<strong>Against best armor: </strong><span id="ttkBodyMaxQ"></span>s (<span id="shotBodyMaxQ"></span> shots)<br>
+					</div>	
+				</div>
+			</div>
+			<div class="col">
+				<div class='card bg-success-subtle'>
+					<div class="card-body">
+						<h3>Limb 🦵</h3>
+						<strong>TTK: </strong><span id="ttkLimb"></span>s (<span id="shotLimb"></span> shots)<br>
+						<strong>Against best armor: </strong><span id="ttkLimbMaxQ"></span>s (<span id="shotLimbMaxQ"></span> shots)<br>
+					</div>	
+				</div>
+			</div>
 		</div>
-	  	<div class="col">
-		  <h3>Head</h3>
-		  <strong>TTK: </strong><span id="ttkHead"></span>s (<span id="shotHead"></span> shots)<br>
-		  <strong>Against best armor: </strong><span id="ttkHeadMaxQ"></span>s (<span id="shotHeadMaxQ"></span> shots)<br>
-		</div>
-		<div class="col">
-		  <h3>Limb</h3>
-		  <strong>TTK: </strong><span id="ttkLimb"></span>s (<span id="shotLimb"></span> shots)<br>
-		  <strong>Against best armor: </strong><span id="ttkLimbMaxQ"></span>s (<span id="shotLimbMaxQ"></span> shots)<br>
-		</div>
-	  </div>
-	  <div class="row"></div>
+		<div class="row"></div>
 	</div>
 
 	
 	
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+	<script>
+		const weaponAlphaModRange = document.getElementById("weaponAlphaModRange");
+		const weaponAlphaModValue = document.getElementById("weaponAlphaModValue");
 
+		weaponAlphaModRange.addEventListener("input", (event) => {
+			weaponAlphaModValue.value = Number.parseFloat(event.target.value).toFixed(2);
+		});
+		weaponAlphaModValue.addEventListener("input", (event) => {
+			weaponAlphaModRange.value = Number.parseFloat(event.target.value).toFixed(2);
+		});
+
+		const weaponRpmModRange = document.getElementById("weaponRpmModRange");
+		const weaponRpmModValue = document.getElementById("weaponRpmModValue");
+
+		weaponRpmModRange.addEventListener("input", (event) => {
+			weaponRpmModValue.value = Number.parseFloat(event.target.value).toFixed(2);
+		});
+		weaponRpmModValue.addEventListener("input", (event) => {
+			weaponRpmModRange.value = Number.parseFloat(event.target.value).toFixed(2);
+		});
+
+		function toggleDarkMode(e) {
+			var darkModeSwitch = document.getElementById("darkModeSwitch");
+			if (darkModeSwitch.checked) {
+				document.documentElement.setAttribute('data-bs-theme', 'dark')
+			} else {
+				document.documentElement.setAttribute('data-bs-theme', 'light')
+			}
+		}
+	</script>
 	<script>
 		const hp = 100;
 		const headshotMod = 1.8;
 		const limbMod = 0.8;
 
 		function calculateTTK() {
-		  let headHp = hp;
-		  let headMaxQHp = hp;
-		  let bodyHp = hp;
-		  let bodyMaxQHp = hp;
-		  let limbHp = hp;
-		  let limbMaxQHp = hp;
+			let headHp = hp;
+			let headMaxQHp = hp;
+			let bodyHp = hp;
+			let bodyMaxQHp = hp;
+			let limbHp = hp;
+			let limbMaxQHp = hp;
 
-		  /* ----------------
-		  --- CONFIG---
-		  ----------------- */
+			/* ----------------
+			------ CONFIG------
+			----------------- */
 
-		  let alpha = document.getElementById("weaponAlpha").value;
-		  let rpm = document.getElementById("weaponRpm").value;
-		  let craftAlphaMod = document.getElementById("weaponAlphaMod").value;
-		  let craftRpmMod = document.getElementById("weaponRpmMod").value;
+			let alpha = document.getElementById("weaponAlpha").value;
+			let rpm = document.getElementById("weaponRpm").value;
+			let craftAlphaMod = document.getElementById("weaponAlphaModValue").value;
+			let craftRpmMod = document.getElementById("weaponRpmModValue").value;
 
-		  let armorType = document.getElementById("armorType").value;
+			let armorType = document.getElementById("armorType").value;
 
-		  switch (armorType) {
-			  	case 'no_armor':
-			    	armorMod = 1;
-			    	armorModMaxQ = 1;
-			    	break;
-			  	case 'light':
-			    	armorMod = 0.8;
-			    	armorModMaxQ = 0.78;
-			    	break;
-			  	case 'medium':
-			  		armorMod = 0.7;
-			    	armorModMaxQ = 0.67;
-			    	break
-			  	case 'heavy':
-			  	default:
-			    	armorMod = 0.6;
-			    	armorModMaxQ = 0.54;
+			switch (armorType) {
+			case 'no_armor':
+				armorMod = 1;
+				armorModMaxQ = 1;
+				break;
+			case 'light':
+				armorMod = 0.8;
+				armorModMaxQ = 0.78;
+				break;
+			case 'medium':
+				armorMod = 0.7;
+				armorModMaxQ = 0.67;
+				break
+			case 'heavy':
+			default:
+				armorMod = 0.6;
+				armorModMaxQ = 0.54;
 			}
 
-			console.log(armorMod);
-			console.log(armorModMaxQ);
+
+		  	//-----------------
+
+			alpha = alpha * craftAlphaMod;
+			rpm = rpm * craftRpmMod;
+
+			let timeBetweenShot = 60 / rpm;
+
+		  	/* ----------------
+		  	-----BODY TTK------
+		  	----------------- */
+
+			let ttkBody = -timeBetweenShot;
+			let ttkBodyMaxQ = -timeBetweenShot;
+
+			let nbShotBody = 0;
+			let nbShotBodyMaxQ = 0;
+
+			let bodyAlpha = alpha * armorMod;
+			while (bodyHp > 0) {
+				bodyHp -= bodyAlpha;
+				ttkBody += timeBetweenShot;
+				++nbShotBody;
+			}
+
+			bodyAlpha = alpha * armorModMaxQ;
+			while (bodyMaxQHp > 0) {
+				bodyMaxQHp -= bodyAlpha;
+				ttkBodyMaxQ += timeBetweenShot;
+				++nbShotBodyMaxQ;
+			}
+
+		  	/* ----------------
+		  	-----HEAD TTK------
+		  	----------------- */
+
+			let ttkHead = -timeBetweenShot;
+			let ttkHeadMaxQ = -timeBetweenShot;
+
+			let nbShotHead = 0;
+			let nbShotHeadMaxQ = 0;
+
+			let headAlpha = alpha * headshotMod * armorMod;
+			while (headHp > 0) {
+				headHp -= headAlpha;
+				ttkHead += timeBetweenShot;
+				++nbShotHead;
+			}
+
+			headAlpha = alpha * headshotMod * armorModMaxQ;
+			while (headMaxQHp > 0) {
+				headMaxQHp -= headAlpha;
+				ttkHeadMaxQ += timeBetweenShot;
+				++nbShotHeadMaxQ;
+			}
+
+		  	/* ----------------
+		  	-----LIMB TTK------
+		  	----------------- */
+
+			let ttkLimb = -timeBetweenShot;
+			let ttkLimbMaxQ = -timeBetweenShot;
+
+			let nbShotLimb = 0;
+			let nbShotLimbMaxQ = 0;
+
+			let limbAlpha = alpha * limbMod * armorMod;
+			while (limbHp > 0) {
+				limbHp -= limbAlpha;
+				ttkLimb += timeBetweenShot;
+				++nbShotLimb;
+			}
+
+			limbAlpha = alpha * limbMod * armorModMaxQ;
+			while (limbMaxQHp > 0) {
+				limbMaxQHp -= limbAlpha;
+				ttkLimbMaxQ += timeBetweenShot;
+				++nbShotLimbMaxQ;
+			}
 
 
-		  //-----------------
+		  	/* ----------------
+		  	------RESULT-------
+		  	----------------- */
+			document.getElementById("ttkBody").innerHTML = Number.parseFloat(ttkBody).toFixed(3);
+			document.getElementById("shotBody").innerHTML = nbShotBody;
+			document.getElementById("ttkBodyMaxQ").innerHTML = Number.parseFloat(ttkBodyMaxQ).toFixed(3);
+			document.getElementById("shotBodyMaxQ").innerHTML = nbShotBodyMaxQ;
 
-		  alpha = alpha * craftAlphaMod;
-		  rpm = rpm * craftRpmMod;
+			document.getElementById("ttkHead").innerHTML = Number.parseFloat(ttkHead).toFixed(3);
+			document.getElementById("shotHead").innerHTML = nbShotHead;
+			document.getElementById("ttkHeadMaxQ").innerHTML = Number.parseFloat(ttkHeadMaxQ).toFixed(3);
+			document.getElementById("shotHeadMaxQ").innerHTML = nbShotHeadMaxQ;
 
-		  let timeBetweenShot = 60 / rpm;
+			document.getElementById("ttkLimb").innerHTML = Number.parseFloat(ttkLimb).toFixed(3);
+			document.getElementById("shotLimb").innerHTML = nbShotLimb;
+			document.getElementById("ttkLimbMaxQ").innerHTML = Number.parseFloat(ttkLimbMaxQ).toFixed(3);
+			document.getElementById("shotLimbMaxQ").innerHTML = nbShotLimbMaxQ;
 
-		  /* ----------------
-		  -----BODY TTK------
-		  ----------------- */
+			title("BODY TTK");
+			console.log("TTK: " + ttkBody + "(" + nbShotBody + ")");
+			console.log("TTK max Q: " + ttkBodyMaxQ + "(" + nbShotBodyMaxQ + ")");
+			title("HEAD TTK");
+			console.log("TTK: " + ttkHead + "(" + nbShotHead + ")");
+			console.log("TTK max Q: " + ttkHeadMaxQ + "(" + nbShotHeadMaxQ + ")");
+			title("LIMB TTK");
+			console.log("TTK: " + ttkLimb + "(" + nbShotLimb + ")");
+			console.log("TTK max Q: " + ttkLimbMaxQ + "(" + nbShotLimbMaxQ + ")");
+		}
 
-		  let ttkBody = -timeBetweenShot;
-		  let ttkBodyMaxQ = -timeBetweenShot;
-
-		  let nbShotBody = 0;
-		  let nbShotBodyMaxQ = 0;
-
-		  let bodyAlpha = alpha * armorMod;
-		  while (bodyHp > 0) {
-		    bodyHp -= bodyAlpha;
-		    ttkBody += timeBetweenShot;
-		    ++nbShotBody;
-		  }
-
-		  bodyAlpha = alpha * armorModMaxQ;
-		  while (bodyMaxQHp > 0) {
-		    bodyMaxQHp -= bodyAlpha;
-		    ttkBodyMaxQ += timeBetweenShot;
-		    ++nbShotBodyMaxQ;
-		  }
-
-		  /* ----------------
-		  -----HEAD TTK------
-		  ----------------- */
-
-		  let ttkHead = -timeBetweenShot;
-		  let ttkHeadMaxQ = -timeBetweenShot;
-
-		  let nbShotHead = 0;
-		  let nbShotHeadMaxQ = 0;
-
-		  let headAlpha = alpha * headshotMod * armorMod;
-		  while (headHp > 0) {
-		    headHp -= headAlpha;
-		    ttkHead += timeBetweenShot;
-		    ++nbShotHead;
-		  }
-
-		  headAlpha = alpha * headshotMod * armorModMaxQ;
-		  while (headMaxQHp > 0) {
-		    headMaxQHp -= headAlpha;
-		    ttkHeadMaxQ += timeBetweenShot;
-		    ++nbShotHeadMaxQ;
-		  }
-
-		  /* ----------------
-		  -----LIMB TTK------
-		  ----------------- */
-
-		  let ttkLimb = -timeBetweenShot;
-		  let ttkLimbMaxQ = -timeBetweenShot;
-
-		  let nbShotLimb = 0;
-		  let nbShotLimbMaxQ = 0;
-
-		  let limbAlpha = alpha * limbMod * armorMod;
-		  while (limbHp > 0) {
-		    limbHp -= limbAlpha;
-		    ttkLimb += timeBetweenShot;
-		    ++nbShotLimb;
-		  }
-
-		  limbAlpha = alpha * limbMod * armorModMaxQ;
-		  while (limbMaxQHp > 0) {
-		    limbMaxQHp -= limbAlpha;
-		    ttkLimbMaxQ += timeBetweenShot;
-		    ++nbShotLimbMaxQ;
-		  }
-
-		  function title(string) {
-		  console.log('-'.repeat(string.length + 6));
-		  console.log('-'.repeat(3) + string + '-'.repeat(3));
-		  console.log('-'.repeat(string.length + 6));
-		  }
-
-		  /* ----------------
-		  ------RESULT-------
-		  ----------------- */
-		  document.getElementById("ttkBody").innerHTML = Number.parseFloat(ttkBody).toFixed(3);
-		  document.getElementById("shotBody").innerHTML = nbShotBody;
-		  document.getElementById("ttkBodyMaxQ").innerHTML = Number.parseFloat(ttkBodyMaxQ).toFixed(3);
-		  document.getElementById("shotBodyMaxQ").innerHTML = nbShotBodyMaxQ;
-
-		  document.getElementById("ttkHead").innerHTML = Number.parseFloat(ttkHead).toFixed(3);
-		  document.getElementById("shotHead").innerHTML = nbShotHead;
-		  document.getElementById("ttkHeadMaxQ").innerHTML = Number.parseFloat(ttkHeadMaxQ).toFixed(3);
-		  document.getElementById("shotHeadMaxQ").innerHTML = nbShotHeadMaxQ;
-
-		  document.getElementById("ttkLimb").innerHTML = Number.parseFloat(ttkLimb).toFixed(3);
-		  document.getElementById("shotLimb").innerHTML = nbShotLimb;
-		  document.getElementById("ttkLimbMaxQ").innerHTML = Number.parseFloat(ttkLimbMaxQ).toFixed(3);
-		  document.getElementById("shotLimbMaxQ").innerHTML = nbShotLimbMaxQ;
-
-		  title("BODY TTK");
-		  console.log("TTK: " + ttkBody + "(" + nbShotBody + ")");
-		  console.log("TTK max Q: " + ttkBodyMaxQ + "(" + nbShotBodyMaxQ + ")");
-		  title("HEAD TTK");
-		  console.log("TTK: " + ttkHead + "(" + nbShotHead + ")");
-		  console.log("TTK max Q: " + ttkHeadMaxQ + "(" + nbShotHeadMaxQ + ")");
-		  title("LIMB TTK");
-		  console.log("TTK: " + ttkLimb + "(" + nbShotLimb + ")");
-		  console.log("TTK max Q: " + ttkLimbMaxQ + "(" + nbShotLimbMaxQ + ")");
+		function title(string) {
+			console.log('-'.repeat(string.length + 6));
+			console.log('-'.repeat(3) + string + '-'.repeat(3));
+			console.log('-'.repeat(string.length + 6));
 		}
 	</script>
 </body>
