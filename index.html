@@ -31,6 +31,15 @@
 					<label class="form-label" for="weaponRpmMod">Fire rate crafting modifier</label>
 					<input class="form-control" id="weaponRpmMod" type="text" value="1">
 				</div>
+				<div class='mb-3'>
+					<label class="form-label" for="weaponRpmMod">Armor type</label>
+					<select class="form-select" aria-label="Heavy" id="armorType">
+					  <option selected value="heavy">Heavy</option>
+					  <option value="medium">Medium</option>
+					  <option value="light">Light</option>
+					  <option value="no_armor">No armor</option>
+					</select>
+				</div>
 				<input class="btn btn-primary" type="submit" value="Calculate TTK">
 			</form>
 		</div>
@@ -40,17 +49,17 @@
 	    <div class="col">
 		  <h3>Body</h3>
 		  <strong>TTK: </strong><span id="ttkBody"></span>s (<span id="shotBody"></span> shots)<br>
-		  <strong>TTK best armor: </strong><span id="ttkBodyMaxQ"></span>s (<span id="shotBodyMaxQ"></span> shots)<br>
+		  <strong>Against best armor: </strong><span id="ttkBodyMaxQ"></span>s (<span id="shotBodyMaxQ"></span> shots)<br>
 		</div>
 	  	<div class="col">
 		  <h3>Head</h3>
 		  <strong>TTK: </strong><span id="ttkHead"></span>s (<span id="shotHead"></span> shots)<br>
-		  <strong>TTK best armor: </strong><span id="ttkHeadMaxQ"></span>s (<span id="shotHeadMaxQ"></span> shots)<br>
+		  <strong>Against best armor: </strong><span id="ttkHeadMaxQ"></span>s (<span id="shotHeadMaxQ"></span> shots)<br>
 		</div>
 		<div class="col">
 		  <h3>Limb</h3>
 		  <strong>TTK: </strong><span id="ttkLimb"></span>s (<span id="shotLimb"></span> shots)<br>
-		  <strong>TTK best armor: </strong><span id="ttkLimbMaxQ"></span>s (<span id="shotLimbMaxQ"></span> shots)<br>
+		  <strong>Against best armor: </strong><span id="ttkLimbMaxQ"></span>s (<span id="shotLimbMaxQ"></span> shots)<br>
 		</div>
 	  </div>
 	  <div class="row"></div>
@@ -63,8 +72,6 @@
 
 	<script>
 		const hp = 100;
-		const armorMod = 0.6;
-		const armorModMaxQ = 0.54;
 		const headshotMod = 1.8;
 		const limbMod = 0.8;
 
@@ -77,13 +84,38 @@
 		  let limbMaxQHp = hp;
 
 		  /* ----------------
-		  ---WEAPON CONFIG---
+		  --- CONFIG---
 		  ----------------- */
 
 		  let alpha = document.getElementById("weaponAlpha").value;
 		  let rpm = document.getElementById("weaponRpm").value;
 		  let craftAlphaMod = document.getElementById("weaponAlphaMod").value;
 		  let craftRpmMod = document.getElementById("weaponRpmMod").value;
+
+		  let armorType = document.getElementById("armorType").value;
+
+		  switch (armorType) {
+			  	case 'no_armor':
+			    	armorMod = 1;
+			    	armorModMaxQ = 1;
+			    	break;
+			  	case 'light':
+			    	armorMod = 0.8;
+			    	armorModMaxQ = 0.78;
+			    	break;
+			  	case 'medium':
+			  		armorMod = 0.7;
+			    	armorModMaxQ = 0.67;
+			    	break
+			  	case 'heavy':
+			  	default:
+			    	armorMod = 0.6;
+			    	armorModMaxQ = 0.54;
+			}
+
+			console.log(armorMod);
+			console.log(armorModMaxQ);
+
 
 		  //-----------------
 
