@@ -38,17 +38,27 @@
 					<input class="form-control" id="weaponRpm" type="text">
 				</div>
 				<div class='mb-3'>
-					<label class="form-label" for="weaponAlphaMod">Alpha damage crafting modifier (impact force)</label>
-					<input type="range" class="form-range" id="weaponAlphaModRange" min=1 max=1.55 value=1 step=0.01>
-					<input class="form-control" id="weaponAlphaModValue" type="text" value=1.00>
+					<label class="form-label" for="weaponAlphaModRange">Crafting: Alpha damage modifier (impact force)</label>
+					<input type="range" class="form-range" id="weaponAlphaModRange" min=1 max=1.300 value=1 step=0.005>
+					<input class="form-control" id="weaponAlphaModValue" type="text" value=1.000>
 				</div>
 				<div class='mb-3'>
-					<label class="form-label" for="weaponRpmMod">Fire rate crafting modifier</label>
-					<input type="range" class="form-range" id="weaponRpmModRange" min=1 max=1.30 value=1 step=0.01>
-					<input class="form-control" id="weaponRpmModValue" type="text" value=1.00>
+					<label class="form-label" for="weaponRpmModRange">Crafting: Fire rate modifier</label>
+					<input type="range" class="form-range" id="weaponRpmModRange" min=1 max=1.150 value=1 step=0.005>
+					<input class="form-control" id="weaponRpmModValue" type="text" value=1.000>
 				</div>
 				<div class='mb-3'>
-					<label class="form-label" for="weaponRpmMod">Armor type</label>
+					<label class="form-label" for="weaponAlphaAttachModRange">Attachment: Alpha damage modifier</label>
+					<input type="range" class="form-range" id="weaponAlphaModAttachRange" min=1 max=1.200 value=1 step=0.005>
+					<input class="form-control" id="weaponAlphaModAttachValue" type="text" value=1.000>
+				</div>
+				<div class='mb-3'>
+					<label class="form-label" for="weaponRpmModAttachRange">Attachment: Fire rate modifier</label>
+					<input type="range" class="form-range" id="weaponRpmModAttachRange" min=1 max=1.200 value=1 step=0.005>
+					<input class="form-control" id="weaponRpmModAttachValue" type="text" value=1.000>
+				</div>
+				<div class='mb-3'>
+					<label class="form-label" for="armorType">Armor type</label>
 					<select class="form-select" aria-label="Heavy" id="armorType">
 						<option selected value="heavy">Heavy</option>
 						<option value="medium">Medium</option>
@@ -102,20 +112,40 @@
 		const weaponAlphaModValue = document.getElementById("weaponAlphaModValue");
 
 		weaponAlphaModRange.addEventListener("input", (event) => {
-			weaponAlphaModValue.value = Number.parseFloat(event.target.value).toFixed(2);
+			weaponAlphaModValue.value = Number.parseFloat(event.target.value).toFixed(3);
 		});
 		weaponAlphaModValue.addEventListener("input", (event) => {
-			weaponAlphaModRange.value = Number.parseFloat(event.target.value).toFixed(2);
+			weaponAlphaModRange.value = Number.parseFloat(event.target.value).toFixed(3);
 		});
 
 		const weaponRpmModRange = document.getElementById("weaponRpmModRange");
 		const weaponRpmModValue = document.getElementById("weaponRpmModValue");
 
 		weaponRpmModRange.addEventListener("input", (event) => {
-			weaponRpmModValue.value = Number.parseFloat(event.target.value).toFixed(2);
+			weaponRpmModValue.value = Number.parseFloat(event.target.value).toFixed(3);
 		});
 		weaponRpmModValue.addEventListener("input", (event) => {
-			weaponRpmModRange.value = Number.parseFloat(event.target.value).toFixed(2);
+			weaponRpmModRange.value = Number.parseFloat(event.target.value).toFixed(3);
+		});
+
+		const weaponAlphaModAttachRange = document.getElementById("weaponAlphaModAttachRange");
+		const weaponAlphaModAttachValue = document.getElementById("weaponAlphaModAttachValue");
+
+		weaponAlphaModAttachRange.addEventListener("input", (event) => {
+			weaponAlphaModAttachValue.value = Number.parseFloat(event.target.value).toFixed(3);
+		});
+		weaponAlphaModValue.addEventListener("input", (event) => {
+			weaponAlphaModAttachRange.value = Number.parseFloat(event.target.value).toFixed(3);
+		});
+
+		const weaponRpmModAttachRange = document.getElementById("weaponRpmModAttachRange");
+		const weaponRpmModAttachValue = document.getElementById("weaponRpmModAttachValue");
+
+		weaponRpmModAttachRange.addEventListener("input", (event) => {
+			weaponRpmModAttachValue.value = Number.parseFloat(event.target.value).toFixed(3);
+		});
+		weaponRpmModAttachValue.addEventListener("input", (event) => {
+			weaponRpmModAttachRange.value = Number.parseFloat(event.target.value).toFixed(3);
 		});
 
 		function toggleDarkMode(e) {
@@ -148,6 +178,8 @@
 			let rpm = document.getElementById("weaponRpm").value;
 			let craftAlphaMod = document.getElementById("weaponAlphaModValue").value;
 			let craftRpmMod = document.getElementById("weaponRpmModValue").value;
+			let attachAlphaMod = document.getElementById("weaponAlphaModAttachValue").value;
+			let attachRpmMod = document.getElementById("weaponRpmModAttachValue").value;
 
 			let armorType = document.getElementById("armorType").value;
 
@@ -173,8 +205,8 @@
 
 		  	//-----------------
 
-			alpha = alpha * craftAlphaMod;
-			rpm = rpm * craftRpmMod;
+			alpha = alpha * craftAlphaMod * attachAlphaMod;
+			rpm = rpm * craftRpmMod * attachRpmMod;
 
 			let timeBetweenShot = 60 / rpm;
 
