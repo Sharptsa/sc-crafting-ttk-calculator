@@ -209,9 +209,8 @@
 
 		const calculateTTK = () => {
 			/* ----------------
-			------ CONFIG------
+			------ STATS ------
 			----------------- */
-
 			let alpha = Number.parseFloat(document.getElementById("weaponAlpha").value)
 			let rpm = Number.parseFloat(document.getElementById("weaponRpm").value)
 			let craftAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModValue").value)
@@ -241,39 +240,46 @@
 			}
 
 
-		  	//-----------------
+		  	/* ----------------
+			--- CALCULATION ---
+			----------------- */
 
-			if (alpha == NaN || rpm == NaN) {
+			if (alpha == NaN || rpm == NaN || rpm == 0) {
 				return
 			}
 
 			alpha = alpha * craftAlphaMod * attachAlphaMod
-			rpm = rpm * craftRpmMod * attachRpmMod
+			let dmg = alpha * armorMod
+			let dmgMaxArmor = alpha * armorModMaxQ
 
+			rpm = rpm * craftRpmMod * attachRpmMod
 			let timeBetweenShot = 60 / rpm
 
-			const compute = (hp, alpha, timeBetweenShot) => {
+			const compute = (hp, dmg, timeBetweenShot) => {
 				let ttk = -timeBetweenShot
 				let nbShot = 0
 				while (hp > 0) {
-					hp -= alpha
+					hp -= dmg
 					ttk += timeBetweenShot
 					++nbShot
 				}
 				return {ttk, nbShot}
 			}
 
-		  	body = compute(hp, alpha * armorMod, timeBetweenShot)
-			bodyMaxArmor = compute(hp, alpha * armorModMaxQ, timeBetweenShot)
+		  	body = compute(hp, dmg, timeBetweenShot)
+			bodyMaxArmor = compute(hp, dmgMaxArmor, timeBetweenShot)
 
-		  	head = compute(hp, alpha * headshotMod * armorMod, timeBetweenShot)
-		  	headMaxArmor = compute(hp, alpha * headshotMod * armorModMaxQ, timeBetweenShot)
+		  	head = compute(hp, dmg * headshotMod, timeBetweenShot)
+		  	headMaxArmor = compute(hp, dmgMaxArmor * headshotMod, timeBetweenShot)
 
-		  	limbs = compute(hp, alpha * limbMod * armorMod, timeBetweenShot)
-		  	limbsMaxArmor = compute(hp, alpha * limbMod * armorModMaxQ, timeBetweenShot)
+		  	limbs = compute(hp, dmg * limbMod, timeBetweenShot)
+		  	limbsMaxArmor = compute(hp, dmgMaxArmor * limbMod, timeBetweenShot)
 
 
-		  	const nbShotStr = (nbShot) => {
+		  	/* ----------------
+		  	------RESULTS------
+		  	----------------- */
+			const nbShotStr = (nbShot) => {
 		  		if (nbShot < 2) {
 		  			return '(' + nbShot + " shot" + ')'
 		  		}
@@ -284,9 +290,6 @@
 		  		return Number.parseFloat(ttk).toFixed(3) + "s"
 		  	}
 
-		  	/* ----------------
-		  	------RESULT-------
-		  	----------------- */
 			document.getElementById("ttkBody").innerHTML = ttkStr(body.ttk)
 			document.getElementById("shotBody").innerHTML = nbShotStr(body.nbShot)
 			document.getElementById("ttkBodyMaxQ").innerHTML = ttkStr(bodyMaxArmor.ttk)
