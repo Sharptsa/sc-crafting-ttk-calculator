@@ -22,8 +22,8 @@
 			<div class='col'>
 				<h2>Tools ⚙️</h2>
 				<ul>
-					<li>📋 <a href="https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434">SC FPS Data 4.7 stats table</a></li>
-					<li>🔨 <a href="https://sc-craft.tools/?category=Weapons+%2F+LMG&category=Weapons+%2F+Pistol&category=Weapons+%2F+Rifle&category=Weapons+%2F+Shotgun&category=Weapons+%2F+SMG&category=Weapons+%2F+Sniper">sc-craft.tools</a> to get modifiers per material quality</li>
+					<li>📋 <a href="https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434" target="_blank" rel="noopener noreferrer">SC FPS Data 4.7 stats table</a></li>
+					<li>🔨 <a href="https://sc-craft.tools/?category=Weapons+%2F+LMG&category=Weapons+%2F+Pistol&category=Weapons+%2F+Rifle&category=Weapons+%2F+Shotgun&category=Weapons+%2F+SMG&category=Weapons+%2F+Sniper" target="_blank" rel="noopener noreferrer">sc-craft.tools</a> to get modifiers per material quality</li>
 				</ul>
 			</div>
 		</div>
@@ -280,9 +280,9 @@
 		  	------RESULTS------
 		  	----------------- */
 			const nbShotStr = (nbShot) => {
-				let str = 'shot'
+				let str = nbShot + ' shot'
 		  		if (nbShot > 1) {
-		  			return str + 's'
+		  			str += 's'
 		  		}
 		  		return '(' + str + ')'
 		  	}
