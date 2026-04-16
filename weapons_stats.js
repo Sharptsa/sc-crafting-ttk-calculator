@@ -162,7 +162,7 @@ const weaponsStats = {
                 "burst_size": 3,
                 "burst_cooldown": 0.6
             },
-            "Burst Charged": {
+            "Charged Burst": {
                 "alpha": 13,
                 "fire_rate": 800,
                 "craft_max_dmg_mod": 7.5,
