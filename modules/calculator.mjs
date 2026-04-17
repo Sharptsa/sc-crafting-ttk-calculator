@@ -37,6 +37,31 @@ export const calculateTTK = (weapon) => {
     --- CALCULATION ---
     ----------------- */
     if (alpha == 0 || fire_rate == 0) {
+        document.getElementById("totalFireRate").innerHTML = ''
+
+        document.getElementById("ttkHead").innerHTML = ''
+        document.getElementById("shotHead").innerHTML = ''
+        document.getElementById("ttkHeadMaxQ").innerHTML = ''
+        document.getElementById("shotHeadMaxQ").innerHTML = ''
+        document.getElementById("damageHead").innerHTML = ''
+        document.getElementById("damageHeadMaxQ").innerHTML = ''
+
+
+        document.getElementById("ttkBody").innerHTML = ''
+        document.getElementById("shotBody").innerHTML = ''
+        document.getElementById("ttkBodyMaxQ").innerHTML = ''
+        document.getElementById("shotBodyMaxQ").innerHTML = ''
+        document.getElementById("damageBody").innerHTML = ''
+        document.getElementById("damageBodyMaxQ").innerHTML = ''
+
+
+        document.getElementById("ttkLimb").innerHTML = ''
+        document.getElementById("shotLimb").innerHTML = ''
+        document.getElementById("ttkLimbMaxQ").innerHTML = ''
+        document.getElementById("shotLimbMaxQ").innerHTML = ''
+        document.getElementById("damageLimb").innerHTML = ''
+        document.getElementById("damageLimbMaxQ").innerHTML = ''
+
         return
     }
 
@@ -44,32 +69,6 @@ export const calculateTTK = (weapon) => {
     const dmgMaxArmor = Number.parseFloat(alpha * armorModMaxQ).toFixed(1)
 
     const timeBetweenShot = 60 / fire_rate
-
-    const compute = (hp, dmg, timeBetweenShot, burstSize, burstCooldown, chargeTime) => {
-        let ttk = -timeBetweenShot
-        let nbShot = 0
-
-        while (hp > 0) {
-            // Burst mode
-            if (nbShot > 0 && burstSize !== null && ((nbShot % burstSize) == 0)) {
-                ttk += burstCooldown
-                if (chargeTime !== null) {
-                    ttk += chargeTime
-                }
-            }
-
-            // Charged single  mode
-            if (nbShot > 0 && burstSize === null && chargeTime !== null) {
-                ttk += chargeTime
-            }
-            
-            hp -= dmg
-            ttk += timeBetweenShot
-            ++nbShot
-        }
-
-        return { ttk, nbShot }
-    }
 
     const head = compute(hp, dmg * headshotMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
     const headMaxArmor = compute(hp, dmgMaxArmor * headshotMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
@@ -79,22 +78,6 @@ export const calculateTTK = (weapon) => {
 
     const limbs = compute(hp, dmg * limbMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
     const limbsMaxArmor = compute(hp, dmgMaxArmor * limbMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
-
-
-    /* ----------------
-    ------RESULTS------
-    ----------------- */
-    const nbShotStr = (nbShot) => {
-        let str = nbShot + ' shot'
-        if (nbShot > 1) {
-            str += 's'
-        }
-        return '(' + str + ')'
-    }
-
-    const ttkStr = (ttk) => {
-        return Number.parseFloat(ttk).toFixed(3) + "s"
-    }
 
     document.getElementById("totalFireRate").innerHTML = weapon.total_fire_rate + " rpm"
 
@@ -120,4 +103,45 @@ export const calculateTTK = (weapon) => {
     document.getElementById("shotLimbMaxQ").innerHTML = nbShotStr(limbsMaxArmor.nbShot)
     document.getElementById("damageLimb").innerHTML = Number.parseFloat(dmg * limbMod).toFixed(1)
     document.getElementById("damageLimbMaxQ").innerHTML = Number.parseFloat(dmgMaxArmor * limbMod).toFixed(1)
+}
+
+const compute = (hp, dmg, timeBetweenShot, burstSize, burstCooldown, chargeTime) => {
+    let ttk = -timeBetweenShot
+    let nbShot = 0
+
+    while (hp > 0) {
+        // Burst mode
+        if (nbShot > 0 && burstSize !== null && ((nbShot % burstSize) == 0)) {
+            ttk += burstCooldown
+            if (chargeTime !== null) {
+                ttk += chargeTime
+            }
+        }
+
+        // Charged single  mode
+        if (nbShot > 0 && burstSize === null && chargeTime !== null) {
+            ttk += chargeTime
+        }
+
+        hp -= dmg
+        ttk += timeBetweenShot
+        ++nbShot
+    }
+
+    return { ttk, nbShot }
+}
+
+/* ----------------
+------RESULTS------
+----------------- */
+const nbShotStr = (nbShot) => {
+    let str = nbShot + ' shot'
+    if (nbShot > 1) {
+        str += 's'
+    }
+    return '(' + str + ')'
+}
+
+const ttkStr = (ttk) => {
+    return Number.parseFloat(ttk).toFixed(3) + "s"
 }
