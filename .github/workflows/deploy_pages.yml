@@ -30,7 +30,7 @@ jobs:
               uses: actions/checkout@v6
             - name: Convert data stats file from YAML to JSON
               shell: bash
-              run: ¦
+              run: |
                 if ! command -v yq &> /dev/null; then
                     echo "yq is not installed. Installing..."
                     sudo apt update
