@@ -9,9 +9,9 @@ on:
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+        # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-    contents: write
+    contents: read
     pages: write
     id-token: write
 
@@ -28,16 +28,16 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
-            - name: Convert stats from YAML to JSON
-              uses: fabasoad/data-format-converter-action@v1
+            - name: Convert stats weapons_stats.yml to JSON
+              uses: NeddM/YAML-to-JSON@v1
               with:
-                  source-pattern: "data/**"
-                  from: "yaml"
-                  to: "json"
-            - name: List resulting files
-              run: ls data/${{ steps.converter.outputs.result-path }}
-            - name: List resulting files
-              run: ls ${{ steps.converter.outputs.result-path }}
+                  input: data/weapons_stats.yml
+                  output: data/weapons_stats.json
+            - name: convert stats attachments_stats.yml to JSON
+              uses: NeddM/YAML-to-JSON@v1
+              with:
+                input: data/attachments_stats.yml
+                output: data/attachments_stats.json
             - name: Setup Pages
               uses: actions/configure-pages@v6
             - name: Upload artifact
