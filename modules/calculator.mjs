@@ -106,25 +106,29 @@ export const calculateTTK = (weapon) => {
 }
 
 const compute = (hp, dmg, timeBetweenShot, burstSize, burstCooldown, chargeTime) => {
-    let ttk = -timeBetweenShot
+    let ttk = 0
     let nbShot = 0
 
     while (hp > 0) {
-        // Burst mode
-        if (nbShot > 0 && burstSize !== null && ((nbShot % burstSize) == 0)) {
-            ttk += burstCooldown
-            if (chargeTime !== null) {
+        hp -= dmg
+
+        if (nbShot > 0) {
+            // Burst mode
+            if (burstSize !== null && ((nbShot % burstSize) == 0)) {
+                ttk += burstCooldown
+                if (chargeTime !== null) {
+                    ttk += chargeTime
+                }
+            }
+
+            // Charged single  mode
+            if (burstSize === null && chargeTime !== null) {
                 ttk += chargeTime
             }
+
+            ttk += timeBetweenShot
         }
 
-        // Charged single  mode
-        if (nbShot > 0 && burstSize === null && chargeTime !== null) {
-            ttk += chargeTime
-        }
-
-        hp -= dmg
-        ttk += timeBetweenShot
         ++nbShot
     }
 
