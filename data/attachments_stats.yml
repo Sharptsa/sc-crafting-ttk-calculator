@@ -1,0 +1,102 @@
+---
+- name: None
+  dmg_mod: 1
+  fire_rate_mod: 1
+  size: 0
+  type: all
+
+- name: Compensator Torrent 1
+  dmg_mod: 1
+  fire_rate_mod: 1.075
+  size: 1
+  type: physical
+
+- name: Compensator Stark 1
+  dmg_mod: 1.175
+  fire_rate_mod: 0.8
+  size: 1
+  type: physical
+
+- name: Compensator Sion "Tweaker" 1
+  dmg_mod: 1
+  fire_rate_mod: 1.125
+  size: 1
+  type: physical
+
+- name: Suppressor Quell 1
+  dmg_mod: 1
+  fire_rate_mod: 0.95
+  size: 1
+  type: physical
+
+- name: Suppressor Tacit 1
+  dmg_mod: 0.92
+  fire_rate_mod: 1
+  size: 1
+  type: physical
+
+- name: Stabilizer Escalate 1
+  dmg_mod: 0.9
+  fire_rate_mod: 1.3
+  size: 1
+  type: energy
+
+- name: Compensator Vera 2
+  dmg_mod: 1
+  fire_rate_mod: 1.06
+  size: 2
+  type: physical
+
+- name: Compensator Torrent 2
+  dmg_mod: 0.95
+  fire_rate_mod: 1
+  size: 2
+  type: physical
+
+- name: Compensator Sion "Tweaker" 2
+  dmg_mod: 0.9
+  fire_rate_mod: 1
+  size: 2
+  type: physical
+
+- name: Compensator Sion "Scorched" 2
+  dmg_mod: 0.9
+  fire_rate_mod: 1
+  size: 2
+  type: physical
+
+- name: Suppressor Tacit 2
+  dmg_mod: 0.92
+  fire_rate_mod: 1
+  size: 2
+  type: physical
+
+- name: Stabilizer Escalate 2
+  dmg_mod: 0.95
+  fire_rate_mod: 1.1
+  size: 2
+  type: energy
+
+- name: Stabilizer Emod "Tweaker" 2
+  dmg_mod: 1.125
+  fire_rate_mod: 1
+  size: 2
+  type: energy
+
+- name: Compensator Vera 3
+  dmg_mod: 1
+  fire_rate_mod: 1.15
+  size: 3
+  type: physical
+
+- name: Compensator Stark 3
+  dmg_mod: 1.075
+  fire_rate_mod: 1.15
+  size: 3
+  type: physical
+
+- name: Suppressor Tacit 3
+  dmg_mod: 0.92
+  fire_rate_mod: 1
+  size: 3
+  type: physical

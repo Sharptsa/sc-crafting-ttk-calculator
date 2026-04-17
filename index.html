@@ -1,46 +1,56 @@
 <!doctype html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>SC Crafting TTK Calculator</title>
+	<title>SC Weapon TTK Calculator</title>
 
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
+
 <body>
 	<div class="container">
 		<div class="row pt-3 pb-3 justify-content-between">
 			<div class='col-10'>
-				<h1>SC Weapon TTK calculator for crafting</h1>
+				<h1>SC Weapon TTK calculator</h1>
 			</div>
 			<div class='col form-check form-switch d-inline-flex justify-content-end'>
-				<input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" onclick="toggleDarkMode()">
-				<label class="form-check-label ps-1" for="switchCheckDefault"><strong>Dark Mode</strong></label>
+				<input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
+				<label class=" form-check-label ps-1" for="switchCheckDefault"><strong>Dark Mode</strong></label>
 			</div>
 		</div>
 		<div class="row pb-3">
 			<div class='col'>
 				<h2>Tools ⚙️</h2>
 				<ul>
-					<li>📋 <a href="https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434" target="_blank" rel="noopener noreferrer">SC FPS Data 4.7 stats table</a></li>
-					<li>🔨 <a href="https://sc-craft.tools/?category=Weapons+%2F+LMG&category=Weapons+%2F+Pistol&category=Weapons+%2F+Rifle&category=Weapons+%2F+Shotgun&category=Weapons+%2F+SMG&category=Weapons+%2F+Sniper" target="_blank" rel="noopener noreferrer">sc-craft.tools</a> to get modifiers per material quality</li>
+					<li>📋 <a
+							href="https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434"
+							target="_blank" rel="noopener noreferrer">SC FPS Data 4.7 stats table</a></li>
+					<li>🔨 <a
+							href="https://sc-craft.tools/?category=Weapons+%2F+LMG&category=Weapons+%2F+Pistol&category=Weapons+%2F+Rifle&category=Weapons+%2F+Shotgun&category=Weapons+%2F+SMG&category=Weapons+%2F+Sniper"
+							target="_blank" rel="noopener noreferrer">sc-craft.tools</a> to get modifiers per material
+						quality</li>
 				</ul>
 			</div>
 		</div>
 		<div class="row pb-3">
 			<h2>Weapon Stats 🔫</h2>
-			<form action="javascript:;" onsubmit=" calculateTTK( this )" class="pb-3">
+			<form class="pb-3" id="ttkForm" autocomplete="off">
 				<div class="row g-3 pt-3">
 					<h4>Base Stats</h4>
 					<div class="row">
 						<div class="input-group mb-3">
-							<label class="input-group-text" for="weaponClass">Select weapon</label>
+							<label class="input-group-text" for="weaponClass">Select weapon class</label>
 							<select class="form-select" id="weaponClass" aria-label="Custom">
 								<option value="Custom" selected>Custom</option>
 							</select>
 							<select class="form-select" id="weapon" aria-label="" disabled>
+								<option value="" selected disabled>Select weapon</option>
 							</select>
 							<select class="form-select" id="weaponMode" aria-label="" disabled>
+								<option value="" selected disabled>Select firing mode</option>
 							</select>
 						</div>
 					</div>
@@ -53,9 +63,9 @@
 						</div>
 						<div class="col">
 							<div class="input-group mb-3">
-								<label class="input-group-text" for="weaponRpm">Fire rate</label>
-								<input class="form-control" id="weaponRpm" type="text">
-								<label class="input-group-text" for="weaponRpm">RPM</label>
+								<label class="input-group-text" for="weaponFireRate">Fire rate</label>
+								<input class="form-control" id="weaponFireRate" type="text">
+								<label class="input-group-text" for="weaponFireRate">RPM</label>
 							</div>
 						</div>
 					</div>
@@ -84,155 +94,58 @@
 						</div>
 					</div>
 				</div>
-				
+
 
 				<div class="row g-3 pt-3">
 					<h4>Crafting</h4>
 					<div class="row">
 						<div class="col-3">
 							<div class="input-group mb-3">
-								<label class="input-group-text" for="weaponAlphaModValue">Damage modifier</label>
-								<input class="form-control text-end" id="weaponAlphaModValue" type="text" value=0.0>
-								<label class="input-group-text" for="weaponAlphaModValue">%</label>
+								<label class="input-group-text" for="craftAlphaPercent">Damage modifier</label>
+								<input class="form-control text-end" id="craftAlphaPercent" type="text" value=0.0>
+								<label class="input-group-text" for="craftAlphaPercent">%</label>
 							</div>
 						</div>
 						<div class="col">
-							<input type="range" class="form-range" id="weaponAlphaModRange" min=0 max=30 value=0.0 step=0.1>
+							<input type="range" class="form-range" id="craftAlphaPercentRange" min=0 max=30 value=0.0
+								step=0.1>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-3">
 							<div class="input-group mb-3">
-								<label class="input-group-text" for="weaponRpmModValue">Fire rate modifier</label>
-								<input class="form-control text-end" id="weaponRpmModValue" type="text" value=0.0>
-								<label class="input-group-text" for="weaponRpmModValue">%</label>
+								<label class="input-group-text" for="craftFireRatePercent">Fire rate modifier</label>
+								<input class="form-control text-end" id="craftFireRatePercent" type="text" value=0.0>
+								<label class="input-group-text" for="craftFireRatePercent">%</label>
 							</div>
 						</div>
 						<div class="col">
-							<input type="range" class="form-range" id="weaponRpmModRange" min=0 max=20 value=0.0 step=0.1>
+							<input type="range" class="form-range" id="craftFireRatePercentRange" min=0 max=20 value=0.0
+								step=0.1>
 						</div>
 					</div>
 				</div>
-				
+
 
 				<div class="row g-3 pt-3">
 					<h4>Barrel Attachment</h4>
-					<div class="row">
-						<div class="col-auto align-items-left">
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" checked>
-								<label class="form-check-label" for="flexCheckDefault">
-									None
-								</label>
-							</div>
-						</div>
-						<div class="col-auto align-items-left" id='attachements_s1'>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_1_torrent">
-								<label class="form-check-label" for="att_1_torrent">
-									Compensator Torrent 1 (+7.5% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_1_stark">
-								<label class="form-check-label" for="att_1_stark">
-									Compensator Stark 1 (+17.5% dmg, -20% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_1_sion_tweaker">
-								<label class="form-check-label" for="att_1_sion_tweaker">
-									Compensator Sion "Tweaker" 1 (+12.5% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_1_escalate">
-								<label class="form-check-label" for="att_1_escalate">
-									Stabilizer Escalate 1 (-10% dmg, +30% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_1_quell">
-								<label class="form-check-label" for="att_1_quell">
-									Suppressor Quell 1 (-5% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_1_tacit">
-								<label class="form-check-label" for="att_1_tacit">
-									Suppressor Tacit 1 (-8% dmg)
-								</label>
-							</div>
-						</div>
-						<div class="col-auto align-items-left" id='attachements_s2'>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_2_vera">
-								<label class="form-check-label" for="att_2_vera">
-									Compensator Vera 2 (+6% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_2_torrent">
-								<label class="form-check-label" for="att_2_torrent">
-									Compensator Torrent 2 (-5% dmg)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_2_sion_tweaker">
-								<label class="form-check-label" for="att_2_sion_tweaker">
-									Compensator Sion "Tweaker" 2 (-10% dmg)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_2_sion_scorched">
-								<label class="form-check-label" for="att_2_sion_scorched">
-									Compensator Sion "Scorched" 2 (-10% dmg)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_2_escalate">
-								<label class="form-check-label" for="att_2_escalate">
-									Stabilizer Escalate 2 (-5% dmg, +10% rpm)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_2_emod_tweakee">
-								<label class="form-check-label" for="att_2_emod_tweakee">
-									Stabilizer Emod "Tweaker" 2 (+12.5% dmg)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_2_tacit">
-								<label class="form-check-label" for="att_2_tacit">
-									Suppressor Tacit 2 (-8% dmg)
-								</label>
-							</div>
-						</div>
-						<div class="col-auto align-items-left" id='attachements_s3'>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_3_vera">
-								<label class="form-check-label" for="att_3_vera">
-									Compensator Vera 3 (+15% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_3_stark">
-								<label class="form-check-label" for="att_3_stark">
-									Compensator Stark 3 (+7.5% dmg, +15% RPM)
-								</label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="barrelAttachment" id="att_3_tacit">
-								<label class="form-check-label" for="att_3_tacit">
-									Suppressor Tacit 3 (-8% dmg)
-								</label>
-							</div>
-						</div>
+					<div class="row" id="attachmentsList">
+
 					</div>
-					
-					
+					<template id="attachmentGroupTemplate">
+						<div class="col-auto align-items-left">
+						</div>
+					</template>
+
+					<template id="attachmentTemplate">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="barrelAttachment" id="" data-dmg-mod="1"
+								data-fire-rate-mod="1">
+							<label class="form-check-label" for="" data-toggle="tooltip" data-placement="top"
+								title="Tooltip on top"></label>
+						</div>
+					</template>
 				</div>
-				
 
 				<div class="row g-3 pt-3">
 					<h4>Armor</h4>
@@ -246,338 +159,84 @@
 						</select>
 					</div>
 				</div>
+				<div class="input-group pt-3">
+					<input class="btn btn-primary" type="submit" id="btnCalculateTTK" value="Calculate TTK" disabled>
+					<div class="input-group-text">
+						<label class="col-form-label me-2" for="autoTTK">Auto</label>
+						<input class="form-check-input mt-0" type="checkbox" id="autoTTK" aria-label="Auto calculate TTK on changes" checked>
+					</div>
+					
+				</div>
 				<div class="pt-3">
-					<input class="btn btn-primary" type="submit" value="Calculate TTK">
+					
 				</div>
 			</form>
 		</div>
 
-		<div class="row pb-3 gx-3">
-			<h2>Results 📊</h2>
-			<div class="col">
-				<div class='card bg-danger-subtle'>
-					<div class="card-body">
-						<h3>Head 😐</h3>
-						<strong>TTK: </strong><span id="ttkHead"></span> <span id="shotHead"></span><br>
-						<strong>Against 1k quality armor: </strong><span id="ttkHeadMaxQ"></span> <span id="shotHeadMaxQ"></span><br>
+		<div class="row mb-5 gx-3">
+			<h2 class="mb-2">Results 📊</h2>
+			<p>
+				<strong>Total fire rate:</strong> <span id="totalFireRate"></span>
+			</p>
+			<div class="row">
+				<div class="col">
+					<div class='card bg-danger-subtle'>
+						<h2 class="card-header">Head 😐</h2>
+						<div class="card-body border-bottom border-dark-subtle">
+							<h4 class="card-title">Base armor</h4>
+							<p class="card-text">
+								<strong>TTK: </strong><span id="ttkHead"></span> <span id="shotHead"></span><br>
+								<strong>Damage per shot: </strong><span id="damageHead"></span><br>
+							</p>
+						</div>
+						<div class="card-body">
+							<h4 class="card-title">1k quality armor</h4>
+							<strong>TTK: </strong><span id="ttkHeadMaxQ"></span> <span id="shotHeadMaxQ"></span><br>
+							<strong>Damage per shot: </strong><span id="damageHeadMaxQ"></span><br>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class='card bg-warning-subtle'>
+						<h2 class="card-header">Body 👕</h2>
+						<div class="card-body border-bottom border-dark-subtle">
+							<h4 class="card-title">Base Armor</h4>
+							<strong>TTK: </strong><span id="ttkBody"></span> <span id="shotBody"></span><br>
+							<strong>Damage per shot: </strong><span id="damageBody"></span><br>
+						</div>
+						<div class="card-body">
+							<h3 class="card-title">1k quality armor</h3>
+							<strong>TTK: </strong><span id="ttkBodyMaxQ"></span> <span id="shotBodyMaxQ"></span><br>
+							<strong>Damage per shot: </strong><span id="damageBodyMaxQ"></span><br>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class='card bg-success-subtle'>
+						<h2 class="card-header">Limbs 🦵</h2>
+						<div class="card-body border-bottom border-dark-subtle">
+							<h4 class="card-title">Base Armor</h4>
+							<strong>TTK: </strong><span id="ttkLimb"></span> <span id="shotLimb"></span><br>
+							<strong>Damage per shot: </strong><span id="damageLimb"></span><br>
+						</div>
+						<div class="card-body">
+							<h3 class="card-title">1k quality armor</h3>
+							<strong>TTK: </strong><span id="ttkLimbMaxQ"></span> <span id="shotLimbMaxQ"></span><br>
+							<strong>Damage per shot: </strong><span id="damageLimbMaxQ"></span><br>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col">
-				<div class='card bg-warning-subtle'>
-					<div class="card-body">
-						<h3>Body 👕</h3>
-						<strong>TTK: </strong><span id="ttkBody"></span> <span id="shotBody"></span><br>
-						<strong>Against 1k quality armor: </strong><span id="ttkBodyMaxQ"></span> <span id="shotBodyMaxQ"></span><br>
-					</div>	
-				</div>
-			</div>
-			<div class="col">
-				<div class='card bg-success-subtle'>
-					<div class="card-body">
-						<h3>Limbs 🦵</h3>
-						<strong>TTK: </strong><span id="ttkLimb"></span> <span id="shotLimb"></span><br>
-						<strong>Against 1k quality armor: </strong><span id="ttkLimbMaxQ"></span> <span id="shotLimbMaxQ"></span><br>
-					</div>	
-				</div>
-			</div>
 		</div>
-		<div class="row"></div>
 	</div>
 
 
 
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-	<script>
-		// MOD RANGE AND INPUT SYNC
-		const weaponAlphaModRange = document.getElementById("weaponAlphaModRange")
-		const weaponAlphaModValue = document.getElementById("weaponAlphaModValue")
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
 
-		weaponAlphaModRange.addEventListener("input", (event) => {
-			weaponAlphaModValue.value = Number.parseFloat(event.target.value).toFixed(1)
-		})
-		weaponAlphaModValue.addEventListener("input", (event) => {
-			weaponAlphaModRange.value = Number.parseFloat(event.target.value).toFixed(1)
-		})
-
-		const weaponRpmModRange = document.getElementById("weaponRpmModRange")
-		const weaponRpmModValue = document.getElementById("weaponRpmModValue")
-
-		weaponRpmModRange.addEventListener("input", (event) => {
-			weaponRpmModValue.value = Number.parseFloat(event.target.value).toFixed(1)
-		})
-		weaponRpmModValue.addEventListener("input", (event) => {
-			weaponRpmModRange.value = Number.parseFloat(event.target.value).toFixed(1)
-		})
-
-		// DARK MODE
-		const darkModeSwitch = document.getElementById("darkModeSwitch")
-
-		const getStoredTheme = () => localStorage.getItem('theme')
-		const setStoredTheme = theme => localStorage.setItem('theme', theme)
-
-		const getPreferredTheme = () => {
-			const storedTheme = getStoredTheme()
-			if (storedTheme) {
-				return storedTheme
-			}
-
-			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-		}
-
-		const setTheme = theme => {
-			if (theme === 'auto') {
-				document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
-			} else {
-				document.documentElement.setAttribute('data-bs-theme', theme)
-			}
-		}
-
-		const showActiveTheme = (theme) => {
-			if (theme === 'dark' && !darkModeSwitch.checked) {
-				darkModeSwitch.click()
-			}
-		}
-
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-			const storedTheme = getStoredTheme()
-			if (storedTheme !== 'light' && storedTheme !== 'dark') {
-				setTheme(getPreferredTheme())
-			}
-		})
-
-		window.addEventListener('DOMContentLoaded', () => {
-			preferredTheme = getPreferredTheme()
-			setStoredTheme(preferredTheme)
-			setTheme(preferredTheme)
-			showActiveTheme(preferredTheme)
-		})
-
-		const toggleDarkMode = (e) => {
-			if (darkModeSwitch.checked) {
-				setTheme('dark')
-				setStoredTheme('dark')
-			} else {
-				setTheme('light')
-				setStoredTheme('light')
-			}
-		}		
-	</script>
-
-	<script>
-		const hp = 100
-		const headshotMod = 1.5
-		const limbMod = 0.8
-
-		var weaponData = null
-
-		const weaponAlphaInput = document.getElementById("weaponAlpha")
-		const weaponRpmInput = document.getElementById("weaponRpm")
-		const weaponBurstSizeInput = document.getElementById("weaponBurstSize")
-		const weaponBurstCooldownInput = document.getElementById("weaponBurstCooldown")
-		const weaponChargeTimeInput = document.getElementById("weaponChargeTime")
-
-		const calculateTTK = () => {
-			/* ----------------
-			------ STATS ------
-			----------------- */
-			let alpha = Number.parseFloat(weaponAlphaInput.value)
-			let rpm = Number.parseFloat(weaponRpmInput.value)
-			const craftAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModValue").value)
-			const craftRpmMod = Number.parseFloat(document.getElementById("weaponRpmModValue").value)
-			const attachAlphaMod = Number.parseFloat(document.getElementById("weaponAlphaModAttachValue").value)
-			const attachRpmMod = Number.parseFloat(document.getElementById("weaponRpmModAttachValue").value)
-
-			let armorType = document.getElementById("armorType").value
-
-			switch (armorType) {
-			case 'no_armor':
-				armorMod = 1
-				armorModMaxQ = 1
-				break
-			case 'light':
-				armorMod = 0.8
-				armorModMaxQ = 0.78
-				break
-			case 'medium':
-				armorMod = 0.7
-				armorModMaxQ = 0.67
-				break
-			case 'heavy':
-			default:
-				armorMod = 0.6
-				armorModMaxQ = 0.54
-			}
-
-
-		  	/* ----------------
-			--- CALCULATION ---
-			----------------- */
-			if (alpha == NaN || rpm == NaN || rpm == 0) {
-				return
-			}
-
-			alpha = alpha * craftAlphaMod * attachAlphaMod
-			const dmg = alpha * armorMod
-			const dmgMaxArmor = alpha * armorModMaxQ
-
-			rpm = rpm * craftRpmMod * attachRpmMod
-			const timeBetweenShot = 60 / rpm
-
-			const compute = (hp, dmg, timeBetweenShot) => {
-				let ttk = -timeBetweenShot
-				let nbShot = 0
-				while (hp > 0) {
-					hp -= dmg
-					ttk += timeBetweenShot
-					++nbShot
-				}
-				return {ttk, nbShot}
-			}
-
-			const body = compute(hp, dmg, timeBetweenShot)
-			const bodyMaxArmor = compute(hp, dmgMaxArmor, timeBetweenShot)
-
-			const head = compute(hp, dmg * headshotMod, timeBetweenShot)
-			const headMaxArmor = compute(hp, dmgMaxArmor * headshotMod, timeBetweenShot)
-
-			const limbs = compute(hp, dmg * limbMod, timeBetweenShot)
-			const limbsMaxArmor = compute(hp, dmgMaxArmor * limbMod, timeBetweenShot)
-
-
-		  	/* ----------------
-		  	------RESULTS------
-		  	----------------- */
-			const nbShotStr = (nbShot) => {
-				let str = nbShot + ' shot'
-				if (nbShot > 1) {
-					str += 's'
-				}
-				return '(' + str + ')'
-			}
-
-			const ttkStr = (ttk) => {
-				return Number.parseFloat(ttk).toFixed(3) + "s"
-			}
-
-			document.getElementById("ttkBody").innerHTML = ttkStr(body.ttk)
-			document.getElementById("shotBody").innerHTML = nbShotStr(body.nbShot)
-			document.getElementById("ttkBodyMaxQ").innerHTML = ttkStr(bodyMaxArmor.ttk)
-			document.getElementById("shotBodyMaxQ").innerHTML = nbShotStr(bodyMaxArmor.nbShot)
-
-			document.getElementById("ttkHead").innerHTML = ttkStr(head.ttk)
-			document.getElementById("shotHead").innerHTML = nbShotStr(head.nbShot)
-			document.getElementById("ttkHeadMaxQ").innerHTML = ttkStr(headMaxArmor.ttk)
-			document.getElementById("shotHeadMaxQ").innerHTML = nbShotStr(headMaxArmor.nbShot)
-
-			document.getElementById("ttkLimb").innerHTML = ttkStr(limbs.ttk)
-			document.getElementById("shotLimb").innerHTML = nbShotStr(limbs.nbShot)
-			document.getElementById("ttkLimbMaxQ").innerHTML = ttkStr(limbsMaxArmor.ttk)
-			document.getElementById("shotLimbMaxQ").innerHTML = nbShotStr(limbsMaxArmor.nbShot)
-		}
-	</script>
-
-	<script src="./weapons_stats.js" ></script>
-	<script>
-
-		const weaponClassSelect = document.getElementById("weaponClass")
-		const weaponSelect = document.getElementById("weapon")
-		const weaponModeSelect = document.getElementById("weaponMode")
-
-		var weaponClass = weaponClassSelect.value
-		var weapon = weaponSelect.value
-		var weaponMode = weaponSelect.value
-
-		const setWeaponData = (weaponData) => {
-			weaponAlphaInput.value = weaponData.alpha
-			weaponRpmInput.value = weaponData.fire_rate
-
-			burstSize = Number.parseInt(weaponData.burst_size)
-			burstCooldown = Number.parseFloat(weaponData.burst_cooldown)
-			chargeTime = Number.parseFloat(weaponData.charge_time)
-
-			if(isNaN(burstSize)) {
-				burstSize = ''
-			}
-
-			if(isNaN(burstCooldown)) {
-				burstCooldown = ''
-			}
-
-			if(isNaN(chargeTime)) {
-				chargeTime = ''
-			}
-
-			weaponBurstSizeInput.value = burstSize
-			weaponBurstCooldownInput.value = burstCooldown
-			weaponChargeTimeInput.value = chargeTime
-		}
-
-		window.addEventListener('DOMContentLoaded', () => {
-			Object.keys(weaponsStats).forEach(function(weaponClass) {
-				Object.assign(weaponClassSelect.appendChild(document.createElement('option')), {value: weaponClass, text: weaponClass});
-			})
-		})
-
-		weaponClassSelect.addEventListener('change', (event) => {
-			weaponClass = event.target.value
-
-			weaponSelect.options.length = 0
-			
-			if (weaponClass !== "Custom") {
-				weaponSelect.disabled = false
-				Object.keys(weaponsStats[weaponClass]).forEach(function(weapon) {
-					Object.assign(weaponSelect.appendChild(document.createElement('option')), {value: weapon, text: weapon});
-				})
-				weaponSelect.selectedIndex = -1
-
-				weaponAlphaInput.disabled = true
-				weaponRpmInput.disabled = true
-				weaponBurstSizeInput.disabled = true
-				weaponBurstCooldownInput.disabled = true
-				weaponChargeTimeInput.disabled = true
-			} else {
-				weaponSelect.disabled = true
-
-				weaponModeSelect.options.length = 0
-				weaponModeSelect.disabled = true
-			}
-		})
-
-		weaponSelect.addEventListener('change', (event) => {
-			weapon = event.target.value
-
-			weaponModeSelect.options.length = 0
-			
-			if (weapon !== "") {
-				Object.keys(weaponsStats[weaponClass][weapon]).forEach(function(weaponMode) {
-					Object.assign(weaponModeSelect.appendChild(document.createElement('option')), {value: weaponMode, text: weaponMode});
-				})
-
-				if (weaponModeSelect.options.length > 1) {
-					weaponModeSelect.disabled = false
-					if (weaponData === null) {
-						weaponMode = Object.keys(weaponsStats[weaponClass][weapon])[0]
-						weaponData = weaponsStats[weaponClass][weapon][weaponMode]
-						setWeaponData(weaponData)
-					}
-				} else {
-					weaponModeSelect.disabled = true
-					weaponMode = Object.keys(weaponsStats[weaponClass][weapon])[0]
-					weaponData = weaponsStats[weaponClass][weapon][weaponMode]
-					setWeaponData(weaponData)
-				}
-			} else {
-				weaponModeSelect.disabled = true
-			}
-		})
-
-		weaponModeSelect.addEventListener('change', (event) => {
-			weaponMode = event.target.value
-			weaponData = weaponsStats[weaponClass][weapon][weaponMode]
-			setWeaponData(weaponData)
-		})
-	</script>
+	<script type="module" src="main.js"></script>
 </body>
 </html>
