@@ -35,7 +35,7 @@ jobs:
                   from: "yaml"
                   to: "json"
             - name: List resulting files
-              run: ls ${{ steps.converter.outputs.result-path }}
+              run: ls data/${{ steps.converter.outputs.result-path }}
             - name: Setup Pages
               uses: actions/configure-pages@v6
             - name: Upload artifact
