@@ -28,16 +28,20 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
-            - name: Convert stats weapons_stats.yml to JSON
-              uses: NeddM/YAML-to-JSON@v1
-              with:
-                  input: data/weapons_stats.yml
-                  output: data/weapons_stats.json
-            - name: convert stats attachments_stats.yml to JSON
-              uses: NeddM/YAML-to-JSON@v1
-              with:
-                input: data/attachments_stats.yml
-                output: data/attachments_stats.json
+            - name: Convert data stats file from YAML to JSON
+              shell: bash
+              run: ¦
+                if ! command -v yq &> /dev/null; then
+                    echo "yq is not installed. Installing..."
+                    sudo apt update
+                    sudo apt install yq
+                else
+                    echo "yq already installed."
+                fi
+                echo "Converting files."
+                yq -p yaml -o json data/weapons_stats.yml > data/weapons_stats.json
+                yq -p yaml -o json data/attachments_stats.yml > data/attachments_stats.json
+                echo "Data files converted to JSON."
             - name: Setup Pages
               uses: actions/configure-pages@v6
             - name: Upload artifact
