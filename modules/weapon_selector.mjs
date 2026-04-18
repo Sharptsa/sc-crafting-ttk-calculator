@@ -103,7 +103,7 @@ const initWeaponSelector = () => {
             } else {
                 weaponModeSelect.disabled = true
                 selectWeapon(Weapon.fromJson(availableWeaponModes[0]))
-            }
+            }            
         } else {
             weaponModeSelect.disabled = true
             weaponModeSelect.options.length = 1
@@ -119,30 +119,33 @@ const initWeaponSelector = () => {
 
 const initBaseStatsInputs = () => {
     document.getElementById("weaponAlpha").addEventListener('input', (event) => {
-        selected_weapon.alpha = event.target.value
+        selected_weapon.alpha = parseFloat(event.target.value)
     })
 
     document.getElementById("weaponFireRate").addEventListener('input', (event) => {
-        selected_weapon.fire_rate = event.target.value
+        selected_weapon.fire_rate =  parseFloat(event.target.value)
     })
 
     document.getElementById("weaponBurstSize").addEventListener('input', (event) => {
-        selected_weapon.burst_size = event.target.value
+        selected_weapon.burst_size =  parseInt(event.target.value)
     })
 
     document.getElementById("weaponBurstCooldown").addEventListener('input', (event) => {
-        selected_weapon.burst_cooldown = event.target.value
+        selected_weapon.burst_cooldown =  parseFloat(event.target.value)
     })
 
     document.getElementById("weaponChargeTime").addEventListener('input', (event) => {
-        selected_weapon.charge_time = event.target.value
+        selected_weapon.charge_time =  parseFloat(event.target.value)
+    })
+
+    document.getElementById("weaponHeat").addEventListener('input', (event) => {
+        selected_weapon.heat = event.target.value !== '' ? parseFloat(event.target.value) : 0
     })
 }
 
 const selectWeapon = (weapon) => {
     selected_weapon = new Proxy(weapon, weaponProxyHandler)
     weaponEventDispatcher.dispatchEvent(new CustomEvent("weaponUpdated"));
-
     updateSelectedWeaponStatsUi()
     loadAttachments()
 }
@@ -173,6 +176,15 @@ const updateSelectedWeaponStatsUi = () => {
     if (selected_weapon.craft_max_fire_rate_percent == 0) {
         craftFireRatePercent.disabled = true
         craftFireRatePercentRange.disabled = true
+    }
+
+    const weaponHeat = document.getElementById("weaponHeat")
+    if (selected_weapon.type === 'volt' || selected_weapon.type === 'prism') {
+        weaponHeat.disabled = false
+        weaponHeat.value = 0
+    } else {
+        weaponHeat.disabled = true
+        weaponHeat.value = ''
     }
 }
 

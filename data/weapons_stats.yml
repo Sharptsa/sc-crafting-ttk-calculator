@@ -52,7 +52,7 @@ Assault Rifle:
       burst_cooldown: ~
       charge_time: 2
   Killshot:
-    Combined:
+    Full Auto:
       alpha: 22
       fire_rate: 535
       craft_max_dmg_percent: 7.5
@@ -84,6 +84,26 @@ Assault Rifle:
       burst_size: ~
       burst_cooldown: ~
       charge_time: ~
+  Parallax:
+    Full Auto:
+      alpha: 13
+      fire_rate: 600
+      craft_max_dmg_percent: 26
+      craft_max_fire_rate_delta: 0
+      barrel_size: 0
+      type: "volt"
+      burst_size: ~
+      burst_cooldown: ~
+      charge_time: ~
+      heat_per_shot: 3.675
+      overheat_cooldown: 4.2
+      heat_dmg_mod: 1
+      heat_fire_rate_mod: 1.35
+      heat_gen_mod: 1
+      beam_threshold: 40
+      beam_dps: 210
+      beam_heat_per_second: 17.85
+      beam_interval: 0.001
   S71:
     Single:
       alpha: 21.5
@@ -118,6 +138,26 @@ LMG:
       burst_size: ~
       burst_cooldown: ~
       charge_time: ~
+  Fresnel:
+    Full Auto:
+      alpha: 9
+      fire_rate: 550
+      craft_max_dmg_percent: 20
+      craft_max_fire_rate_delta: 0
+      barrel_size: 0
+      type: "volt"
+      burst_size: ~
+      burst_cooldown: ~
+      charge_time: ~
+      heat_per_shot: 2.07375
+      overheat_cooldown: 4.2
+      heat_dmg_mod: 6
+      heat_fire_rate_mod: 0.2
+      heat_gen_mod: 0.5
+      beam_threshold: 100
+      beam_dps: ~
+      beam_heat_per_second: ~
+      beam_interval: ~
   FS-9:
     Full Auto:
       alpha: 14.5
@@ -215,6 +255,45 @@ SMG:
       burst_size: 3
       burst_cooldown: 0.15
       charge_time: ~
+  Quartz:
+    Beam:
+      alpha: ~
+      fire_rate: ~
+      craft_max_dmg_percent: 20
+      craft_max_fire_rate_delta: 0
+      barrel_size: 0
+      type: "volt"
+      burst_size: ~
+      burst_cooldown: ~
+      charge_time: ~
+      heat_per_shot: ~
+      overheat_cooldown: 0.867
+      heat_dmg_mod: 1
+      heat_fire_rate_mod: 1
+      heat_gen_mod: 1
+      beam_threshold: 0
+      beam_dps: 225
+      beam_heat_per_second: 50
+      beam_interval: 0.001
+  Ripper:
+    Beam:
+      alpha: ~
+      fire_rate: ~
+      craft_max_dmg_percent: 7.5
+      craft_max_fire_rate_delta: 0
+      barrel_size: 0
+      type: "beam"
+      burst_size: ~
+      burst_cooldown: ~
+      charge_time: ~
+      heat_per_shot: 0
+      overheat_cooldown: 4.03
+      heat_dmg_mod: 1
+      heat_fire_rate_mod: 1
+      beam_threshold: 0
+      beam_dps: 165
+      beam_heat_per_second: 0
+      beam_interval: 0.001
 Sniper Rifle:
   A03:
     Single:
@@ -259,6 +338,8 @@ Sniper Rifle:
       burst_size: ~
       burst_cooldown: ~
       charge_time: ~
+      electron_charge_mod: 0.65
+      electron_dmg_per_charge: 0.75
   P6-LR:
     Single:
       alpha: 100
@@ -292,13 +373,24 @@ Sniper Rifle:
       burst_cooldown: ~
       charge_time: ~
   Zenith:
+    First charged + Single:
+      alpha: 42.5
+      fire_rate: 325
+      charged_alpha: 85
+      craft_max_dmg_percent: 20
+      craft_max_fire_rate_delta: 0
+      barrel_size: 0
+      type: "zenith_special"
+      burst_size: ~
+      burst_cooldown: ~
+      charge_time: ~
     Single:
       alpha: 42.5
       fire_rate: 325
       craft_max_dmg_percent: 20
       craft_max_fire_rate_delta: 0
       barrel_size: 0
-      type: "electron"
+      type: "energy"
       burst_size: ~
       burst_cooldown: ~
       charge_time: ~
@@ -308,7 +400,7 @@ Sniper Rifle:
       craft_max_dmg_percent: 20
       craft_max_fire_rate_delta: 0
       barrel_size: 0
-      type: "electron"
+      type: "energy"
       burst_size: ~
       burst_cooldown: ~
       charge_time: 3.5
@@ -356,6 +448,29 @@ Shotgun:
       burst_size: ~
       burst_cooldown: ~
       charge_time: 2.5
+  Prism:
+    Single:
+      alpha: 46
+      fire_rate: 385
+      craft_max_dmg_percent: 20
+      craft_max_fire_rate_delta: 0
+      barrel_size: 0
+      type: "volt"
+      burst_size: ~
+      burst_cooldown: ~
+      charge_time: ~
+      heat_per_shot: 9.35
+      overheat_cooldown: 4.03
+      heat_dmg_mod: 1
+      heat_fire_rate_mod: 1
+      heat_gen_mod: 1
+      beam_threshold: 40
+      beam_dps: ~
+      beam_heat_per_second: ~
+      beam_interval: ~
+      slug_alpha: 50
+      slug_fire_rate: 200
+      slug_heat_per_second: 11
   R97:
     Full Auto:
       alpha: 28.8
@@ -432,6 +547,26 @@ Pistol:
       burst_size: ~
       burst_cooldown: ~
       charge_time: ~
+  Pulse:
+    Full Auto:
+      alpha: 11.75
+      fire_rate: 500
+      craft_max_dmg_percent: 16
+      craft_max_fire_rate_delta: 0
+      barrel_size: 0
+      type: "volt"
+      burst_size: ~
+      burst_cooldown: ~
+      charge_time: ~
+      heat_per_shot: 3.4
+      overheat_cooldown: 4.2
+      heat_dmg_mod: 1
+      heat_fire_rate_mod: 2
+      heat_gen_mod: 1
+      beam_threshold: 100
+      beam_dps: ~
+      beam_heat_per_second: ~
+      beam_interval: ~
   S-38:
     Single:
       alpha: 22.5
@@ -486,3 +621,5 @@ Pistol:
       burst_size: ~
       burst_cooldown: ~
       charge_time: ~
+      electron_charge_mod: 0.5
+      electron_dmg_per_charge: 0.75

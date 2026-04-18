@@ -1,13 +1,14 @@
-const hp = 100
+import * as Results from './results.mjs'
+
+const maxHp = 100
 const headshotMod = 1.5
+const bodyMod = 1
 const limbMod = 0.8
 
 export const calculateTTK = (weapon) => {
     /* ----------------
     ------ STATS ------
     ----------------- */
-    let alpha = weapon.total_alpha
-    let fire_rate = weapon.total_fire_rate
 
     let armorType = document.getElementById("armorType").value
 
@@ -18,7 +19,7 @@ export const calculateTTK = (weapon) => {
         case 'no_armor':
             armorMod = 1
             armorModMaxQ = 1
-            break
+            break;
         case 'light':
             armorMod = 0.8
             armorModMaxQ = 0.78
@@ -36,116 +37,299 @@ export const calculateTTK = (weapon) => {
     /* ----------------
     --- CALCULATION ---
     ----------------- */
-    if (alpha == 0 || fire_rate == 0) {
-        document.getElementById("totalFireRate").innerHTML = ''
+    Results.resetResults()
 
-        document.getElementById("ttkHead").innerHTML = ''
-        document.getElementById("shotHead").innerHTML = ''
-        document.getElementById("ttkHeadMaxQ").innerHTML = ''
-        document.getElementById("shotHeadMaxQ").innerHTML = ''
-        document.getElementById("damageHead").innerHTML = ''
-        document.getElementById("damageHeadMaxQ").innerHTML = ''
-
-
-        document.getElementById("ttkBody").innerHTML = ''
-        document.getElementById("shotBody").innerHTML = ''
-        document.getElementById("ttkBodyMaxQ").innerHTML = ''
-        document.getElementById("shotBodyMaxQ").innerHTML = ''
-        document.getElementById("damageBody").innerHTML = ''
-        document.getElementById("damageBodyMaxQ").innerHTML = ''
-
-
-        document.getElementById("ttkLimb").innerHTML = ''
-        document.getElementById("shotLimb").innerHTML = ''
-        document.getElementById("ttkLimbMaxQ").innerHTML = ''
-        document.getElementById("shotLimbMaxQ").innerHTML = ''
-        document.getElementById("damageLimb").innerHTML = ''
-        document.getElementById("damageLimbMaxQ").innerHTML = ''
-
+    if (!weaponIsValid(weapon)) {
         return
     }
 
-    const dmg = Number.parseFloat(alpha * armorMod).toFixed(1)
-    const dmgMaxArmor = Number.parseFloat(alpha * armorModMaxQ).toFixed(1)
+    const head = compute(weapon, armorMod, headshotMod)
+    const headMaxArmor = compute(weapon, armorModMaxQ, headshotMod)
 
-    const timeBetweenShot = 60 / fire_rate
+    const body = compute(weapon, armorMod, bodyMod)
+    const bodyMaxArmor = compute(weapon, armorModMaxQ, bodyMod)
 
-    const head = compute(hp, dmg * headshotMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
-    const headMaxArmor = compute(hp, dmgMaxArmor * headshotMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
+    const limbs = compute(weapon, armorMod, limbMod)
+    const limbsMaxArmor = compute(weapon, armorModMaxQ, limbMod)
 
-    const body = compute(hp, dmg, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
-    const bodyMaxArmor = compute(hp, dmgMaxArmor, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
-
-    const limbs = compute(hp, dmg * limbMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
-    const limbsMaxArmor = compute(hp, dmgMaxArmor * limbMod, timeBetweenShot, weapon.burst_size, weapon.burst_cooldown, weapon.charge_time)
-
-    document.getElementById("totalFireRate").innerHTML = weapon.total_fire_rate + " rpm"
-
-    document.getElementById("ttkHead").innerHTML = ttkStr(head.ttk)
-    document.getElementById("shotHead").innerHTML = nbShotStr(head.nbShot)
-    document.getElementById("ttkHeadMaxQ").innerHTML = ttkStr(headMaxArmor.ttk)
-    document.getElementById("shotHeadMaxQ").innerHTML = nbShotStr(headMaxArmor.nbShot)
-    document.getElementById("damageHead").innerHTML = Number.parseFloat(dmg * headshotMod).toFixed(1)
-    document.getElementById("damageHeadMaxQ").innerHTML = Number.parseFloat(dmgMaxArmor * headshotMod).toFixed(1)
-
-
-    document.getElementById("ttkBody").innerHTML = ttkStr(body.ttk)
-    document.getElementById("shotBody").innerHTML = nbShotStr(body.nbShot)
-    document.getElementById("ttkBodyMaxQ").innerHTML = ttkStr(bodyMaxArmor.ttk)
-    document.getElementById("shotBodyMaxQ").innerHTML = nbShotStr(bodyMaxArmor.nbShot)
-    document.getElementById("damageBody").innerHTML = Number.parseFloat(dmg).toFixed(1)
-    document.getElementById("damageBodyMaxQ").innerHTML = Number.parseFloat(dmgMaxArmor).toFixed(1)
-
-
-    document.getElementById("ttkLimb").innerHTML = ttkStr(limbs.ttk)
-    document.getElementById("shotLimb").innerHTML = nbShotStr(limbs.nbShot)
-    document.getElementById("ttkLimbMaxQ").innerHTML = ttkStr(limbsMaxArmor.ttk)
-    document.getElementById("shotLimbMaxQ").innerHTML = nbShotStr(limbsMaxArmor.nbShot)
-    document.getElementById("damageLimb").innerHTML = Number.parseFloat(dmg * limbMod).toFixed(1)
-    document.getElementById("damageLimbMaxQ").innerHTML = Number.parseFloat(dmgMaxArmor * limbMod).toFixed(1)
+    Results.displayResults(head, headMaxArmor, body, bodyMaxArmor, limbs, limbsMaxArmor)
 }
 
-const compute = (hp, dmg, timeBetweenShot, burstSize, burstCooldown, chargeTime) => {
+const weaponIsValid = (weapon) => {
+    if (weapon.type === null) {
+        return Boolean(weapon.alpha && weapon.fire_rate)
+    }
+
+    return true
+}
+
+const compute = (weapon, armorMod, bodyPartMod) => {
+    switch (weapon.type) {
+        case "volt":
+            return computeVolt(weapon, armorMod, bodyPartMod)
+        case "prism":
+            return computePrism(weapon, armorMod, bodyPartMod)
+        case "beam":
+            return computeBeam(weapon, armorMod, bodyPartMod)
+        case "zenith_special":
+            return computeZenithSpecial(weapon, armorMod, bodyPartMod)
+        case "electron":
+            return computeElectron(weapon, armorMod, bodyPartMod)
+        default:
+            return computeStandard(weapon, armorMod, bodyPartMod)
+    }
+}
+
+const computeStandard = (weapon, armorMod, bodyPartMod, initialHp = null, initialNbShot = 0) => {
+    let currentHp = initialHp ?? maxHp
     let ttk = 0
-    let nbShot = 0
+    let nbShot = initialNbShot
 
-    while (hp > 0) {
-        hp -= dmg
+    let dmg = getFinalDamage(weapon, armorMod, bodyPartMod)
+    let fireRate = weapon.total_fire_rate
+    let timeBetweenShot = 60 / fireRate
 
+    while (currentHp > 0) {
         if (nbShot > 0) {
             // Burst mode
-            if (burstSize !== null && ((nbShot % burstSize) == 0)) {
-                ttk += burstCooldown
-                if (chargeTime !== null) {
-                    ttk += chargeTime
+            if (weapon.burst_size !== null && ((nbShot % weapon.burst_size) == 0)) {
+                ttk += weapon.burst_cooldown
+                if (weapon.charge_time !== null) {
+                    ttk += weapon.charge_time
                 }
             }
 
             // Charged single  mode
-            if (burstSize === null && chargeTime !== null) {
-                ttk += chargeTime
+            if (weapon.burst_size === null && weapon.charge_time !== null) {
+                ttk += weapon.charge_time
             }
 
             ttk += timeBetweenShot
         }
 
+        currentHp -= dmg
+
         ++nbShot
     }
 
-    return { ttk, nbShot }
+    return { ttk, nbShot, dmg, fireRate }
 }
 
-/* ----------------
-------RESULTS------
------------------ */
-const nbShotStr = (nbShot) => {
-    let str = nbShot + ' shot'
-    if (nbShot > 1) {
-        str += 's'
+const computeVolt = (weapon, armorMod, bodyPartMod) => {
+    let currentHp = maxHp
+    let ttk = 0
+    let nbShot = 0
+    let beamTime = 0
+    let heat = weapon.heat
+
+    let currentHeatDamageMod = getHeatMod(weapon.heat_dmg_mod, heat)
+    let currentHeatFireRateMod = getHeatMod(weapon.heat_fire_rate_mod, heat)
+
+    let baseDmg = getFinalDamage(weapon, armorMod, bodyPartMod)
+
+    let initialDmg = baseDmg * currentHeatDamageMod
+    let dmg = initialDmg
+
+    let initialFireRate = weapon.total_fire_rate * currentHeatFireRateMod
+    let fireRate = initialFireRate
+
+    let timeBetweenShot = 60 / getFinalDamage(weapon, armorMod, bodyPartMod)
+
+    while (currentHp > 0) {
+        if (heat >= 100) {
+            ttk += weapon.overheat_cooldown
+            heat = 0
+        }
+
+        if (heat < weapon.heat_threshold) {
+            fireRate = weapon.total_fire_rate * currentHeatFireRateMod
+            timeBetweenShot = 60 / fireRate
+
+            dmg = baseDmg * currentHeatDamageMod
+            currentHp -= dmg
+
+            if (nbShot > 0) {
+                ttk += timeBetweenShot
+            }
+
+            currentHeatFireRateMod = getHeatMod(weapon.heat_fire_rate_mod, heat)
+
+            heat += weapon.heat_per_shot * getHeatMod(weapon.heat_gen_mod, heat)
+
+            currentHeatDamageMod = getHeatMod(weapon.heat_dmg_mod, heat)
+
+            nbShot++
+        } else {
+            let beamResult = computeBeam(weapon, armorMod, bodyPartMod, currentHp, heat)
+
+            ttk += beamResult.ttk
+
+            let beamTime = beamResult.beamTime
+            let initialBeamDmg = beamResult.initialBeamDmg
+            let beamDmg = beamResult.beamDmg
+
+            return { ttk, nbShot, beamTime, initialDmg, dmg, initialBeamDmg, beamDmg, initialFireRate, fireRate }
+        }
     }
-    return '(' + str + ')'
+
+    return { ttk, nbShot, beamTime, initialDmg, dmg, initialFireRate, fireRate }
 }
 
-const ttkStr = (ttk) => {
-    return Number.parseFloat(ttk).toFixed(3) + "s"
+const computeBeam = (weapon, armorMod, bodyPartMod, initialHp = null, initialHeat = null) => {
+    let currentHp = initialHp ?? maxHp
+    let ttk = 0
+    let heat = initialHeat ?? weapon.heat
+
+    let currentHeatDamageMod = getHeatMod(weapon.heat_dmg_mod, heat)
+    let currentHeatFireRateMod = getHeatMod(weapon.heat_fire_rate_mod, heat)
+
+    let baseBeamDmg = getFinalBeamDamage(weapon, armorMod, bodyPartMod)
+    let initialBeamDmg = baseBeamDmg * currentHeatDamageMod
+    let beamDmg = initialBeamDmg
+
+    let beamHeatPerTic = weapon.beam_heat_per_second * weapon.beam_interval
+
+    while (currentHp > 0) {
+        if (heat >= 100) {
+            ttk += weapon.overheat_cooldown
+            heat = 0
+        }
+
+        beamDmg = baseBeamDmg * currentHeatDamageMod
+        currentHp -= beamDmg
+
+        ttk += weapon.beam_interval
+
+        currentHeatFireRateMod = getHeatMod(weapon.heat_fire_rate_mod, heat)
+
+        heat += beamHeatPerTic * getHeatMod(weapon.heat_gen_mod, heat)
+
+        currentHeatDamageMod = getHeatMod(weapon.heat_dmg_mod, heat)
+    }
+
+    let beamTime = ttk
+
+    return { ttk, beamTime, initialBeamDmg, beamDmg }
+}
+
+const computePrism = (weapon, armorMod, bodyPartMod) => {
+    let currentHp = maxHp
+    let ttk = 0
+    let nbShot = 0
+    let nbShotSlug = 0
+    let heat = weapon.heat
+
+    let dmg = getFinalDamage(weapon, armorMod, bodyPartMod)
+    let slugDmg = getFinalSlugDamage(weapon, armorMod, bodyPartMod)
+
+    let timeBetweenShot = 60 / weapon.total_fire_rate
+    let timeBetweenShotSlug = 60 / weapon.total_slug_fire_rate
+
+    while (currentHp > 0) {
+        console.log(heat)
+        if (heat >= 100) {
+            ttk += weapon.overheat_cooldown
+            heat = 0
+        }
+
+        if (heat < weapon.heat_threshold) {
+            currentHp -= dmg
+
+            if (nbShot > 0) {
+                ttk += timeBetweenShot
+            }
+
+            heat += weapon.heat_per_shot
+
+            nbShot++
+        } else {
+            currentHp -= slugDmg
+
+            if (nbShot > 0 || nbShotSlug > 0) {
+                ttk += timeBetweenShotSlug
+            }
+
+            heat += weapon.slug_heat_per_shot
+
+            nbShotSlug++
+        }
+    }
+
+    return { ttk, nbShot, nbShotSlug, dmg, slugDmg }
+}
+
+const computeZenithSpecial = (weapon, armorMod, bodyPartMod) => {
+    let currentHp = maxHp
+    let ttk = 0
+    let nbShot = 0
+
+    let dmg = getFinalDamage(weapon, armorMod, bodyPartMod)
+    let chargedDmg = getFinalChargedDamage(weapon, armorMod, bodyPartMod)
+
+    let fireRate = weapon.total_fire_rate
+
+    currentHp -= chargedDmg
+
+    nbShot++
+
+    if (currentHp > 0) {
+        let singleResult = computeStandard(weapon, armorMod, bodyPartMod, currentHp, nbShot)
+
+        ttk += singleResult.ttk
+        nbShot += singleResult.nbShot
+    }
+
+    return { ttk, nbShot, dmg, fireRate, chargedDmg }
+}
+
+const computeElectron = (weapon, armorMod, bodyPartMod) => {
+    let currentHp = maxHp
+    let ttk = 0
+    let nbShot = 0
+    let electronCharged = false
+    let electronTotalDamage = 0
+
+    let dmg = getFinalDamage(weapon, armorMod, bodyPartMod)
+    let electronDamage = dmg * weapon.electron_charge_mod * weapon.electron_dmg_per_charge
+    let fireRate = weapon.total_fire_rate
+    let timeBetweenShot = 60 / fireRate
+
+    while (currentHp > 0) {
+        if (nbShot > 0) {
+            ttk += timeBetweenShot
+        } 
+
+        currentHp -=  dmg
+
+        if (electronCharged) {
+            currentHp -= electronDamage
+            electronTotalDamage += electronDamage
+        }
+
+        electronCharged = !electronCharged
+
+        ++nbShot
+    }
+
+    return { ttk, nbShot, dmg, fireRate, electronTotalDamage }
+}
+
+const getFinalDamage = (weapon, armorMod, bodyPartMod) => {
+    return Number.parseFloat(weapon.total_alpha * armorMod * bodyPartMod).toFixed(3)
+}
+
+const getFinalChargedDamage = (weapon, armorMod, bodyPartMod) => {
+    return Number.parseFloat(weapon.total_charged_alpha * armorMod * bodyPartMod).toFixed(3)
+}
+
+const getFinalBeamDamage = (weapon, armorMod, bodyPartMod) => {
+    return Number.parseFloat(weapon.total_beam_alpha * armorMod * bodyPartMod).toFixed(6)
+}
+
+const getFinalSlugDamage = (weapon, armorMod, bodyPartMod) => {
+    return Number.parseFloat(weapon.total_slug_alpha * armorMod * bodyPartMod).toFixed(3)
+}
+
+const getHeatMod = (mod, heat) => {
+    return Number.parseFloat(((mod - 1) * heat / 100) + 1).toFixed(6)
 }
