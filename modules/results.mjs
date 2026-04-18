@@ -88,7 +88,6 @@ const ttkString = (ttk) => {
 }
 
 const fillDamageList = (damageListElement, result) => {
-    console.log(result)
     if (result.dmg) {
         let shotStr = 'Per shot = '
         if (result.initialDmg && result.initialDmg !== result.dmg) {
@@ -99,6 +98,14 @@ const fillDamageList = (damageListElement, result) => {
         let shotElement = document.createElement("li")
         shotElement.innerHTML = shotStr
         damageListElement.appendChild(shotElement)
+    }
+
+    if (result.alternateDmg) {
+        let alternativeShotStr = 'Per alternate shot = ' + Number.parseFloat(result.alternateDmg).toFixed(1)
+       
+        let alternateShotElement = document.createElement("li")
+        alternateShotElement.innerHTML = alternativeShotStr
+        damageListElement.appendChild(alternateShotElement)
     }
 
     if (result.chargedDmg) {

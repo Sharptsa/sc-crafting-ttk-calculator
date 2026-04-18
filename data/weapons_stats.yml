@@ -54,6 +54,7 @@ Assault Rifle:
   Killshot:
     Full Auto:
       alpha: 22
+      alternate_alpha: 19
       fire_rate: 535
       craft_max_dmg_percent: 7.5
       craft_max_fire_rate_delta: 64.2

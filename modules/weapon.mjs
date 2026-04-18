@@ -1,6 +1,7 @@
 export class Weapon {
     constructor() {
         this.alpha = null
+        this.alternate_alpha = null
         this.charged_alpha = null
         this.fire_rate = null
         this.craft_max_dmg_percent = 30
@@ -48,6 +49,10 @@ export class Weapon {
 
     get total_alpha() {
         return Number.parseFloat(this.alpha * this.craft_damage_mod * (this.attachment?.dmg_mod ?? 1)).toFixed(3)
+    }
+
+    get total_alternate_alpha() {
+        return Number.parseFloat(this.alternate_alpha * this.craft_damage_mod * (this.attachment?.dmg_mod ?? 1)).toFixed(3)
     }
 
     get total_charged_alpha() {

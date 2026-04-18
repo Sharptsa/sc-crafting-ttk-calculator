@@ -101,12 +101,21 @@ const computeStandard = (weapon, armorMod, bodyPartMod, initialHp = null, initia
     let ttk = 0
     let nbShot = initialNbShot
 
-    let dmg = getFinalDamage(weapon, armorMod, bodyPartMod)
+    let primaryDmg = getFinalDamage(weapon, armorMod, bodyPartMod)
+    let alternateDmg = getFinalAlternateDamage(weapon, armorMod, bodyPartMod)
+    let dmg = primaryDmg
+    let alternateOn = false
+
     let fireRate = weapon.total_fire_rate
     let timeBetweenShot = 60 / fireRate
 
     while (currentHp > 0) {
         if (nbShot > 0) {
+            if (alternateDmg !== null) {
+                dmg = alternateOn ? primaryDmg : alternateDmg
+                alternateOn = !alternateOn
+            }
+
             // Burst mode
             if (weapon.burst_size !== null && ((nbShot % weapon.burst_size) == 0)) {
                 ttk += weapon.burst_cooldown
@@ -122,13 +131,14 @@ const computeStandard = (weapon, armorMod, bodyPartMod, initialHp = null, initia
 
             ttk += timeBetweenShot
         }
-
+       
         currentHp -= dmg
 
         ++nbShot
     }
 
-    return { ttk, nbShot, dmg, fireRate }
+    dmg = primaryDmg
+    return { ttk, nbShot, dmg, alternateDmg, fireRate }
 }
 
 const computeVolt = (weapon, armorMod, bodyPartMod) => {
@@ -242,7 +252,6 @@ const computePrism = (weapon, armorMod, bodyPartMod) => {
     let timeBetweenShotSlug = 60 / weapon.total_slug_fire_rate
 
     while (currentHp > 0) {
-        console.log(heat)
         if (heat >= 100) {
             ttk += weapon.overheat_cooldown
             heat = 0
@@ -332,6 +341,12 @@ const computeElectron = (weapon, armorMod, bodyPartMod) => {
 
 const getFinalDamage = (weapon, armorMod, bodyPartMod) => {
     return Number.parseFloat(weapon.total_alpha * armorMod * bodyPartMod).toFixed(3)
+}
+
+const getFinalAlternateDamage = (weapon, armorMod, bodyPartMod) => {
+    return weapon.total_alternate_alpha != 0 
+        ? Number.parseFloat(weapon.total_alternate_alpha * armorMod * bodyPartMod).toFixed(3)
+        : null
 }
 
 const getFinalChargedDamage = (weapon, armorMod, bodyPartMod) => {
