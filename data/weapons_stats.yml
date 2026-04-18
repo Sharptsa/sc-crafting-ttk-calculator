@@ -101,7 +101,7 @@ Assault Rifle:
       heat_dmg_mod: 1
       heat_fire_rate_mod: 1.35
       heat_gen_mod: 1
-      beam_threshold: 40
+      heat_threshold: 40
       beam_dps: 210
       beam_heat_per_second: 17.85
       beam_interval: 0.001
@@ -155,7 +155,7 @@ LMG:
       heat_dmg_mod: 6
       heat_fire_rate_mod: 0.2
       heat_gen_mod: 0.5
-      beam_threshold: 100
+      heat_threshold: 100
       beam_dps: ~
       beam_heat_per_second: ~
       beam_interval: ~
@@ -272,7 +272,7 @@ SMG:
       heat_dmg_mod: 1
       heat_fire_rate_mod: 1
       heat_gen_mod: 1
-      beam_threshold: 0
+      heat_threshold: 0
       beam_dps: 225
       beam_heat_per_second: 50
       beam_interval: 0.001
@@ -291,7 +291,7 @@ SMG:
       overheat_cooldown: 4.03
       heat_dmg_mod: 1
       heat_fire_rate_mod: 1
-      beam_threshold: 0
+      heat_threshold: 0
       beam_dps: 165
       beam_heat_per_second: 0
       beam_interval: 0.001
@@ -465,7 +465,7 @@ Shotgun:
       heat_dmg_mod: 1
       heat_fire_rate_mod: 1
       heat_gen_mod: 1
-      beam_threshold: 40
+      heat_threshold: 40
       beam_dps: ~
       beam_heat_per_second: ~
       beam_interval: ~
@@ -564,7 +564,7 @@ Pistol:
       heat_dmg_mod: 1
       heat_fire_rate_mod: 2
       heat_gen_mod: 1
-      beam_threshold: 100
+      heat_threshold: 100
       beam_dps: ~
       beam_heat_per_second: ~
       beam_interval: ~
