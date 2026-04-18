@@ -165,6 +165,9 @@ const updateSelectedWeaponStatsUi = () => {
     if (selected_weapon.craft_max_dmg_percent == 0) {
         craftAlphaPercent.disabled = true
         craftAlphaPercentRange.disabled = true
+    } else {
+        craftAlphaPercent.disabled = false
+        craftAlphaPercentRange.disabled = false
     }
 
 
@@ -176,6 +179,9 @@ const updateSelectedWeaponStatsUi = () => {
     if (selected_weapon.craft_max_fire_rate_percent == 0) {
         craftFireRatePercent.disabled = true
         craftFireRatePercentRange.disabled = true
+    } else {
+        craftFireRatePercent.disabled = false
+        craftFireRatePercentRange.disabled = false
     }
 
     const weaponHeat = document.getElementById("weaponHeat")
