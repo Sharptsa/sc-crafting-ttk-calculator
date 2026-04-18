@@ -20,6 +20,18 @@ export const calculateTTK = (weapon) => {
             armorMod = 1
             armorModMaxQ = 1
             break;
+        case 'undersuit':
+            armorMod = 0.9
+            armorModMaxQ = 0.885
+            break;
+        case 'flight_suit':
+            armorMod = 0.85
+            armorModMaxQ = 0.8275
+            break;
+        case 'utility':
+            armorMod = 0.75
+            armorModMaxQ = 0.72
+            break;
         case 'light':
             armorMod = 0.8
             armorModMaxQ = 0.78
@@ -27,6 +39,10 @@ export const calculateTTK = (weapon) => {
         case 'medium':
             armorMod = 0.7
             armorModMaxQ = 0.67
+            break
+        case 'npc_boss':
+            armorMod = 0.25
+            armorModMaxQ = 0.25
             break
         case 'heavy':
         default:
