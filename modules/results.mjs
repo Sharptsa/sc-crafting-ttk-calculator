@@ -54,8 +54,8 @@ export const displayResults = (headResults, headMaxQResults, bodyResults, bodyMa
 
     ttkLimbMaxQ.innerHTML = ttkString(limbMaxQResults.ttk)
     shotLimbMaxQ.innerHTML = nbDamageInstances(limbMaxQResults)
-    fillDamageList(damageListLimbMaxQ, limbResults)
-    fireRateLimbMaxQ.innerHTML = fireRateString(limbResults)
+    fillDamageList(damageListLimbMaxQ, limbMaxQResults)
+    fireRateLimbMaxQ.innerHTML = fireRateString(limbMaxQResults)
 }
 
 const nbDamageInstances = (result) => {
