@@ -5,12 +5,12 @@
 
 .accordion-button:not(.collapsed) {
     background-color: rgb(224, 236, 253);
-    color: #000 !important
+    color: #000
 }
 
 [data-bs-theme="dark"] {
     .accordion-button:not(.collapsed) {
         background-color: rgb(34, 50, 76);
-        color: #dee2e6 !important
+        color: #dee2e6
     }
 }

@@ -8,5 +8,5 @@
 
 .accordion-button.accordion-no-arrow:not(.collapsed)::after,
 .accordion-button.accordion-no-arrow::after {
-    background-image: unset !important;
+    content: none;
 }
