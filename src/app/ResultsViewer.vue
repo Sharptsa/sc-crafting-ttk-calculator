@@ -54,7 +54,7 @@ const resultsReady: Ref<boolean> = computed(() => {
             :button-class="[!resultsReady ? 'bg-dark-subtle' : '', 'accordion-no-arrow']" v-model="resultsReady" body-class="pt-1">
             <BContainer class="p-0">
                 <div class="d-flex justify-content-end">
-                    <BForm><BFormCheckbox switch class="mb-1" v-model="detailedReport">Detailed report</BFormCheckbox></BForm>
+                    <BForm><BFormCheckbox reverse switch class="mb-1" v-model="detailedReport">Detailed report</BFormCheckbox></BForm>
                 </div>
                 <BRow class="g-3">
                     <BCol v-for="(damageReports, bodyPart) in results" v-bind:key="bodyPart" cols="12" md="4"
