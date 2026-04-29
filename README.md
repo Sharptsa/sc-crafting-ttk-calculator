@@ -14,5 +14,5 @@ A TTK calculator for FPS weapons in Star Citizen
 - Handle ammo and partial magazines
 - Manage crafting bonuses through materials quality
 - Customizable armor quality
-- Procedural calculation with accuracy presets
+- Calculation randomized with accuracy presets to better represent reality
 - Handle recoil modifiers with visual representation
