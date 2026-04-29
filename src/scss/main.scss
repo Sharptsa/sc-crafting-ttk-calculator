@@ -1,0 +1,10 @@
+@import './_variables.scss';
+@import 'bootstrap/scss/bootstrap.scss';
+@import 'bootstrap-vue-next/dist/bootstrap-vue-next.css';
+@import './utils.scss';
+
+.accordion-button:not(.collapsed) {
+    //--bs-bg-opacity: 1;
+    background-color: rgb(224, 236, 253); //rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    color: #000 !important
+}

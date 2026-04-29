@@ -1,0 +1,12 @@
+@for $i from 1 through 20 {
+    $size: $i + 4;
+
+    .i-size-#{$i} {
+        max-width: #{$size}ch;
+    }
+}
+
+.accordion-button.accordion-no-arrow:not(.collapsed)::after,
+.accordion-button.accordion-no-arrow::after {
+    background-image: unset !important;
+}
