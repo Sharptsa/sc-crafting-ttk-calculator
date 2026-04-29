@@ -74,7 +74,7 @@ function getDamageReportBreakdown(damageReport: DamageReport): string[] {
     }
 
     if (damageReport.alternateShots > 0) {
-        breakdownList.push(`${damageReport.shots} alt ${plural("shot")} (${stringMinMax(damageReport.firstAlternateDmg, damageReport.lastAlternateDmg)} dmg/shot)`)
+        breakdownList.push(`${damageReport.alternateShots} alt ${plural("shot")} (${stringMinMax(damageReport.firstAlternateDmg, damageReport.lastAlternateDmg)} dmg/shot)`)
     }
 
     if (damageReport.chargedShots > 0) {
