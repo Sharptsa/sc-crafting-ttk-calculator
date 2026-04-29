@@ -12,7 +12,7 @@ import DarkModeSwitch from './DarkModeSwitch.vue';
             <BNavbarBrand href="#navbar-toggle">
                 <img class="d-inline-block align-text-top" src="/public/sharp-logo.png" width="30" height="30"
                     alt="logo">
-                SC Weapon TTK calculator
+                SC Weapon TTK Calculator
             </BNavbarBrand>
             <BNavbarNav class="me-auto">
                 <BNavItemDropdown text="Tools ⚙️" right>
