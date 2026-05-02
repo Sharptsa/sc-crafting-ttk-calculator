@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { BCol, BRow, BInputGroup, BForm, BFormSelect, BFormSelectOption, BFormInput } from 'bootstrap-vue-next';
 import { ref, watch, type ModelRef, type Ref } from 'vue';
 import { BarrelAttachment } from '@/models/Attachement/BarrelAttachment';
 import { Weapon } from '@/models/Weapon';
@@ -21,17 +20,22 @@ function getPossibleAttachments(weapon: Weapon): BarrelAttachment[] {
     return attachmentsCollection.getBySizeAndType(weapon.barrelSize, weapon.barrelAttachmentType)
 }
 
-watch(selectedWeapon, (newWeapon: Weapon | null) => {
-    if (newWeapon !== null) {
-        availableBarrelAttachments.value = getPossibleAttachments(newWeapon)
+watch(selectedWeapon, (newWeapon, oldWeapon) => {
+    if (newWeapon !== oldWeapon) {
+        if (newWeapon !== null) {
+            availableBarrelAttachments.value = getPossibleAttachments(newWeapon)
+        }
+        if (oldWeapon !== null) {
+            oldWeapon.barrelAttachment = null
+        }
     }
 
     selectedBarrelAttachment.value = ''
 })
 
-function setBarrelAttachment(attachmentName: unknown): void {
+function setBarrelAttachment(): void {
     const barrelAttachement = availableBarrelAttachments.value.find((attachment: BarrelAttachment) => {
-        return attachment.name === attachmentName as string
+        return attachment.name === selectedBarrelAttachment.value
     })
 
     if (selectedWeapon.value !== null) {
@@ -67,42 +71,41 @@ function attachmentModPercentColor(percent: number): string {
     if (percent === 0) {
         return ''
     }
-    return percent > 0 ? 'text-success' : 'text-danger'
+    return percent > 0 ? 'text-success' : 'text-error'
 }
 
 </script>
 
 <template v-if="availableBarrelAttachments.length > 0">
-    <h5 class="mb-3">Attachments</h5>
-    <BRow class="row-cols-auto g-2">
-        <BCol sm="12" md="5" lg="6">
-            <BForm>
-                <BInputGroup prepend="Barrel">
-                    <BFormSelect v-model="selectedBarrelAttachment" :options="availableBarrelAttachments"
-                        value-field="name" text-field="name" @update:model-value="setBarrelAttachment"
-                        :disabled="selectedWeapon?.barrelAttachmentType === null">
-                        <template #first>
-                            <BFormSelectOption value="">None</BFormSelectOption>
-                        </template>
-                    </BFormSelect>
-                </BInputGroup>
-            </BForm>
-        </BCol>
-        <BCol>
-            <BInputGroup prepend="Damage" class="w-auto">
-                <BFormInput type="text" :class="['i-size-6', attachmentModPercentColor(attachmentDmgPercent)]"
-                    :value="attachmentModPercentString(attachmentDmgPercent)"
-                    :disabled="selectedBarrelAttachment === ''" readonly />
-            </BInputGroup>
-        </BCol>
-        <BCol>
-            <BInputGroup prepend="Fire rate" class="w-auto">
-                <BFormInput type="text" :class="['i-size-6', attachmentModPercentColor(attachmentFireRatePercent)]"
-                    :value="attachmentModPercentString(attachmentFireRatePercent)"
-                    :disabled="selectedBarrelAttachment === ''" readonly />
-            </BInputGroup>
-        </BCol>
-    </BRow>
+    <div>
+        <h5 class="text-base font-semibold mb-3">Attachments</h5>
+        <div class="flex gap-2 flex-wrap">
+            <label class="input pe-0">
+                <span class="label text-base me-0 pe-0 border-0">Barrel</span>
+                <select class="select sm:text-base border-e-0 rounded-s-none focus:outline-none"
+                    v-model="selectedBarrelAttachment" @change="setBarrelAttachment()"
+                    :disabled="selectedWeapon?.barrelAttachmentType === null">
+                    <option selected value="">None</option>
+                    <option v-for="(attachment, index) in availableBarrelAttachments" v-bind:key="index"
+                        :value="attachment.name">{{ attachment.name }}</option>
+                </select>
+            </label>
+            <label class="input w-fit">
+                <span class="label text-base me-0 border-base-300-washed">Damage</span>
+                <input type="text" :class="attachmentModPercentColor(attachmentDmgPercent)"
+                    :value="attachmentModPercentString(attachmentDmgPercent)" size="5" readonly />
+            </label>
+            <label class="input w-fit">
+                <span class="label text-base me-0 border-base-300-washed">Fire rate</span>
+                <input type="text" :class="attachmentModPercentColor(attachmentFireRatePercent)"
+                    :value="attachmentModPercentString(attachmentFireRatePercent)" size="5" readonly />
+            </label>
+        </div>
+    </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped>
+.input>input {
+    text-align: center;
+}
+</style>

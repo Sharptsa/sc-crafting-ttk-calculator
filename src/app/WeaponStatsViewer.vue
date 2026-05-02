@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { BAccordion, BAccordionItem, BContainer } from 'bootstrap-vue-next';
 import { computed, type Ref } from 'vue';
 import DamageTypeStatsFactory from './damage-type-stats/DamageTypeStatsFactory.vue';
 import { storeToRefs } from 'pinia';
 import { useWeaponsStore } from '@/stores/WeaponsStore';
-import { accordionStateSaver } from '@/composables/accordion-state-save';
+import { collapseStateSaver } from '@/composables/collapse-state-save';
 import { useWindowSize } from '@vueuse/core';
 
 const { width } = useWindowSize()
@@ -17,27 +16,25 @@ const statsReady: Ref<boolean> = computed(() => {
     return selectedWeaponMode.value !== null
 })
 
-const statsStateSaver = accordionStateSaver(statsReady, "stats-viewer", (width.value > 1190))
-
+const stateSaver = collapseStateSaver("stats-viewer", statsReady, (width.value > 1190))
 </script>
 
 <template>
-    <BAccordion>
-        <BAccordionItem title="Weapon stats 📊" id="accordion-stats-viewer" @toggle="statsStateSaver.toggleState"
-            v-model="statsStateSaver.accordionState.value"
-            :button-attrs="{ id: 'weapon-stats-button', disabled: !statsReady }"
-            :button-class="{ 'bg-dark-subtle': !statsReady }">
-            <BContainer class="p-0" v-if="selectedWeaponMode">
-                <div class="container">
-                    <DamageTypeStatsFactory :damage-type="selectedWeaponMode.damageType" />
-                </div>
-            </BContainer>
-        </BAccordionItem>
-    </BAccordion>
+    <div class="collapse collapse-arrow bg-base-100 border-base-300 border grow"
+        :class="{ 'collapse-open': stateSaver.collapseState.value }">
+        <input type="checkbox" class="peer" :checked="stateSaver.collapseState.value" @change="stateSaver.toggleState"
+            :class="{ 'cursor-not-allowed': !statsReady }" :disabled="!statsReady" />
+        <h2 class="collapse-title text-lg py-3 bg-base-100 peer-checked:bg-primary peer-checked:text-primary-content text-base-content peer-checked:border-b border-base-300 "
+            :class="{ 'bg-neutral': !statsReady }">
+            Weapon stats 📊
+        </h2>
+
+        <div class="collapse-content grow peer-checked:p-4">
+            <form>
+                <DamageTypeStatsFactory v-if="selectedWeaponMode" :damage-type="selectedWeaponMode.damageType" />
+            </form>
+        </div>
+    </div>
 </template>
 
-<style scoped>
-:deep(#weapon-stats-button) {
-    font-size: 1.2rem
-}
-</style>
+<style scoped></style>

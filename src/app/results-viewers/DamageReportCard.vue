@@ -2,8 +2,6 @@
 import DamageReport from '@/models/DamageReport';
 import { BodyPartEnum } from '@/models/Target/BodyPart';
 import type Target from '@/models/Target/Target';
-import { BCard, BCardBody, BCardText, BCardSubtitle, BCollapse } from 'bootstrap-vue-next';
-import type { BaseBgColorVariant } from 'bootstrap-vue-next/types/ColorTypes';
 import { plural } from 'pluralize';
 import { computed, type Ref } from 'vue';
 
@@ -26,14 +24,14 @@ const cardHeader: Ref<string> = computed(() => {
     }
 })
 
-const cardBackground: Ref<keyof BaseBgColorVariant> = computed(() => {
+const cardColor: Ref<string> = computed(() => {
     switch (props.bodyPart) {
         case BodyPartEnum.Head:
-            return "danger-subtle"
+            return "bg-error-washed"
         case BodyPartEnum.Body:
-            return "warning-subtle"
+            return "bg-warning-washed"
         case BodyPartEnum.Limbs:
-            return "success-subtle"
+            return "bg-success-washed"
         default:
             throw Error("Unexpected body part: " + props.bodyPart)
     }
@@ -70,15 +68,15 @@ function getDamageReportBreakdown(damageReport: DamageReport): string[] {
     }
 
     if (damageReport.shots > 0) {
-        breakdownList.push(`${damageReport.shots} ${plural("shot")} (${stringMinMax(damageReport.firstDmg, damageReport.lastDmg)} dmg/shot)`)
+        breakdownList.push(`${damageReport.shots} ${pluralize("shot", damageReport.shots)} (${stringMinMax(damageReport.firstDmg, damageReport.lastDmg)} dmg/shot)`)
     }
 
     if (damageReport.alternateShots > 0) {
-        breakdownList.push(`${damageReport.alternateShots} alt ${plural("shot")} (${stringMinMax(damageReport.firstAlternateDmg, damageReport.lastAlternateDmg)} dmg/shot)`)
+        breakdownList.push(`${damageReport.alternateShots} alt ${pluralize("shot", damageReport.alternateShots)} (${stringMinMax(damageReport.firstAlternateDmg, damageReport.lastAlternateDmg)} dmg/shot)`)
     }
 
     if (damageReport.chargedShots > 0) {
-        breakdownList.push( `${damageReport.chargedShots} charged ${plural("shot")} (${stringMinMax(damageReport.firstChargedDmg, damageReport.lastChargedDmg)} dmg/shot)`)
+        breakdownList.push(`${damageReport.chargedShots} charged ${pluralize("shot", damageReport.chargedShots)} (${stringMinMax(damageReport.firstChargedDmg, damageReport.lastChargedDmg)} dmg/shot)`)
     }
 
     if (damageReport.beamTime > 0) {
@@ -86,7 +84,7 @@ function getDamageReportBreakdown(damageReport: DamageReport): string[] {
     }
 
     if (damageReport.electronDischargeDmg > 0) {
-        breakdownList.push(`${damageReport.electronDischarges} electron ${plural('discharge')} (${damageReport.electronDischargeDmg.toFixed(2)} dmg/discharge)`)
+        breakdownList.push(`${damageReport.electronDischarges} ${pluralize('discharge', damageReport.electronDischarges)} (${damageReport.electronDischargeDmg.toFixed(2)} dmg/discharge)`)
     }
 
     if (damageReport.reloads > 0) {
@@ -99,37 +97,41 @@ function getDamageReportBreakdown(damageReport: DamageReport): string[] {
 
     return breakdownList
 }
+
+function pluralize(str: string, nb: number): string {
+    return nb > 1 ? plural(str) : str
+}
 </script>
 
 <template>
-    <BCard no-body :bg-variant="cardBackground">
-        <template #header>
-            <h4 class="mb-0">
-                {{ cardHeader }}
-            </h4>
-        </template>
-        <template v-for="(damageReport, index) in props.damageReports" v-bind:key="index">
-            <BCardBody>
-                <BCardSubtitle class="mb-2">{{ getArmorQualityTitle(damageReport.target) }}</BCardSubtitle>
-                <BCardText class="mb-0">
-                    <strong>TTK: {{ damageReport.ttk.toFixed(3) }}s</strong><br>
-                </BCardText>
-                <BCollapse :show="props.detailedReport">
-                    <em>Breakdown:</em>
-                    <ul class="m-0">
-                        <li v-for="(item, index) in getDamageReportBreakdown(damageReport)" v-bind:key="index">
-                            <span v-html="item"></span>
-                        </li>
-                    </ul>
-                </BCollapse>
-            </BCardBody>
-            <hr v-if="index !== props.damageReports.length - 1">
-        </template>
-    </BCard>
+    <div class="card col-span-12 sm:col-span-4 border border-base-300-strong" :class="cardColor">
+        <div class="card-body p-0">
+            <h3 class="border-b border-base-300-strong text-lg sm:text-xl p-2 font-semibold text-center">{{ cardHeader }}</h3>
+            <template v-for="(damageReport, index) in damageReports" v-bind:key="index">
+                <div class="px-3 pb-3">
+                    <h4 class="text-base text-base-content-washed mb-2">{{
+                        getArmorQualityTitle(damageReport.target) }}
+                    </h4>
+                    <div>
+                        <span class="text-base sm:text-lg font-bold">TTK: {{ damageReport.ttk.toFixed(3) }}s</span><br>
+                        <div class="collapse">
+                            <input type="checkbox" class="hidden" :checked="detailedReport" disabled />
+                            <div class="collapse-content p-0 text-base mt-2">
+                                <em>Breakdown:</em>
+                                <ul class="list-disc">
+                                    <li v-for="(item, index) in getDamageReportBreakdown(damageReport)"
+                                        v-bind:key="index" class="ms-4">
+                                        <span v-html="item"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="text-base-300-strong" v-if="index !== damageReports.length - 1">
+            </template>
+        </div>
+    </div>
 </template>
 
-<style scoped lang="scss">
-hr {
-    margin: 0;
-}
-</style>
+<style scoped></style>

@@ -15,7 +15,7 @@ export default class AttachmentCollection {
 const attachmentCollection = (): BarrelAttachment[] => {
     return [
         //Size 1 - Ballistic
-        new BarrelAttachment("Compensator Torrent 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1.175, 1.075),
+        new BarrelAttachment("Compensator Torrent 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 1.075),
         new BarrelAttachment("Compensator Stark 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 0.8),
         new BarrelAttachment("Compensator Sion \"Tweaker\" 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 1.125),
         new BarrelAttachment("Suppressor Quell 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 0.95),

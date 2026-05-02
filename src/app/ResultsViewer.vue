@@ -5,20 +5,17 @@ import { useTargetsStore } from '@/stores/TargetsStore';
 import { useWeaponsStore } from '@/stores/WeaponsStore';
 import { computed, type Ref } from 'vue';
 import { cloneDeep } from 'lodash';
-import { BCol, BContainer, BRow, BAccordion, BAccordionItem, BForm, BFormCheckbox } from 'bootstrap-vue-next';
 import Target from '@/models/Target/Target';
 import type { Weapon } from '@/models/Weapon';
 import type FireMode from '@/models/FireMode';
 import { BodyPartEnum } from '@/models/Target/BodyPart';
 import DamageReportCard from './results-viewers/DamageReportCard.vue';
-import { useStorage, useWindowSize } from '@vueuse/core';
-
-const { width } = useWindowSize()
+import { useStorage } from '@vueuse/core';
 
 const weaponsStore = useWeaponsStore()
 const targetsStore = useTargetsStore()
 
-const detailedReport: Ref<boolean> = useStorage('pref:detailed-report', false)
+const detailedReport: Ref<boolean> = useStorage('pref:detailed-report', true)
 
 const results = computed((): { [key in BodyPartEnum]: DamageReport[] } => {
     const damageReportsCollection: { [key in BodyPartEnum]: DamageReport[] } = {
@@ -49,26 +46,22 @@ const resultsReady: Ref<boolean> = computed(() => {
 </script>
 
 <template>
-    <BAccordion>
-        <BAccordionItem title="Results 🔍" :button-attrs="{ id: 'results-button', disabled: true }"
-            :button-class="[!resultsReady ? 'bg-dark-subtle' : '', 'accordion-no-arrow']" v-model="resultsReady" body-class="pt-1">
-            <BContainer class="p-0">
-                <div class="d-flex justify-content-end">
-                    <BForm><BFormCheckbox reverse switch class="mb-1" v-model="detailedReport">Detailed report</BFormCheckbox></BForm>
-                </div>
-                <BRow class="g-3">
-                    <BCol v-for="(damageReports, bodyPart) in results" v-bind:key="bodyPart" cols="12" md="4"
-                        :class="{ 'mb-2': width <= 840 }">
-                        <DamageReportCard :body-part="bodyPart" :damage-reports="damageReports" :detailed-report="detailedReport" />
-                    </BCol>
-                </BRow>
-            </BContainer>
-        </BAccordionItem>
-    </BAccordion>
+    <div class="bg-base-100 border-base-300 collapse border grow">
+        <input type="checkbox" class="peer hidden" :checked="resultsReady" disabled />
+        <h2
+            class="collapse-title text-lg border-base-300 py-3 pe-4 cursor-default bg-neutral text-base-content peer-checked:bg-primary peer-checked:text-primary-content peer-checked:border-b flex w-full">
+            <span class="grow">Results 🔍</span>
+            <label class="label text-sm text-base-content shrink">
+                Detailed report
+                <input type="checkbox" v-model="detailedReport" class="toggle toggle-sm" />
+            </label>
+        </h2>
+
+        <div class="collapse-content peer-checked:p-4 grid grid-cols-12 gap-3">
+            <DamageReportCard v-for="(damageReports, bodyPart) in results" v-bind:key="bodyPart" :body-part="bodyPart"
+                :damage-reports="damageReports" :detailed-report="detailedReport" />
+        </div>
+    </div>
 </template>
 
-<style scoped lang="scss">
-:deep(#results-button) {
-    font-size: 1.2rem
-}
-</style>
+<style scoped></style>
