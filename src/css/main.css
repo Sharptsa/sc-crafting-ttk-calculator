@@ -61,12 +61,12 @@
   --color-neutral-content: oklch(96.5% 0.022 275);
   --color-info: oklch(57.4% 0.215 302.100);
   --color-info-content: oklch(100% 0.039 302.100);
-  --color-success: oklch(79.2% 0.155 139.700);
-  --color-success-content: oklch(17.234% 0.028 166.534);
-  --color-warning: oklch(86.163% 0.142 94.818);
-  --color-warning-content: oklch(17.232% 0.028 94.818);
-  --color-error: oklch(65% 0.181 27.800);
-  --color-error-content: oklch(3.9% 0.019 33.756);
+  --color-success: oklch(60.9% 0.111 139.700);
+  --color-success-content: oklch(100% 0.092 139.700);
+  --color-warning: oklch(70.2% 0.151 94.818);
+  --color-warning-content: oklch(100% 0.100 94.818);
+  --color-error: oklch(54.6% 0.149 27.800);
+  --color-error-content: oklch(100% 0.118 27.800);
   --radius-selector: 2rem;
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
