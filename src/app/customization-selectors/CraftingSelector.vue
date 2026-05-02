@@ -1,94 +1,81 @@
 <script setup lang="ts">
-import { BCol, BRow, BInputGroup, BFormInput, BForm } from 'bootstrap-vue-next';
+
 import { ref, watch, type ModelRef, type Ref } from 'vue';
 import { clamp } from '@vueuse/core';
-import type { Numberish } from 'bootstrap-vue-next/types/CommonTypes';
 import ModHelper from '@/helpers/ModHelper';
 import { Weapon } from '@/models/Weapon';
-import { useWindowSize } from '@vueuse/core'
-
-const { width } = useWindowSize()
 
 const selectedWeapon: ModelRef<Weapon | null> = defineModel({ required: true })
 
 const craftingDmgPercent: Ref<number> = ref(0.00)
 
-function craftingDmgPercentFormatter(dmgPercent: string) {
-    return String(
-        clamp(Number(dmgPercent), 0, ModHelper.toPercent(selectedWeapon.value?.crafting.maxDmgMod)).toFixed(2)
-    )
-}
-
-function setCraftingDmgMod(dmgPercent: Numberish | null): void {
-    if (selectedWeapon.value === null) {
+function setCraftingDmgMod(weapon: Weapon | null): void {
+    if (weapon === null) {
         throw new Error("Weapon should have been selected by now")
     }
-    selectedWeapon.value.crafting.dmgMod = ModHelper.toMod(Number(dmgPercent ?? 0))
+
+    craftingDmgPercent.value = Number(
+        String(clamp(craftingDmgPercent.value, 0, ModHelper.toPercent(weapon.crafting.maxDmgMod)).toFixed(2))
+    )
+    weapon.crafting.dmgMod = ModHelper.toMod(Number(craftingDmgPercent.value))
 }
 
 const craftingFireRatePercent: Ref<number> = ref(0.00)
 
-function craftingFireRateModFormatter(fireRatePercent: string) {
-    return String(
-        clamp(Number(fireRatePercent), 0, ModHelper.toPercent(selectedWeapon.value?.crafting.maxFireRateMod)).toFixed(2)
-    )
-}
-
-function setCraftingFireRateMod(fireRatePercent: Numberish | null): void {
-    if (selectedWeapon.value === null) {
+function setCraftingFireRateMod(weapon: Weapon | null): void {
+    if (weapon === null) {
         throw new Error("Weapon should have been selected by now")
     }
-    selectedWeapon.value.crafting.fireRateMod = ModHelper.toMod(Number(fireRatePercent ?? 0))
+
+    craftingFireRatePercent.value = Number(
+        String(clamp(craftingFireRatePercent.value, 0, ModHelper.toPercent(weapon.crafting.maxFireRateMod)).toFixed(2))
+    )
+
+    weapon.crafting.fireRateMod = ModHelper.toMod(Number(craftingFireRatePercent.value))
 }
 
-watch(selectedWeapon, () => {
-    craftingDmgPercent.value = 0.00
-    craftingFireRatePercent.value = 0.00
+watch(selectedWeapon, (newWeapon, oldWeapon) => {
+    if (newWeapon !== oldWeapon && oldWeapon !== null) {
+        craftingDmgPercent.value = 0.00
+        craftingFireRatePercent.value = 0.00
+        setCraftingDmgMod(oldWeapon)
+        setCraftingFireRateMod(oldWeapon)
+    }
 })
 </script>
 
 <template>
-    <BRow class="mb-3">
-        <h5 class="mb-3">Crafting</h5>
-        <BRow class="mb-2 g-xs-1">
-            <BCol>
-                <BForm>
-                    <BInputGroup prepend="Damage modifier" append="%">
-                        <BFormInput class="i-size-7" type="number" min="0.00"
-                            :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxDmgMod).toFixed(2))"
-                            step="0.01" v-model="craftingDmgPercent" :formatter="craftingDmgPercentFormatter"
-                            @update:model-value="setCraftingDmgMod"
-                            :disabled="selectedWeapon?.crafting.maxDmgMod === null" />
-                        <BFormInput class="ps-1 pe-1" type="range" min="0"
-                            :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxDmgMod).toFixed(2))"
-                            step="0.01" v-model="craftingDmgPercent" :formatter="craftingDmgPercentFormatter"
-                            @update:model-value="setCraftingDmgMod"
-                            :disabled="selectedWeapon?.crafting.maxDmgMod === null"
-                            v-show="width > 580" />
-                    </BInputGroup>
-                </BForm>
-            </BCol>
-        </BRow>
-        <BRow>
-            <BCol>
-                <BForm>
-                    <BInputGroup prepend="Fire rate modifier" append="%">
-                        <BFormInput class="i-size-7" type="number" min="0.00"
-                            :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxFireRateMod))" step="0.1"
-                            v-model="craftingFireRatePercent" :formatter="craftingFireRateModFormatter"
-                            @update:model-value="setCraftingFireRateMod"
-                            :disabled="selectedWeapon?.crafting.maxFireRateMod === null" />
-                        <BFormInput class="ps-1 pe-1" type="range" min="0"
-                            :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxFireRateMod))" step="0.1"
-                            v-model="craftingFireRatePercent" :formatter="craftingFireRateModFormatter"
-                            @update:model-value="setCraftingFireRateMod"
-                            :disabled="selectedWeapon?.crafting.maxFireRateMod === null"
-                            v-show="width > 580" />
-                    </BInputGroup>
-                </BForm>
-            </BCol>
-        </BRow>
-    </BRow>
+    <div>
+        <h3 class="text-base font-semibold mb-2">Crafting</h3>
+        <label class="input mb-2 w-full">
+            <span class="label text-base me-0 border-base-300-washed">Damage modifier</span>
+            <input type="number" class="w-fit" min="0.00"
+                :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxDmgMod).toFixed(2))" step="0.01"
+                v-model="craftingDmgPercent" size="4" @input="setCraftingDmgMod(selectedWeapon)"
+                :disabled="selectedWeapon?.crafting.maxDmgMod === null" />
+            <span class="label text-base ms-0 px-1 border-x border-base-300-washed">%</span>
+            <input type="range" class="range w-full range-sm [--range-fill:0]" min="0.00"
+                :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxDmgMod).toFixed(2))" step="0.01"
+                v-model="craftingDmgPercent" @input="setCraftingDmgMod(selectedWeapon)"
+                :disabled="selectedWeapon?.crafting.maxDmgMod === null" />
+        </label>
+        <label class="input w-full">
+            <span class="label text-base me-0 border-base-300-washed">Fire rate modifier</span>
+            <input type="number" class="w-fit" min="0.00"
+                :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxFireRateMod).toFixed(2))" step="0.01"
+                v-model="craftingFireRatePercent" size="4" @input="setCraftingFireRateMod(selectedWeapon)"
+                :disabled="selectedWeapon?.crafting.maxFireRateMod === null" />
+            <span class="label text-base ms-0 px-1 border-x border-base-300-washed">%</span>
+            <input type="range" class="range w-full range-sm [--range-fill:0]" min="0.00"
+                :max="String(ModHelper.toPercent(selectedWeapon?.crafting.maxFireRateMod).toFixed(2))" step="0.01"
+                v-model="craftingFireRatePercent" @input="setCraftingFireRateMod(selectedWeapon)"
+                :disabled="selectedWeapon?.crafting.maxFireRateMod === null" />
+        </label>
+    </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped>
+.input>input {
+    text-align: center;
+}
+</style>

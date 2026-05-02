@@ -10,20 +10,18 @@ import { FireSequence } from '@/models/DamageTypes/FireSequence';
 import AbstractDamageType from '@/models/DamageTypes/AbstractDamageType';
 import type { PropType } from 'vue';
 
-//const damageType = defineModel({ required: true })
-const {damageType, isSubType} = defineProps({
-    damageType: {type: Object as PropType<AbstractDamageType>, required: true },
-    isSubType: {type: Boolean }
+const { damageType, isSubType } = defineProps({
+    damageType: { type: Object as PropType<AbstractDamageType>, required: true },
+    isSubType: { type: Boolean }
 })
 
 </script>
 
 
 <template>
-    <div>
-        <ProjectileStats v-if="(damageType instanceof Projectile)" :projectile="damageType" :is-sub-type="isSubType" />
-        <BeamStats v-if="(damageType instanceof Beam)" :beam="damageType" :is-sub-type="isSubType" />
-        <VoltViewStats v-if="(damageType instanceof Volt)" :volt="damageType" />
-        <FireSequenceStats v-if="(damageType instanceof FireSequence)" :fire-sequence="damageType" :is-sub-type="isSubType" />
-    </div>
+    <ProjectileStats v-if="(damageType instanceof Projectile)" :projectile="damageType" :is-sub-type="isSubType" />
+    <BeamStats v-if="(damageType instanceof Beam)" :beam="damageType" :is-sub-type="isSubType" />
+    <VoltViewStats v-if="(damageType instanceof Volt)" :volt="damageType" />
+    <FireSequenceStats v-if="(damageType instanceof FireSequence)" :fire-sequence="damageType"
+        :is-sub-type="isSubType" />
 </template>

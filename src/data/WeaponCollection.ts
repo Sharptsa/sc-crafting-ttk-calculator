@@ -41,7 +41,8 @@ const weaponCollection = (): Weapon[] => {
         ...lmgs(),
         ...sniperRifles(),
         ...shotguns(),
-        ...pistols()
+        ...pistols(),
+        ...crossbows()
     ]
 }
 
@@ -532,5 +533,20 @@ function pistols(): Weapon[] {
                 new FireMode("Single", new ProjectileElectron(32.5, 350, 0.5, 0.75)),
             ]
         ),
+    ]
+}
+
+function crossbows(): Weapon[] {
+    return [
+        new Weapon(
+            "Novia",
+            WeaponClassEnum.Crossbow,
+            null,
+            0,
+            new Crafting(1.2, null),
+            [
+                new FireMode("Single", new Projectile(150, 42))
+            ]
+        )
     ]
 }
