@@ -37,11 +37,15 @@ function setAirTemp(): void {
     }
 }
 
-onBeforeUnmount(() => {
+function resetState(): void {
     heat.value = 0
     setHeat()
     airTemp.value = 20
     setAirTemp()
+}
+
+onBeforeUnmount(() => {
+    resetState()
 })
 </script>
 
@@ -58,6 +62,7 @@ onBeforeUnmount(() => {
                 <input type="number" min="-250" max="500" step="1" v-model="airTemp" size="3" @input="setAirTemp()" />
                 <span class="label text-base ms-0 px-2">°C</span>
             </label>
+            <button class="btn" @click="resetState()">Reset</button>
         </div>
     </div>
 </template>
