@@ -6,9 +6,11 @@ import { clamp } from '@vueuse/core';
 
 import FireMode from '@/models/FireMode';
 
-const selectedWeaponMode: ModelRef<FireMode | null> = defineModel({required: true})
+const selectedWeaponMode: ModelRef<FireMode | null> = defineModel({ required: true })
 
 const heat: Ref<number> = ref(0)
+const airTemp: Ref<number> = ref(20)
+
 
 function setHeat(): void {
     if (!selectedWeaponMode.value) {
@@ -22,19 +24,41 @@ function setHeat(): void {
     }
 }
 
+function setAirTemp(): void {
+    if (!selectedWeaponMode.value) {
+        throw new Error("Weapon fire mode should have been selected by now")
+    }
+
+    const airTempValue = clamp(airTemp.value, -250, 500)
+    airTemp.value = airTempValue
+    if (selectedWeaponMode.value.damageType instanceof Volt) {
+        selectedWeaponMode.value.damageType.airTemp = Number(airTempValue ?? 0)
+        selectedWeaponMode.value.damageType.updateHeatPerFire()
+    }
+}
+
 onBeforeUnmount(() => {
-    heat.value = 0.00
+    heat.value = 0
     setHeat()
+    airTemp.value = 20
+    setAirTemp()
 })
 </script>
 
 <template>
-    <div v-if="selectedWeaponMode?.damageType instanceof Volt">
+    <div>
         <h3 class="text-base font-semibold mb-2">Initial weapon state</h3>
-        <label class="input w-fit">
-            <span class="label text-base me-0">Heat</span>
-            <input type="number" min="0" max="100" step="1" v-model="heat" size="3" @input="setHeat()" />
-        </label>
+        <div class="flex gap-2">
+            <label class="input w-fit">
+                <span class="label text-base me-0">Heat</span>
+                <input type="number" min="0" max="100" step="1" v-model="heat" size="3" @input="setHeat()" />
+            </label>
+            <label class="input w-fit">
+                <span class="label text-base me-0">Air temp.</span>
+                <input type="number" min="-250" max="500" step="1" v-model="airTemp" size="3" @input="setAirTemp()" />
+                <span class="label text-base ms-0 px-2">°C</span>
+            </label>
+        </div>
     </div>
 </template>
 
@@ -43,3 +67,5 @@ onBeforeUnmount(() => {
     text-align: center;
 }
 </style>
+
+updateHeatPerFire

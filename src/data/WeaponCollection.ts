@@ -108,14 +108,15 @@ function assaultRifles(): Weapon[] {
             2,
             new Crafting(1.26, null),
             [
-                new FireMode("Full Auto",  new Volt(
-                        new ProjectileHeat(13, 600, 3.675, 1.35),
-                        new Beam(210, 17.85),
-                        4.2, //overheat cooldown
-                        40, //heat threshold
-                        1, //heat dmg mod
-                        1 //heat gen mod
-                    )
+                new FireMode("Full Auto", new Volt(
+                    new ProjectileHeat(13, 600, 3.5, 1.35),
+                    new Beam(210, 17.85),
+                    4.2, //overheat cooldown
+                    40, //heat threshold
+                    1, //heat dmg mod
+                    1, //heat gen mod
+                    [{ x: -100, y: 0.4 }, { x: 140, y: 1.7 }]
+                )
                 ),
             ]
         ),
@@ -153,7 +154,7 @@ function smgs(): Weapon[] {
             [
                 new FireMode("Full Auto", new Projectile(13, 800)),
                 new FireMode("Burst 3", new Projectile(13, 900, new Burst(3, 0.6))),
-                new FireMode("Charged Burst",  new ProjectileCharged(15.6, 1200, 3, new Burst(11, 0.3)))
+                new FireMode("Charged Burst", new ProjectileCharged(15.6, 1200, 3, new Burst(11, 0.3)))
             ]
         ),
         new Weapon(
@@ -173,7 +174,7 @@ function smgs(): Weapon[] {
             1,
             new Crafting(1.075, 1.12),
             [
-                new FireMode("Full Auto",  new Projectile(13.75, 800)),
+                new FireMode("Full Auto", new Projectile(13.75, 800)),
                 new FireMode("Burst 3", new Projectile(13.75, 850, new Burst(3, 0.3))),
             ]
         ),
@@ -185,13 +186,14 @@ function smgs(): Weapon[] {
             new Crafting(1.2, null),
             [
                 new FireMode("Beam", new Volt(
-                        new Beam(225, 50),
-                        null,
-                        0.867,
-                        100,
-                        1,
-                        1
-                    )
+                    new Beam(225, 50),
+                    null,
+                    0.867,
+                    100,
+                    1,
+                    1,
+                    [{ x: -100, y: 0 }, { x: 140, y: 2 }]
+                )
                 )
             ]
         ),
@@ -238,12 +240,13 @@ function lmgs(): Weapon[] {
             new Crafting(1.2, null),
             [
                 new FireMode("Full Auto", new Volt(
-                    new ProjectileHeat(9, 550, 2.07375, 0.2),
+                    new ProjectileHeat(9, 550, 1.975, 0.2),
                     null,
                     8,
                     100,
                     6,
-                    0.5
+                    0.5,
+                    [{ x: -100, y: 0.1 }, { x: 140, y: 2 }]
                 )),
             ]
         ),
@@ -254,7 +257,7 @@ function lmgs(): Weapon[] {
             2,
             new Crafting(1.075, 1.12),
             [
-                new FireMode("Full Auto",  new Projectile(14.5, 650)),
+                new FireMode("Full Auto", new Projectile(14.5, 650)),
             ]
         ),
         new Weapon(
@@ -264,7 +267,7 @@ function lmgs(): Weapon[] {
             2,
             new Crafting(1.075, 1.12),
             [
-                new FireMode("Full Auto",  new Projectile(27, 355)),
+                new FireMode("Full Auto", new Projectile(27, 355)),
             ]
         ),
     ]
@@ -341,6 +344,7 @@ function sniperRifles(): Weapon[] {
                     100,
                     1,
                     1,
+                    [{ x: -100, y: -0.5 }, { x: 140, y: 1.35 }]
                 )),
                 new FireMode("Single", new Volt(
                     new FireSequence([
@@ -351,6 +355,7 @@ function sniperRifles(): Weapon[] {
                     100,
                     1,
                     1,
+                    [{ x: -100, y: -0.5 }, { x: 140, y: 1.35 }]
                 )),
                 new FireMode("Charged Single", new Volt(
                     new FireSequence([
@@ -361,6 +366,7 @@ function sniperRifles(): Weapon[] {
                     100,
                     1,
                     1,
+                    [{ x: -100, y: -0.5 }, { x: 140, y: 1.35 }]
                 ))
             ]
         ),
@@ -408,12 +414,13 @@ function shotguns(): Weapon[] {
             new Crafting(1.2, null),
             [
                 new FireMode("Single", new Volt(
-                    new ProjectileHeat(46, 385, 9.35, 1),
-                    new ProjectileHeat(50, 200, 11, 1), //slug projectile
+                    new ProjectileHeat(46, 385, 8.5, 1),
+                    new ProjectileHeat(50, 200, 10, 1), //slug projectile
                     4.2,
                     40,
                     1,
-                    1
+                    1,
+                    [{ x: -100, y: 0.2 }, { x: 140, y: 2 }]
                 )),
             ]
         ),
@@ -488,7 +495,8 @@ function pistols(): Weapon[] {
                     1.2,
                     100,
                     1,
-                    1
+                    1,
+                    [{ x: -100, y: 0 }, { x: 140, y: 2 }]
                 )),
             ]
         ),

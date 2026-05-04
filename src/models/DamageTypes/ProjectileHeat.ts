@@ -2,12 +2,14 @@ import Projectile from "./Projectile"
 import ModHelper from "@/helpers/ModHelper"
 
 export default class ProjectileHeat extends Projectile {
+    baseHeatPerShot: number
     heatPerShot: number
     maxHeatFireRateMod: number
 
-    constructor(alpha: number, fireRate: number, heatPerShot: number, heatFireRateMod: number) {
+    constructor(alpha: number, fireRate: number, baseHeatPerShot: number, heatFireRateMod: number) {
         super(alpha, fireRate)
-        this.heatPerShot = heatPerShot
+        this.baseHeatPerShot = baseHeatPerShot
+        this.heatPerShot = baseHeatPerShot
         this.maxHeatFireRateMod = heatFireRateMod
     }
 

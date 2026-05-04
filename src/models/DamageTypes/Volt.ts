@@ -1,5 +1,12 @@
 import ModHelper from "@/helpers/ModHelper"
 import AbstractDamageType from "./AbstractDamageType"
+import ProjectileHeat from "./ProjectileHeat"
+import Beam from "./Beam"
+
+type CurvePoint = {
+    x: number,
+    y: number
+}
 
 export default class Volt extends AbstractDamageType {
     lowHeatFire: AbstractDamageType
@@ -9,6 +16,8 @@ export default class Volt extends AbstractDamageType {
     heatThreshold: number
     maxHeatDmgMod: number
     maxHeatGenMod: number
+    heatCurve: [CurvePoint, CurvePoint]
+    airTemp: number = 20
 
     constructor(
         lowHeatFire: AbstractDamageType,
@@ -17,6 +26,7 @@ export default class Volt extends AbstractDamageType {
         heatThreshold: number,
         maxHeatDmgMod: number,
         maxHeatGenMod: number,
+        heatCurve: [CurvePoint, CurvePoint]
     ) {
         super()
         this.lowHeatFire = lowHeatFire
@@ -25,6 +35,9 @@ export default class Volt extends AbstractDamageType {
         this.heatThreshold = heatThreshold
         this.maxHeatDmgMod = maxHeatDmgMod
         this.maxHeatGenMod = maxHeatGenMod
+        this.heatCurve = heatCurve
+
+        this.updateHeatPerFire()
     }
 
     get currentHeatDmgMod(): number
@@ -35,5 +48,29 @@ export default class Volt extends AbstractDamageType {
     get currentHeatGenMod(): number
     {
         return ModHelper.calculateHeatMod(this.heat, this.maxHeatGenMod)
+    }
+
+    get airTempHeatModifier()
+    {
+        const slope = (this.heatCurve[1].y - this.heatCurve[0].y) / (this.heatCurve[1].x - this.heatCurve[0].x)
+        const yIntercept = this.heatCurve[1].y - slope * this.heatCurve[1].x
+
+        return this.airTemp * slope + yIntercept
+    }
+
+    updateHeatPerFire() {
+        if (this.lowHeatFire instanceof ProjectileHeat) {
+            this.lowHeatFire.heatPerShot = this.lowHeatFire.baseHeatPerShot * this.airTempHeatModifier
+        }
+        if (this.lowHeatFire instanceof Beam && this.lowHeatFire.baseHeatPerSecond !== null) {
+            this.lowHeatFire.heatPerSecond = this.lowHeatFire.baseHeatPerSecond * this.airTempHeatModifier
+        }
+
+        if (this.highHeatFire instanceof ProjectileHeat) {
+            this.highHeatFire.heatPerShot = this.highHeatFire.baseHeatPerShot * this.airTempHeatModifier
+        }
+        if (this.highHeatFire instanceof Beam && this.highHeatFire.baseHeatPerSecond !== null) {
+            this.highHeatFire.heatPerSecond = this.highHeatFire.baseHeatPerSecond * this.airTempHeatModifier
+        }
     }
 }

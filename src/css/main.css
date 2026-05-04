@@ -90,3 +90,7 @@
 .label {
     color: var(--color-base-content-washed);
 }
+
+.input>input[type="number"] {
+    margin-inline-start: calc(var(--spacing) * -1)
+}

@@ -3,12 +3,14 @@ import AbstractDamageType from "./AbstractDamageType"
 export default class Beam extends AbstractDamageType {
     dps: number
     dmgInterval: number = 0.001
+    baseHeatPerSecond: number | null
     heatPerSecond: number | null
 
-    constructor(beamDps: number, beamHeatPerSecond: number | null = null) {
+    constructor(dps: number, baseHeatPerSecond: number | null = null) {
         super()
-        this.dps = beamDps
-        this.heatPerSecond = beamHeatPerSecond
+        this.dps = dps
+        this.baseHeatPerSecond = baseHeatPerSecond
+        this.heatPerSecond = baseHeatPerSecond
     }
 
     public getDpsWithMod(customDmgMod: number, heatDmgMod?: number|null): number {
