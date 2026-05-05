@@ -60,7 +60,7 @@ onBeforeUnmount(() => {
             </label>
             <label class="input w-fit">
                 <span class="label text-base me-0">Air temp.</span>
-                <input type="number" min="-250" max="500" step="1" v-model="airTemp" size="4" @input="setAirTemp()" />
+                <input type="number" min="-273" max="350" step="1" v-model="airTemp" size="4" @input="setAirTemp()" />
                 <span class="label text-base ms-0 px-2">°C</span>
             </label>
             <button class="btn" @click="resetState()">Reset</button>
