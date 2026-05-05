@@ -13,8 +13,8 @@ const { volt } = defineProps({
     <div>
         <h4 class="text-base font-semibold mb-2">Volt</h4>
         <div class="flex grow flex-wrap gap-2">
-            <StatInput label="Overheat cooldown" :value="volt.overheatCooldown" size="2" apprend="s" />
-            <StatInput label="Heat mode threshold" :value="volt.heatThreshold" size="2" />
+            <StatInput label="Overheat cooldown" :value="volt.overheatCooldown" size="2" append="s" />
+            <StatInput label="Heat mode threshold" :value="volt.heatThreshold" size="2" append="%" />
             <StatInput label="Max heat damage mod." :value="volt.maxHeatDmgMod" size="2" />
             <StatInput label="Max heat generation mod." :value="volt.maxHeatGenMod" size="2" />
         </div>

@@ -56,6 +56,7 @@ onBeforeUnmount(() => {
             <label class="input w-fit">
                 <span class="label text-base me-0">Heat</span>
                 <input type="number" min="0" max="100" step="1" v-model="heat" size="3" @input="setHeat()" />
+                <span class="label text-base ms-0 px-2">%</span>
             </label>
             <label class="input w-fit">
                 <span class="label text-base me-0">Air temp.</span>

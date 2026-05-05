@@ -74,13 +74,13 @@ const currentFireRate: Ref<string> = computed(() => {
             <template v-if="(projectile instanceof ProjectileAlternate)">
                 <StatInput label="Alternate alpha" :value="currentAlternateAlpha" size="4" />
             </template>
-            <StatInput label="Fire rate" :value="currentFireRate" size="4" apprend="RPM" />
+            <StatInput label="Fire rate" :value="currentFireRate" size="4" append="RPM" />
             <template v-if="(projectile.burst !== null)">
                 <StatInput label="Burst Size" :value="projectile.burst.burstSize" size="1" />
-                <StatInput label="Burst cooldown" :value="projectile.burst.burstCooldown" size="2" apprend="s" />
+                <StatInput label="Burst cooldown" :value="projectile.burst.burstCooldown" size="2" append="s" />
             </template>
             <template v-if="(projectile instanceof ProjectileCharged || projectile instanceof ProjectileHeatCharged)">
-                <StatInput label="Charge time" :value="projectile.chargeTime" size="1" apprend="s" />
+                <StatInput label="Charge time" :value="projectile.chargeTime" size="1" append="s" />
             </template>
             <template v-if="(projectile instanceof ProjectileElectron)">
                 <StatInput label="Residual charge mod." :value="projectile.electronChargeMod" size="2" />
