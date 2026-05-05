@@ -29,11 +29,11 @@ function setAirTemp(): void {
         throw new Error("Weapon fire mode should have been selected by now")
     }
 
-    const airTempValue = clamp(airTemp.value, -250, 500)
+    const airTempValue = clamp(airTemp.value, -273, 350)
     airTemp.value = airTempValue
     if (selectedWeaponMode.value.damageType instanceof Volt) {
         selectedWeaponMode.value.damageType.airTemp = Number(airTempValue ?? 0)
-        selectedWeaponMode.value.damageType.updateHeatPerFire()
+        selectedWeaponMode.value.damageType.updateHeatIncrements()
     }
 }
 
@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
             </label>
             <label class="input w-fit">
                 <span class="label text-base me-0">Air temp.</span>
-                <input type="number" min="-250" max="500" step="1" v-model="airTemp" size="3" @input="setAirTemp()" />
+                <input type="number" min="-250" max="500" step="1" v-model="airTemp" size="4" @input="setAirTemp()" />
                 <span class="label text-base ms-0 px-2">°C</span>
             </label>
             <button class="btn" @click="resetState()">Reset</button>

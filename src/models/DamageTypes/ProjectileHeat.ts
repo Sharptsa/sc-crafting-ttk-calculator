@@ -1,7 +1,8 @@
+import type IHandlesHeat from "./IHandlesHeat"
 import Projectile from "./Projectile"
 import ModHelper from "@/helpers/ModHelper"
 
-export default class ProjectileHeat extends Projectile {
+export default class ProjectileHeat extends Projectile implements IHandlesHeat {
     baseHeatPerShot: number
     heatPerShot: number
     maxHeatFireRateMod: number
@@ -19,5 +20,9 @@ export default class ProjectileHeat extends Projectile {
 
     public getFireRateWithMod(customFireRateMod: number, heat?: number): number {
         return super.getFireRateWithMod(customFireRateMod) * ModHelper.calculateHeatMod(heat ?? 0, this.maxHeatFireRateMod)
+    }
+
+    setHeatIncrement(airTempMod: number): void {
+        this.heatPerShot = Math.max(0, this.baseHeatPerShot * airTempMod)
     }
 }

@@ -1,4 +1,5 @@
 import AbstractDamageType from "./AbstractDamageType"
+import type IHandlesHeat from "./IHandlesHeat"
 
 export class FireEvent {
     damageType: AbstractDamageType
@@ -10,11 +11,19 @@ export class FireEvent {
     }
 }
 
-export class FireSequence extends AbstractDamageType {
+export class FireSequence extends AbstractDamageType implements IHandlesHeat {
     fireEvents: FireEvent[]
 
     constructor(fireEvents: FireEvent[]) {
         super()
         this.fireEvents = fireEvents
+    }
+
+    setHeatIncrement(airTempMod: number): void {
+        this.fireEvents.forEach((fireEvent) => {
+            if ((fireEvent.damageType as IHandlesHeat).setHeatIncrement !== undefined) {
+                (fireEvent.damageType as IHandlesHeat).setHeatIncrement(airTempMod)
+            }
+        })
     }
 }

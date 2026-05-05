@@ -1,6 +1,7 @@
 import AbstractDamageType from "./AbstractDamageType"
+import type IHandlesHeat from "./IHandlesHeat"
 
-export default class Beam extends AbstractDamageType {
+export default class Beam extends AbstractDamageType implements IHandlesHeat {
     dps: number
     dmgInterval: number = 0.001
     baseHeatPerSecond: number | null
@@ -13,13 +14,19 @@ export default class Beam extends AbstractDamageType {
         this.heatPerSecond = baseHeatPerSecond
     }
 
-    public getDpsWithMod(customDmgMod: number, heatDmgMod?: number|null): number {
+    public getDpsWithMod(customDmgMod: number, heatDmgMod?: number | null): number {
         let dps = this.dps * customDmgMod
 
-        if(heatDmgMod) {
+        if (heatDmgMod) {
             dps *= heatDmgMod
         }
 
         return dps
+    }
+
+    setHeatIncrement(airTempMod: number): void {
+        if (this.baseHeatPerSecond !== null) {
+            this.heatPerSecond = Math.max(0, this.baseHeatPerSecond * airTempMod)
+        }
     }
 }
