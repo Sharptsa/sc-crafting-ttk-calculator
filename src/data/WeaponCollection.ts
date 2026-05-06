@@ -553,7 +553,7 @@ function crossbows(): Weapon[] {
             0,
             new Crafting(1.2, null),
             [
-                new FireMode("Single", new Projectile(150, 42))
+                new FireMode("Single", new Projectile(123, 42))
             ]
         )
     ]
