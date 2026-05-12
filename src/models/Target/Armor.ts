@@ -1,3 +1,5 @@
+import ModHelper from "@/helpers/ModHelper"
+
 export class Armor {
     private static MAX_ARMOR_MOD: number = 1.15
     private static MIN_ARMOR_MOD: number = 0.85
@@ -8,7 +10,7 @@ export class Armor {
 
     constructor(baseDmgMod: number, quality: number = 500) {
         this.baseDmgMod = baseDmgMod
-        this.dmgMod = this.calculateDamageMod(baseDmgMod, quality)
+        this.dmgMod = ModHelper.toModFromQuality(Armor.MIN_ARMOR_MOD, Armor.MAX_ARMOR_MOD, baseDmgMod, quality)
         this.quality = quality
     }
 
@@ -30,19 +32,11 @@ export class Armor {
                 return new Armor(0.25)
         }
     }
-
-    calculateDamageMod(baseDmgMod: number, quality: number) {
-        const craftMod = Armor.MIN_ARMOR_MOD + (Armor.MAX_ARMOR_MOD - Armor.MIN_ARMOR_MOD) * quality / 1000
-        const delta = (1 - baseDmgMod) * (craftMod - 1)
-        const deltaMax = (1 - baseDmgMod) * (Armor.MAX_ARMOR_MOD - 1)
-
-        return 1 - (1 - baseDmgMod) * (1 + (Armor.MAX_ARMOR_MOD - 1) * (delta / deltaMax))
-    }
 }
 
 export enum ArmorType {
     Undersuit = "Undersuit",
-    FlightSuit = "Flight Suit",
+    FlightSuit = "Combat Flight Suit",
     Light = "Light",
     Medium = "Medium",
     Utility = "Utility",

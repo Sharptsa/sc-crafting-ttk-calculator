@@ -76,7 +76,7 @@ function assaultRifles(): Weapon[] {
             WeaponClassEnum.AssaultRifle,
             BarrelAttachmentTypeEnum.Ballistic,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new ProjectileAlternate(22, 19, 535)),
             ]
@@ -86,7 +86,7 @@ function assaultRifles(): Weapon[] {
             WeaponClassEnum.AssaultRifle,
             BarrelAttachmentTypeEnum.Ballistic,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(12, 810)),
             ]
@@ -96,7 +96,7 @@ function assaultRifles(): Weapon[] {
             WeaponClassEnum.AssaultRifle,
             BarrelAttachmentTypeEnum.Ballistic,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(45, 235)),
             ]
@@ -125,7 +125,7 @@ function assaultRifles(): Weapon[] {
             WeaponClassEnum.AssaultRifle,
             BarrelAttachmentTypeEnum.Ballistic,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(21.5, 500)),
             ]
@@ -140,7 +140,7 @@ function smgs(): Weapon[] {
             WeaponClassEnum.SMG,
             BarrelAttachmentTypeEnum.Ballistic,
             1,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(11.5, 925)),
             ]
@@ -172,7 +172,7 @@ function smgs(): Weapon[] {
             WeaponClassEnum.SMG,
             BarrelAttachmentTypeEnum.Ballistic,
             1,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(13.75, 800)),
                 new FireMode("Burst 3", new Projectile(13.75, 850, new Burst(3, 0.3))),
@@ -227,7 +227,7 @@ function lmgs(): Weapon[] {
             WeaponClassEnum.LMG,
             null,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(10, 1200)),
             ]
@@ -255,7 +255,7 @@ function lmgs(): Weapon[] {
             WeaponClassEnum.LMG,
             BarrelAttachmentTypeEnum.Ballistic,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(14.5, 650)),
             ]
@@ -265,7 +265,7 @@ function lmgs(): Weapon[] {
             WeaponClassEnum.LMG,
             null,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(27, 355)),
             ]
@@ -380,7 +380,7 @@ function shotguns(): Weapon[] {
             WeaponClassEnum.Shotgun,
             BarrelAttachmentTypeEnum.Ballistic,
             3,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(88, 90)),
             ]
@@ -390,7 +390,7 @@ function shotguns(): Weapon[] {
             WeaponClassEnum.Shotgun,
             null,
             3,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(144, 50)),
             ]
@@ -429,7 +429,7 @@ function shotguns(): Weapon[] {
             WeaponClassEnum.Shotgun,
             null,
             3,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(28.8, 375)),
                 new FireMode("Single", new Projectile(48, 150)),
@@ -440,7 +440,7 @@ function shotguns(): Weapon[] {
             WeaponClassEnum.Shotgun,
             null,
             3,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(28.8, 375)),
                 new FireMode("Single", new Projectile(48, 150)),
@@ -467,7 +467,7 @@ function pistols(): Weapon[] {
             WeaponClassEnum.Pistol,
             BarrelAttachmentTypeEnum.Ballistic,
             1,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(60, 180)),
             ]
@@ -477,7 +477,7 @@ function pistols(): Weapon[] {
             WeaponClassEnum.Pistol,
             BarrelAttachmentTypeEnum.Ballistic,
             1,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Full Auto", new Projectile(13, 950)),
             ]
@@ -505,7 +505,7 @@ function pistols(): Weapon[] {
             WeaponClassEnum.Pistol,
             BarrelAttachmentTypeEnum.Ballistic,
             1,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(22.5, 450)),
             ]
@@ -515,7 +515,7 @@ function pistols(): Weapon[] {
             WeaponClassEnum.Pistol,
             null,
             1,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(45, 170)),
                 new FireMode("Charged Single", new ProjectileCharged(90, 729, 1)),
@@ -526,7 +526,7 @@ function pistols(): Weapon[] {
             WeaponClassEnum.Pistol,
             null,
             1,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.075, 1.12, true),
             [
                 new FireMode("Single", new Projectile(108, 60)),
             ]
@@ -547,7 +547,7 @@ function pistols(): Weapon[] {
 function crossbows(): Weapon[] {
     return [
         new Weapon(
-            "Novia",
+            "Novian",
             WeaponClassEnum.Crossbow,
             null,
             0,
