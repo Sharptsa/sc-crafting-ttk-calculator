@@ -40,7 +40,7 @@ function setCraftingFireRateMod(weapon: Weapon | null): void {
     craftingFireRatePercent.value = ModHelper.toPercent(fireRateMod).toFixed(2)
 
     if (weapon.crafting.linked && craftingFireRateLevel.value !== craftingDmgLevel.value) {
-        craftingFireRateLevel.value = craftingDmgLevel.value
+        craftingDmgLevel.value = craftingFireRateLevel.value
         setCraftingDmgMod(weapon)
     }
 }
