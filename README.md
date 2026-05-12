@@ -6,13 +6,12 @@ A TTK calculator for FPS weapons in Star Citizen
 - Include all FPS weapons
 - Armor types damage reduction
 - Customize initial heat of Volt weapons
-- Crafting bonuses
+- Crafting bonuses through materials quality
 - Attachments bonuses
 - Damage to target breakdown
 
 ## Planned features
 - Handle ammo and partial magazines
-- Manage crafting bonuses through materials quality
 - Customizable armor quality
 - Calculation randomized with accuracy presets to better represent reality
 - Handle recoil modifiers with visual representation

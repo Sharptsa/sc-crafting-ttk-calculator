@@ -8,15 +8,6 @@ export default class ProjectileAlternate extends Projectile {
         this.secondaryAlpha = secondaryAlpha
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    static fromJSON(jsonParams: any): ProjectileAlternate {
-        return new ProjectileAlternate(
-            jsonParams.alpha,
-            jsonParams.secondaryAlpha,
-            jsonParams.fireRate
-        )
-    }
-
     public getSecondaryAlphaWithMod(customDmgMod: number) {
         return this.secondaryAlpha * customDmgMod
     }

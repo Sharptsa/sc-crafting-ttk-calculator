@@ -15,4 +15,17 @@ export default class ModHelper {
         }
         return this.toMod(heat * this.toPercent(maxHeatMod) / 100)
     }
+
+    static toModFromQuality(minMod: number, maxMod: number, baseMod: number, quality: number): number {
+        const craftMod = minMod + (maxMod - minMod) * quality / 1000
+
+        if (baseMod === 1) {
+            return craftMod
+        }
+
+        const delta = (1 - baseMod) * (craftMod - 1)
+        const deltaMax = (1 - baseMod) * (maxMod - 1)
+
+        return 1 - (1 - baseMod) * (1 + (maxMod - 1) * (delta / deltaMax))
+    }
 }
