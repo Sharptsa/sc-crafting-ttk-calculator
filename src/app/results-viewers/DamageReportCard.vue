@@ -84,7 +84,7 @@ function getDamageReportBreakdown(damageReport: DamageReport): string[] {
     }
 
     if (damageReport.electronDischargeDmg > 0) {
-        breakdownList.push(`${damageReport.electronDischarges} ${pluralize('discharge', damageReport.electronDischarges)} (${damageReport.electronDischargeDmg.toFixed(2)} dmg/discharge)`)
+        breakdownList.push(`${damageReport.electronDischarges} ${pluralize('discharge', damageReport.electronDischarges)} (${(damageReport.electronDischargeDmg / damageReport.electronDischarges).toFixed(2) } dmg/discharge)`)
     }
 
     if (damageReport.reloads > 0) {

@@ -35,8 +35,6 @@ export default class Crafting {
             throw new Error('Unexpected quality level')
         }
 
-        console.log('mod', ModHelper.toModFromQuality(1 - (1 - this.maxDmgMod), this.maxDmgMod, 1, quality))
-
         return ModHelper.toModFromQuality(1 - (this.maxDmgMod - 1), this.maxDmgMod, 1, quality)
     }
 

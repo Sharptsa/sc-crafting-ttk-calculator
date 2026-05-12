@@ -87,13 +87,13 @@ abstract class AbstractComputeMethod<T extends AbstractDamageType> {
         this.damageReport = damageReport
     }
 
-    abstract computeDamage(): void
+    abstract computeDamage(): number
 }
 
 class ProjectileCompute<T extends Projectile> extends AbstractComputeMethod<T> {
     burstCount: number = 0
 
-    computeDamage(): void {
+    computeDamage(): number {
         const alpha = this.getAlpha()
         const fireRate = this.getFireRate()
 
@@ -106,6 +106,8 @@ class ProjectileCompute<T extends Projectile> extends AbstractComputeMethod<T> {
         }
 
         this.reportDamage(dmg, fireRate, timeBetweenShots)
+
+        return dmg
     }
 
     get projectile(): T {
@@ -139,9 +141,11 @@ class ProjectileCompute<T extends Projectile> extends AbstractComputeMethod<T> {
 class ProjectileAlternateCompute extends ProjectileCompute<ProjectileAlternate> {
     alternateShot = false
 
-    computeDamage(): void {
-        super.computeDamage()
+    computeDamage(): number {
+        const dmg = super.computeDamage()
         this.alternateShot = !this.alternateShot
+
+        return dmg
     }
 
     getAlpha(): number {
@@ -161,10 +165,6 @@ class ProjectileAlternateCompute extends ProjectileCompute<ProjectileAlternate> 
 }
 
 class ProjectileChargedCompute extends ProjectileCompute<ProjectileCharged> {
-    computeDamage(): void {
-        super.computeDamage()
-    }
-
     getTimeBetweenShots(): number {
         const baseTime = 60 / this.getFireRate();
 
@@ -186,22 +186,27 @@ class ProjectileChargedCompute extends ProjectileCompute<ProjectileCharged> {
 
 class ProjectileElectronCompute extends ProjectileCompute<ProjectileElectron> {
     dischargeReady = false
-    computeDamage(): void {
+    computeDamage(): number {
         if (this.target.electronCharges === 0) {
-            super.computeDamage()
-            this.target.electronCharges = this.getAlpha() * this.projectile.electronChargeMod
-        } else {
-            if (!this.dischargeReady) {
-                super.computeDamage()
-                this.dischargeReady = true
-                return
-            } else {
-                const electronDmg = this.target.damage(this.projectile.electronDmgPerCharge * this.target.electronCharges)
-                this.target.electronCharges = 0
-                this.damageReport.reportElectronDischarge(electronDmg)
-                this.dischargeReady = false
-            }
+            const dmg = super.computeDamage()
+            this.target.electronCharges = this.getAlpha() * (this.target.armor?.dmgMod ?? 1)
+
+            return dmg
         }
+
+        if (!this.dischargeReady) {
+            const dmg = super.computeDamage()
+            this.dischargeReady = true
+            return dmg
+        }
+
+        const electronDmg = this.target.damageExplosion(this.projectile.electronDmgPerCharge * this.target.electronCharges)
+
+        this.target.electronCharges = 0
+        this.damageReport.reportElectronDischarge(electronDmg)
+        this.dischargeReady = false
+
+        return electronDmg
     }
 }
 
@@ -213,9 +218,11 @@ class ProjectileHeatCompute<T extends ProjectileHeat> extends ProjectileCompute<
         this.voltParent = voltParent
     }
 
-    computeDamage(): void {
-        super.computeDamage()
+    computeDamage(): number {
+        const dmg = super.computeDamage()
         this.voltParent.heat += this.getHeatPerShot()
+
+        return dmg
     }
 
     getAlpha(): number {
@@ -265,11 +272,11 @@ class BeamCompute extends AbstractComputeMethod<Beam> {
         this.voltParent = voltParent
     }
 
-    computeDamage(): void {
+    computeDamage(): number {
         const beamDps = this.beam.getDpsWithMod(this.weapon.customDmgMod, this.voltParent?.currentHeatDmgMod)
         const instantAlpha = beamDps * this.beam.dmgInterval
 
-        this.target.damage(instantAlpha)
+        const dmg = this.target.damage(instantAlpha)
 
         if (this.voltParent !== null && this.voltParent.heat >= 100) {
             this.voltParent.heat = 0
@@ -281,6 +288,8 @@ class BeamCompute extends AbstractComputeMethod<Beam> {
         if (this.voltParent && this.beam.heatPerSecond) {
             this.voltParent.heat += this.beam.heatPerSecond * this.voltParent.currentHeatGenMod * this.beam.dmgInterval
         }
+
+        return dmg
     }
 }
 
@@ -300,13 +309,12 @@ class VoltCompute extends AbstractComputeMethod<Volt> {
         return this.damageType
     }
 
-    computeDamage(): void {
+    computeDamage(): number {
         if (this.highHeatFireMethod === null || this.volt.heat < this.volt.heatThreshold) {
-            this.lowHeatFireMethod.computeDamage()
-            return
+            return this.lowHeatFireMethod.computeDamage()
         }
 
-        this.highHeatFireMethod.computeDamage()
+        return this.highHeatFireMethod.computeDamage()
     }
 }
 class FireSequenceCompute extends AbstractComputeMethod<FireSequence> {
@@ -333,7 +341,7 @@ class FireSequenceCompute extends AbstractComputeMethod<FireSequence> {
         return this.damageType
     }
 
-    computeDamage(): void {
+    computeDamage(): number {
         if (this.currentFireEvent.count !== -1 && this.sequenceCount >= this.currentFireEvent.count) {
             this.fireEventIndex++
             if (this.fireSequence.fireEvents[this.fireEventIndex] === undefined) {
@@ -343,8 +351,9 @@ class FireSequenceCompute extends AbstractComputeMethod<FireSequence> {
             this.currentFireEventMethod = this.getCurrentTypeComputeMethod()
         }
 
-        this.currentFireEventMethod.computeDamage()
         this.sequenceCount++
+
+        return this.currentFireEventMethod.computeDamage()
     }
 
     getCurrentTypeComputeMethod(): AbstractComputeMethod<typeof this.currentFireEvent.damageType> {

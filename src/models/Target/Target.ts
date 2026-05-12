@@ -17,16 +17,27 @@ export default class Target {
     }
 
     damage(dmg: number): number {
-        const totalDamage = dmg * this.dmgMod()
+        const dmgMod = this.armor !== null
+            ? this.bodyPart.dmgMod * (this.armor.dmgMod ?? 1)
+            : this.bodyPart.nakedDmgMod
+
+        const totalDamage = dmg * dmgMod
+
         this.currentHp -= totalDamage
 
         return totalDamage
     }
 
-    dmgMod(): number {
-        return this.armor !== null
-            ? this.bodyPart.dmgMod * (this.armor.dmgMod ?? 1)
-            : this.bodyPart.nakedDmgMod
+    damageExplosion(dmg: number): number {
+        const dmgMod = this.armor !== null
+            ? this.armor.dmgMod ?? 1
+            : 1
+
+        const totalDamage = dmg * dmgMod
+
+        this.currentHp -= totalDamage
+
+        return totalDamage
     }
 
     resetHp(): void {
