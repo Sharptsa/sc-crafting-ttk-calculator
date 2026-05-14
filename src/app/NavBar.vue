@@ -22,9 +22,9 @@ import DarkModeSwitch from './DarkModeSwitch.vue';
                 <div class="hidden lg:navbar-center lg:flex">
                     <ul class="menu menu-horizontal px-0">
                         <li>
-                            <a href="https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434"
+                            <a href="https://docs.google.com/spreadsheets/d/18kmZlGHEC2ZA9Ow07myaF91yX76FfNCY1gTQZcg0xoU/edit?gid=953135858#gid=953135858"
                                 target="_blank" rel="noopener noreferrer">
-                                📋 SC FPS Data 4.7
+                                📋 SC FPS Data 4.8
                             </a>
                         </li>
                         <li>
@@ -47,9 +47,9 @@ import DarkModeSwitch from './DarkModeSwitch.vue';
         <div class="collapse-content p-0 lg:hidden z-1">
             <ul class="menu">
                 <li>
-                    <a href="https://docs.google.com/spreadsheets/d/1BD87issjyxeOLYAV5V6vafawD2TGuaftnfXPAyIo_2w/edit?gid=869785434#gid=869785434"
+                    <a href="https://docs.google.com/spreadsheets/d/18kmZlGHEC2ZA9Ow07myaF91yX76FfNCY1gTQZcg0xoU/edit?gid=953135858#gid=953135858"
                         target="_blank" rel="noopener noreferrer">
-                        📋 SC FPS Data 4.7
+                        📋 SC FPS Data 4.8
                     </a>
                 </li>
                 <li>

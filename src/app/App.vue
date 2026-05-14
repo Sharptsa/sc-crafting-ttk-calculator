@@ -18,7 +18,7 @@ import NavBar from './NavBar.vue';
                         <WeaponSelector />
                     </div>
                     <div class="flex mb-3">
-                         <CustomizationSelector />
+                        <CustomizationSelector />
                     </div>
                     <div class="flex">
                         <TargetSelector />
