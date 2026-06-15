@@ -16,7 +16,7 @@ const attachmentCollection = (): BarrelAttachment[] => {
     return [
         //Size 1 - Ballistic
         new BarrelAttachment("Compensator Torrent 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 1.075),
-        new BarrelAttachment("Compensator Stark 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 0.8),
+        new BarrelAttachment("Compensator Stark 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1.175, 0.8),
         new BarrelAttachment("Compensator Sion \"Tweaker\" 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 1.125),
         new BarrelAttachment("Suppressor Quell 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 0.95),
         new BarrelAttachment("Suppressor Tacit 1", BarrelAttachmentTypeEnum.Ballistic, 1, 1, 0.92),
@@ -26,7 +26,7 @@ const attachmentCollection = (): BarrelAttachment[] => {
 
         //Size 2 - Ballistic
         new BarrelAttachment("Compensator Vera 2", BarrelAttachmentTypeEnum.Ballistic, 2, 1, 1.06),
-        new BarrelAttachment("Compensator Torrent 2", BarrelAttachmentTypeEnum.Ballistic, 2, 0.95, 1),
+        new BarrelAttachment("Compensator Torrent 2", BarrelAttachmentTypeEnum.Ballistic, 2, 1.05, 1),
         new BarrelAttachment("Compensator Sion \"Tweaker\" 2", BarrelAttachmentTypeEnum.Ballistic, 2, 0.9, 1),
         new BarrelAttachment("Compensator Sion \"Scorched\" 2", BarrelAttachmentTypeEnum.Ballistic, 2, 0.9, 1),
         new BarrelAttachment("Suppressor Tacit 2", BarrelAttachmentTypeEnum.Ballistic, 2, 0.92, 1),
