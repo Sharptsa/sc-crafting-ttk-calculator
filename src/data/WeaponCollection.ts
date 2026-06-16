@@ -125,7 +125,7 @@ function assaultRifles(): Weapon[] {
             WeaponClassEnum.AssaultRifle,
             BarrelAttachmentTypeEnum.Ballistic,
             2,
-            new Crafting(1.075, 1.12, true),
+            new Crafting(1.075, null, false),
             [
                 new FireMode("Single", new Projectile(21.5, 420)),
             ]
