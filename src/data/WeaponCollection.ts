@@ -127,7 +127,7 @@ function assaultRifles(): Weapon[] {
             2,
             new Crafting(1.075, 1.12, true),
             [
-                new FireMode("Single", new Projectile(21.5, 500)),
+                new FireMode("Single", new Projectile(21.5, 420)),
             ]
         ),
     ]
@@ -311,7 +311,7 @@ function sniperRifles(): Weapon[] {
             WeaponClassEnum.SniperRifle,
             BarrelAttachmentTypeEnum.Ballistic,
             2,
-            new Crafting(1.075, 1.12),
+            new Crafting(1.2, null),
             [
                 new FireMode("Single", new Projectile(100, 55)),
             ]
