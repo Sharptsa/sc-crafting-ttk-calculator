@@ -46,8 +46,8 @@ function setCraftingFireRateMod(weapon: Weapon | null): void {
 
 watch(selectedWeapon, (newWeapon, oldWeapon) => {
     if (newWeapon !== oldWeapon && oldWeapon !== null) {
-        craftingDmgQuality.value = 0
-        craftingFireRateQuality.value = 0
+        craftingDmgQuality.value = 500
+        craftingFireRateQuality.value = 500
         setCraftingDmgMod(oldWeapon)
         setCraftingFireRateMod(oldWeapon)
     }
