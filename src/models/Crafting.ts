@@ -38,12 +38,36 @@ export default class Crafting {
         return ModHelper.toModFromQuality(1 - (this.maxDmgMod - 1), this.maxDmgMod, 1, quality)
     }
 
+    getDmgModFromQuality(quality: number): number {
+        if (this.maxDmgMod === null) {
+            return 1
+        }
+
+        if (quality === undefined) {
+            throw new Error('Unexpected quality level')
+        }
+
+        return ModHelper.toModFromQuality(1 - (this.maxDmgMod - 1), this.maxDmgMod, 1, quality)
+    }
+
     getFireRateModFromLevel(level: number): number {
         if (this.maxFireRateMod === null) {
             return 1
         }
 
         const quality = Crafting.LEVEL_QUALITY_MAP[level]
+
+        if (quality === undefined) {
+            throw new Error('Unexpected quality level')
+        }
+
+        return ModHelper.toModFromQuality(1 - (this.maxFireRateMod - 1), this.maxFireRateMod, 1, quality)
+    }
+
+    getFireRateModFromQuality(quality: number): number {
+        if (this.maxFireRateMod === null) {
+            return 1
+        }
 
         if (quality === undefined) {
             throw new Error('Unexpected quality level')
