@@ -10,7 +10,7 @@ export class Armor {
 
     constructor(baseDmgMod: number, quality: number = 500) {
         this.baseDmgMod = baseDmgMod
-        this.dmgMod = ModHelper.toModFromQuality(Armor.MIN_ARMOR_MOD, Armor.MAX_ARMOR_MOD, baseDmgMod, quality)
+        this.dmgMod = Math.max(0.1, ModHelper.toModFromQuality(Armor.MIN_ARMOR_MOD, Armor.MAX_ARMOR_MOD, baseDmgMod, quality))
         this.quality = quality
     }
 
