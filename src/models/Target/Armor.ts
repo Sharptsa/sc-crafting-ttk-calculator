@@ -28,6 +28,8 @@ export class Armor {
                 return new Armor(0.7, quality)
             case ArmorType.Heavy:
                 return new Armor(0.6, quality)
+            case ArmorType.SuperHeavy:
+                return new Armor(0.1, quality)
             case ArmorType.NpcBoss:
                 return new Armor(0.25)
         }
@@ -41,5 +43,6 @@ export enum ArmorType {
     Medium = "Medium",
     Utility = "Utility",
     Heavy = "Heavy",
+    SuperHeavy = "Super Heavy",
     NpcBoss = "NPC Boss"
 }
