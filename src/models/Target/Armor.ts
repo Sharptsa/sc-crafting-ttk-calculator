@@ -10,11 +10,11 @@ export class Armor {
 
     constructor(baseDmgMod: number, quality: number = 500) {
         this.baseDmgMod = baseDmgMod
-        this.dmgMod = this.armorDmgMod(baseDmgMod, quality)
+        this.dmgMod = Armor.armorDmgMod(baseDmgMod, quality)
         this.quality = quality
     }
 
-    private armorDmgMod(baseDmgMod: number, quality: number): number {
+    private static armorDmgMod(baseDmgMod: number, quality: number): number {
         // Super Heavy armor has a special case where the base damage mod is 0.125, and the max armor mod is 1.025. This is handled separately to ensure the correct calculation.
         if (baseDmgMod === 0.125) {
             const mod = ModHelper.toMod(ModHelper.toPercent(0.125) * (ModHelper.toModFromQuality(1 - (1.025 - 1), 1.025, 1, quality)))
