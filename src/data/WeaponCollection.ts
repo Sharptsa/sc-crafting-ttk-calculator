@@ -49,6 +49,17 @@ const weaponCollection = (): Weapon[] => {
 function assaultRifles(): Weapon[] {
     return [
         new Weapon(
+            "CQ7",
+            WeaponClassEnum.AssaultRifle,
+            BarrelAttachmentTypeEnum.Ballistic,
+            2,
+            new Crafting(1.075, 1.12, true),
+            [
+                new FireMode("Full Auto", new Projectile(16.5, 650)),
+                new FireMode("Burst 4", new Projectile(16.5, 680, new Burst(4, 0.15))),
+            ]
+        ),
+        new Weapon(
             "Gallant",
             WeaponClassEnum.AssaultRifle,
             BarrelAttachmentTypeEnum.Energy,
