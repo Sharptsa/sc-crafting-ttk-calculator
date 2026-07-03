@@ -42,7 +42,8 @@ const weaponCollection = (): Weapon[] => {
         ...sniperRifles(),
         ...shotguns(),
         ...pistols(),
-        ...crossbows()
+        ...crossbows(),
+        ...hmg(),
     ]
 }
 
@@ -565,6 +566,21 @@ function crossbows(): Weapon[] {
             new Crafting(1.2, null),
             [
                 new FireMode("Single", new Projectile(123, 42))
+            ]
+        )
+    ]
+}
+
+function hmg(): Weapon[] {
+    return [
+        new Weapon(
+            "Vendetta",
+            WeaponClassEnum.HMG,
+            null,
+            0,
+            new Crafting(1.2, null),
+            [
+                new FireMode("Full Auto", new Projectile(18.5, 1000))
             ]
         )
     ]

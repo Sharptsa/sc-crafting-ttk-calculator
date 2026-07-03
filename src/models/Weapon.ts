@@ -54,5 +54,6 @@ export enum WeaponClassEnum {
     SniperRifle = "Sniper Rifle",
     Shotgun = "Shotgun",
     Pistol = "Pistol",
-    Crossbow = "Crossbow"
+    Crossbow = "Crossbow",
+    HMG = "HMG",
 }
