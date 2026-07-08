@@ -56,8 +56,8 @@ function assaultRifles(): Weapon[] {
             2,
             new Crafting(1.075, 1.12, true),
             [
-                new FireMode("Full Auto", new Projectile(16.5, 650)),
-                new FireMode("Burst 4", new Projectile(16.5, 680, new Burst(4, 0.15))),
+                new FireMode("Full Auto", new Projectile(18, 650)),
+                new FireMode("Burst 4", new Projectile(18, 680, new Burst(4, 0.15))),
             ]
         ),
         new Weapon(
