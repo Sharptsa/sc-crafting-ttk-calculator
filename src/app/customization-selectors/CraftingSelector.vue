@@ -57,7 +57,7 @@ watch(selectedWeapon, (newWeapon, oldWeapon) => {
 <template>
     <div>
         <h3 class="text-base font-semibold mb-3">Crafting</h3>
-        <div class="flex flex-wrap sm:flex-nowrap xl:flex-wrap 2xl:flex-nowrap">
+        <div class="flex flex-wrap mb-3 sm:mb-0 sm:flex-nowrap xl:flex-wrap xl:mb-3 2xl:mb-0 2xl:flex-nowrap">
             <label class="input mb-2 me-2 w-fit">
                 <span class="label text-base me-0 border-base-300-washed">Damage modifier</span>
                 <input type="text" class="w-fit" :value="craftingDmgPercent" size="4"
@@ -66,7 +66,7 @@ watch(selectedWeapon, (newWeapon, oldWeapon) => {
             </label>
             <label class="input w-full">
                 <span class="label text-base me-0 border-base-300-washed">Quality</span>
-                <input type="text" class="w-fit pe-2 border-e border-base-300-washed" v-model="craftingDmgQuality" size="3" @input="setCraftingDmgMod(selectedWeapon)" />
+                <input type="number" class="w-fit pe-2 border-e border-base-300-washed" v-model="craftingDmgQuality" size="3" @input="setCraftingDmgMod(selectedWeapon)" min="500" max="1000" step="1" />
                 <input type="range" class="range w-full range-sm [--range-fill:0]" min="500" max="1000" step="1"
                         v-model="craftingDmgQuality" @input="setCraftingDmgMod(selectedWeapon)"
                         :disabled="selectedWeapon?.crafting.maxDmgMod === null" />
@@ -82,7 +82,7 @@ watch(selectedWeapon, (newWeapon, oldWeapon) => {
             </label>
             <label class="input w-full">
                 <span class="label text-base me-0 border-base-300-washed">Quality</span>
-                <input type="text" class="w-fit pe-2 border-e border-base-300-washed" v-model="craftingFireRateQuality" size="3" @input="setCraftingFireRateMod(selectedWeapon)" />
+                <input type="number" class="w-fit pe-2 border-e border-base-300-washed" v-model="craftingFireRateQuality" size="3" @input="setCraftingFireRateMod(selectedWeapon)" min="500" max="1000" step="1" />
                     <input type="range" class="range w-full range-sm [--range-fill:0]" min="500" max="1000" step="1"
                         v-model="craftingFireRateQuality" @input="setCraftingFireRateMod(selectedWeapon)"
                         :disabled="selectedWeapon?.crafting.maxFireRateMod === null" />
