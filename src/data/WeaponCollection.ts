@@ -142,6 +142,17 @@ function assaultRifles(): Weapon[] {
                 new FireMode("Single", new Projectile(21.5, 420)),
             ]
         ),
+        new Weapon(
+            "Arlington",
+            WeaponClassEnum.AssaultRifle,
+            BarrelAttachmentTypeEnum.Ballistic,
+            2,
+            new Crafting(null, null, false),
+            [
+                new FireMode("Single", new Projectile(80, 85)),
+                new FireMode("Shotgun", new Projectile(100, 85))
+            ]
+        ),
     ]
 }
 
